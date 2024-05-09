@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Controllers;
 
 class Controller
 {
@@ -8,6 +8,6 @@ class Controller
     {
         extract($data);
 
-        include "Views/$view.php";
+        include dirname(__DIR__) . "/Views/$view.php";
     }
 }
