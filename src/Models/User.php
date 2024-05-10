@@ -12,14 +12,16 @@ class User extends Database
     private $f_name;
     private $l_name;
     private $email;
+    private $password;
     private $birth_date;
     private $role;
 
-    public function __construct($f_name, $l_name, $email, $birth_date = "", $role)
+    public function __construct($f_name, $l_name, $email, $password, $birth_date = "", $role)
     {
         $this->f_name = $f_name;
         $this->l_name = $l_name;
         $this->email = $email;
+        $this->password = $password;
         $this->birth_date = $birth_date;
         $this->role = $role;
     }
@@ -37,9 +39,9 @@ class User extends Database
         try {
             $date_format = \DateTime::createFromFormat("Y/m/d", $this->birth_date);
             $birth_date = $date_format->format('Y-m-d');
-            $params = array($this->f_name, $this->l_name, $this->email, $birth_date, $this->role);
+            $params = array($this->f_name, $this->l_name, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $birth_date, $this->role);
 
-            $sql = "INSERT INTO users (f_name, l_name, email, birth_date, role) VALUES(?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO users (f_name, l_name, email, password, birth_date, role) VALUES(?, ?, ?, ?, ?, ?)";
             $last_id = self::insert($sql, $params);
             return $last_id;
         } catch (\Exception $e) {
@@ -54,7 +56,8 @@ class User extends Database
     {
         $sql = "SELECT * FROM users WHERE $column = ?";
         $result = self::select($sql, [$val]);
-        return $result;
+    
+        return empty($result) ? null : $result[0];
     }
 
     /**

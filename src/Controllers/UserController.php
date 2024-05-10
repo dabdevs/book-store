@@ -26,9 +26,18 @@ class UserController extends Controller
     public function store()
     {
         try {
-            $user = new User('Frandy', 'Jean', 'fjean@gmail.com', '1988/11/30', 'MEMBER');
-            $last_id = $user->save();
-            echo $last_id;
+            // Validate post data
+            $f_name = $_POST["f_name"];
+            $l_name = $_POST["l_name"];
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $birth_date = $_POST["birth_date"];
+            $role = $_POST["role"];
+
+            // Create new user
+            $user = new User($f_name, $l_name, $email, $password, $birth_date, $role);
+            $user->save();
+
             $this->render('index', $user->to_array());
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -44,8 +53,8 @@ class UserController extends Controller
             $id = $_POST["id"];
 
             User::update_by_id($id, $_POST);
-            $user = User::find_by("id", $id);
-            $this->render('index', $user);
+
+            $this->render('index', $_POST);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -64,6 +73,46 @@ class UserController extends Controller
             $this->render('index');
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function login()
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
+
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+
+        $error = null;
+        $user = null;
+
+        // Validate data
+        if (empty($email)) {
+            $error = "Email is required";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = "Invalid email";
+        } else {
+            // Authenticate 
+            $user = User::find_by("email", $email);
+            if (!$user) $error = "Invalid email/password";
+        }
+
+        // Store values in session to fill form
+        session_start();
+
+        if (!($user && password_verify($password, $user["password"]))) {
+            $error = "Invalid email/password";
+        } else {
+            $_SESSION["user"] = $user;
+            header("Location:/dashboard");
+            exit;
+        }
+
+        if (!empty($error)) {
+            $_SESSION["old_inputs"] = $_POST;
+            $_SESSION["error"] = $error;
+            header("Location:/");
+            exit;
         }
     }
 }
