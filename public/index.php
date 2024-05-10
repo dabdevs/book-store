@@ -1,5 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
-require '../src/Routes/index.php';
+$dotenv = Dotenv\Dotenv::createImmutable("../");
+$dotenv->load();
 
+require '../src/Routes/index.php';
