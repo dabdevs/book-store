@@ -20,19 +20,32 @@ class Router {
         $this->addRoute($route, $controller, $action, 'POST');
     }
 
+    public function put($route, $controller, $action)
+    {
+        $this->addRoute($route, $controller, $action, 'PUT');
+    }
+
+    public function delete($route, $controller, $action)
+    {
+        $this->addRoute($route, $controller, $action, 'DELETE');
+    }
+
     public function dispatch()
     {
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
         $method =  $_SERVER['REQUEST_METHOD'];
+        try {
+            if (array_key_exists($uri, $this->routes[$method])) {
+                $controller = $this->routes[$method][$uri]['controller'];
+                $action = $this->routes[$method][$uri]['action'];
 
-        if (array_key_exists($uri, $this->routes[$method])) {
-            $controller = $this->routes[$method][$uri]['controller'];
-            $action = $this->routes[$method][$uri]['action'];
-
-            $controller = new $controller();
-            $controller->$action();
-        } else {
-            throw new \Exception("No route found for URI: $uri");
+                $controller = new $controller();
+                $controller->$action();
+            } else {
+                throw new \Exception("No route found for URI: $uri");
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }
