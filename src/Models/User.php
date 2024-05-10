@@ -100,9 +100,9 @@ class User extends Database
             $params[] = $data["role"];
         }
 
-        $sql = rtrim($sql, ', ');
+        // $sql = rtrim($sql, ', ');
 
-        $sql .= ' WHERE id = ?';
+        $sql .= ' updated_at = NOW() WHERE id = ?';
 
         $params[] = $id;
 

@@ -43,7 +43,7 @@ class UserController extends Controller
         try {
             $id = $_POST["id"];
 
-            User::update_by_id($id, ["f_name" => "Alain", "email" => "alainjean@gmail.com"]);
+            User::update_by_id($id, $_POST);
             $user = User::find_by("id", $id);
             $this->render('index', $user);
         } catch (\Exception $e) {
