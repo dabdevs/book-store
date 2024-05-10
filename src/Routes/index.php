@@ -6,15 +6,19 @@ use App\Router;
 use App\Database;
 
 try {
-    $db = Database::getInstance("127.0.0.1", "8889", "root", "root", "book_store");
+    // Connect to the database
+    Database::getInstance($_ENV["DB_HOST"], $_ENV["DB_PORT"], $_ENV["DB_USER"], $_ENV["DB_PASSWORD"], $_ENV["DB_NAME"]);
 } catch (\Throwable $th) {
     throw $th;
 }
 
 $router = new Router();
 $router->get('/', HomeController::class, 'index');
-$router->post('/users', UserController::class, 'index');
+
+// User routes
+$router->get('/users', UserController::class, 'index');
+$router->post('/users', UserController::class, 'store');
 $router->put('/users', UserController::class, 'update');
-$router->get('/users/delete', UserController::class, 'destroy');
+$router->delete('/users', UserController::class, 'destroy');
 
 $router->dispatch();
