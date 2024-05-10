@@ -42,7 +42,7 @@ class Router {
                 $controller = new $controller();
                 $controller->$action();
             } else {
-                throw new \Exception("No route found for URI: $uri");
+                header("Location:/not-found");
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

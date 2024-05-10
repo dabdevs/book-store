@@ -13,12 +13,15 @@ try {
 }
 
 $router = new Router();
-$router->get('/', HomeController::class, 'index');
+$router->get('/', HomeController::class, 'login');
 
 // User routes
 $router->get('/users', UserController::class, 'index');
 $router->post('/users', UserController::class, 'store');
 $router->put('/users', UserController::class, 'update');
 $router->delete('/users', UserController::class, 'destroy');
+
+// Not found route
+$router->get('/not-found', HomeController::class, 'not_found');
 
 $router->dispatch();

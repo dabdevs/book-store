@@ -5,9 +5,14 @@ use App\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function login()
     {
         $data = ['name' => 'Alain'];
-        $this->render('index', compact('data'));
+        $this->render('login', compact('data'));
+    }
+
+    public function not_found()
+    {
+        $this->render("404");
     }
 }
