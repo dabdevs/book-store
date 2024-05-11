@@ -18,8 +18,8 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-DROP TABLE IF EXISTS `transactions`;
-CREATE TABLE `transactions` (
+DROP TABLE IF EXISTS `loans`;
+CREATE TABLE `loans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `book_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
