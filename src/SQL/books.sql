@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: book_store
--- Generation Time: 2024-05-10 22:48:05.6350
+-- Generation Time: 2024-05-11 01:49:45.7220
 -- -------------------------------------------------------------
 
 
@@ -29,11 +29,12 @@ CREATE TABLE `books` (
   `genre` varchar(50) NOT NULL,
   `publisher` varchar(100) DEFAULT NULL,
   `published_date` date DEFAULT NULL,
+  `cover` varchar(255) DEFAULT NULL,
   `available` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;;
 
 
 
