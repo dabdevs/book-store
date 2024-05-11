@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\BookController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\DashboardController;
@@ -22,6 +23,9 @@ $router->get('/users', UserController::class, 'index');
 $router->post('/users', UserController::class, 'store');
 $router->put('/users', UserController::class, 'update');
 $router->delete('/users', UserController::class, 'destroy');
+
+// Book routes
+$router->get('/books', BookController::class, 'index');
 
 // Dashboard routes
 $router->get('/dashboard', DashboardController::class, 'index');

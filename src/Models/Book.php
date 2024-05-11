@@ -6,6 +6,7 @@ use App\Database;
 
 class Book extends Database
 {
+    private $id;
     private $code;
     private $title;
     private $description;
