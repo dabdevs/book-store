@@ -13,8 +13,8 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::find_all();
-            
+            $users = User::findAll();
+
             $this->render('dashboard', compact('users'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -39,7 +39,9 @@ class UserController extends Controller
             $user = new User($f_name, $l_name, $email, $password, $birth_date, $role);
             $user->save();
 
-            $this->render('index', $user->to_array());
+            $users = $user->finAll();
+            
+            $this->render('dashboard', compact('users'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -53,9 +55,9 @@ class UserController extends Controller
         try {
             $id = $_POST["id"];
 
-            User::update_by_id($id, $_POST);
+            User::updateById($id, $_POST);
 
-            $this->render('index', $_POST);
+            $this->render('dashboard', $_POST);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -71,7 +73,9 @@ class UserController extends Controller
 
             User::destroy($id);
 
-            $this->render('index');
+            $users = User::findAll();
+
+            $this->render('index', compact('users'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -94,7 +98,7 @@ class UserController extends Controller
             $error = "Invalid email";
         } else {
             // Authenticate 
-            $user = User::find_by("email", $email);
+            $user = User::findBy("email", $email);
             if (!$user) $error = "Invalid email/password";
         }
 

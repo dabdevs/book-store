@@ -25,7 +25,7 @@ $user = $_SESSION['user'];
         <?php 
             if (isset($users)) include "users.php";
             if (isset($books)) include "books.php";
-            if (isset($transactions)) include "transactions.php";
+            if (isset($transactions)) include "loans.php";
 
         ?>
         <!-- End content -->
