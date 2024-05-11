@@ -25,13 +25,13 @@ CREATE TABLE `transactions` (
   `user_id` int(11) NOT NULL,
   `borrow_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `return_date` datetime NOT NULL,
-  `status` varchar(50) DEFAULT 'BORROWED',
+  `status` ENUM('BORROWED', 'RETURNED') DEFAULT 'BORROWED',
   PRIMARY KEY (`id`),
-  KEY `book_id_index` (`book_id`),
-  KEY `user_id_index` (`user_id`),
+  INDEX `book_id_index` (`book_id`),
+  INDEX `user_id_index` (`user_id`),
   CONSTRAINT `FK_book_id` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 
 
