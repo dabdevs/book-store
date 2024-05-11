@@ -124,6 +124,16 @@ class User extends Database
     }
 
     /**
+     *  Get number of users
+     */
+    public static function count()
+    {
+        $sql = "SELECT COUNT(*) AS QUANTITY FROM users";
+        $result = self::select($sql, []);
+        return (int)$result[0]["QUANTITY"];
+    }
+
+    /**
      *  Convert user object to array
      */
     public function toArray()

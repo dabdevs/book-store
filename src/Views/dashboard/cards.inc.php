@@ -7,7 +7,7 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Books</p>
-                    <h4 class="mb-0">59</h4>
+                    <h4 class="mb-0"><?= $data["booksCount"] ?></h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -24,8 +24,8 @@
                     <i class="material-icons opacity-10">compare_arrows</i>
                 </div>
                 <div class="text-end pt-1">
-                    <p class="text-sm mb-0 text-capitalize">Transactions</p>
-                    <h4 class="mb-0">300</h4>
+                    <p class="text-sm mb-0 text-capitalize">Loans</p>
+                    <h4 class="mb-0"><?= $data["loansCount"] ?></h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="text-end pt-1">
                         <p class="text-sm mb-0 text-capitalize">Users</p>
-                        <h4 class="mb-0">300</h4>
+                        <h4 class="mb-0"><?= $data["usersCount"] ?></h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">

@@ -138,8 +138,18 @@ class Book extends Database
     public static function destroy($id)
     {
         $sql = "DELETE FROM books WHERE id = ?";
-        $result = book::delete($sql, [$id]);
+        $result = self::delete($sql, [$id]);
         return $result;
+    }
+
+    /**
+     *  Get number of books
+     */
+    public static function count()
+    {
+        $sql = "SELECT COUNT(*) AS QUANTITY FROM books";
+        $result = self::select($sql, []);
+        return (int)$result[0]["QUANTITY"];
     }
 
     /**
