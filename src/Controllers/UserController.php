@@ -13,8 +13,9 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $user = User::find_all();
-            $this->render('index', $user);
+            $users = User::find_all();
+            
+            $this->render('dashboard', compact('users'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
