@@ -27,21 +27,22 @@ class UserController extends Controller
     public function store()
     {
         try {
-            // Validate post data
-            $f_name = $_POST["f_name"];
-            $l_name = $_POST["l_name"];
-            $email = $_POST["email"];
-            $password = $_POST["password"];
-            $birth_date = $_POST["birth_date"];
-            $role = $_POST["role"];
+            // Validate data
+            $data = [
+                "email" => "mjean@gmail.com", 
+                "firstname" => "Martha", 
+                "lastname" => "Jean",
+                "password" => password_hash("1234", PASSWORD_DEFAULT),
+                "role" => "MEMBER"
+            ];
 
-            // Create new user
-            $user = new User($f_name, $l_name, $email, $password, $birth_date, $role);
-            $user->save();
-
-            $users = $user->finAll();
+            $date_format = \DateTime::createFromFormat("Y/m/d", "1994/06/03");
+            $data["birth_date"] = $date_format->format('Y-m-d');
             
-            $this->render('dashboard', compact('users'));
+
+            $user = User::action()->create($data);
+
+            $this->render('dashboard', compact('user'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -53,9 +54,9 @@ class UserController extends Controller
     public function update()
     {
         try {
-            $id = $_POST["id"];
-
-            User::updateById($id, $_POST);
+            // Validate data
+            $data = ["email" => "alainjean@gmail.com", "id" => 5];
+            User::action()->update($data);
 
             $this->render('dashboard', $_POST);
         } catch (\Exception $e) {

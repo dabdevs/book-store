@@ -17,17 +17,22 @@ class Book extends Database
     private $publishedDate;
     private $available;
 
-    public function __construct($code, $title, $description, $author, $isbn = "", $genre, $publisher, $publishedDate, $available)
+    // public function __construct($code, $title, $description, $author, $isbn = "", $genre, $publisher, $publishedDate, $available)
+    // {
+    //     $this->code = $code;
+    //     $this->title = $title;
+    //     $this->description = $description;
+    //     $this->author = $author;
+    //     $this->isbn = $isbn;
+    //     $this->genre = $genre;
+    //     $this->publisher = $publisher;
+    //     $this->publishedDate = $publishedDate;
+    //     $this->available = $available;
+    // }
+
+    public function __construct()
     {
-        $this->code = $code;
-        $this->title = $title;
-        $this->description = $description;
-        $this->author = $author;
-        $this->isbn = $isbn;
-        $this->genre = $genre;
-        $this->publisher = $publisher;
-        $this->publishedDate = $publishedDate;
-        $this->available = $available;
+        
     }
 
     public function __call($name, $args)
@@ -57,10 +62,10 @@ class Book extends Database
     /**
      *  Find a book by a specific column
      */
-    public static function findBy($column, $val)
+    public function findBy($column, $val)
     {
         $sql = "SELECT * FROM books WHERE $column = ?";
-        $result = self::select($sql, [$val]);
+        $result = $this->select($sql, [$val]);
 
         return empty($result) ? null : $result[0];
     }
@@ -68,17 +73,17 @@ class Book extends Database
     /**
      *  Find all books
      */
-    public static function findAll()
+    public function findAll()
     {
         $sql = "SELECT * FROM books ORDER BY created_at";
-        $result = self::select($sql, []);
+        $result = $this->select($sql, []);
         return $result;
     }
 
     /**
      *  Update a book by ID
      */
-    public static function updateById($id, $data)
+    public function updateById($id, $data)
     {
         $params = [];
         $sql = 'UPDATE books SET ';
@@ -135,7 +140,7 @@ class Book extends Database
     /**
      *  Delete a book from the database
      */
-    public static function destroy($id)
+    public function destroy($id)
     {
         $sql = "DELETE FROM books WHERE id = ?";
         $result = self::delete($sql, [$id]);
@@ -145,10 +150,10 @@ class Book extends Database
     /**
      *  Get number of books
      */
-    public static function count()
+    public function count()
     {
         $sql = "SELECT COUNT(*) AS QUANTITY FROM books";
-        $result = self::select($sql, []);
+        $result = $this->select($sql, []);
         return (int)$result[0]["QUANTITY"];
     }
 

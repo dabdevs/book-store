@@ -11,9 +11,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $data["booksCount"] = Book::count();
-        $data["usersCount"] = User::count();
-        $data["loansCount"] = Loan::count();
+        $data["usersCount"] = User::count(); 
+        // $data["booksCount"] = (new Book)->count();
+        // $data["loansCount"] = Loan::count();
         
         $this->render('dashboard', compact("data"));
     }

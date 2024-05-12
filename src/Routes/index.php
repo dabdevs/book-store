@@ -5,14 +5,6 @@ use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\DashboardController;
 use App\Router;
-use App\Database;
-
-try {
-    // Connect to the database
-    Database::getInstance($_ENV["DB_HOST"], $_ENV["DB_PORT"], $_ENV["DB_USER"], $_ENV["DB_PASSWORD"], $_ENV["DB_NAME"]);
-} catch (\Throwable $th) {
-    throw $th;
-}
 
 $router = new Router();
 $router->get('/', HomeController::class, 'login');

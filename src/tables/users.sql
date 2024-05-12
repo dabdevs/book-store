@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: book_store
--- Generation Time: 2024-05-10 22:50:03.9820
+-- Generation Time: 2024-05-12 19:25:41.3050
 -- -------------------------------------------------------------
 
 
@@ -21,8 +21,8 @@
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `f_name` varchar(100) NOT NULL,
-  `l_name` varchar(100) NOT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `birth_date` date DEFAULT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;;
 
 
 

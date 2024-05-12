@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use App\Database;
+use App\DB;
 
-class User extends Database
+class User
 {
+    protected static $instance;
+    private $table = "users";
     private $id;
     public $admin = "ADMIN";
     public $librerian = "LIBRERIAN";
@@ -17,120 +19,82 @@ class User extends Database
     private $birthDate;
     private $role;
 
-    public function __construct($firstname, $lastname, $email, $password, $birthDate = "", $role)
+    public function __construct()
     {
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->email = $email;
-        $this->password = $password;
-        $this->birthDate = $birthDate;
-        $this->role = $role;
-    }
-
-    public function __call($name, $args)
-    {
-        var_dump($name, $args);
     }
 
     /**
-     *  Create a user in the database
+     *  Create a new User instance if it does not exist
      */
-    public function save()
+    public static function action()
     {
-        try {
-            $date_format = \DateTime::createFromFormat("Y/m/d", $this->birthDate);
-            $birthDate = $date_format->format('Y-m-d');
-            $params = array($this->firstname, $this->lastname, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $birthDate, $this->role);
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
 
-            $sql = "INSERT INTO users (f_name, l_name, email, password, birth_date, role) VALUES(?, ?, ?, ?, ?, ?)";
-            $last_id = self::insert($sql, $params);
-            return $last_id;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        return self::$instance;
+    }
+
+    private function load(array $data)
+    {
+        if (count($data) > 0) {
+            foreach ($data as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
         }
     }
 
     /**
-     *  Find a user by a specific column
+     *  Create a new user
      */
-    public static function findBy($column, $val)
+    public function create(array $data)
     {
-        $sql = "SELECT * FROM users WHERE $column = ?";
-        $result = self::select($sql, [$val]);
+        $lastId = DB::table($this->table)->insert($data);
+        $this->load($data, ["id" => $lastId]);
 
-        return empty($result) ? null : $result[0];
+        return $this;
     }
 
     /**
-     *  Find all users
+     *  Update existing user
      */
-    public static function findAll()
+    public function update(array $data)
     {
-        $sql = "SELECT * FROM users ORDER BY created_at";
-        $result = self::select($sql, []);
-        return $result;
+        return DB::table($this->table)->update($data);
     }
 
     /**
-     *  Update a user by ID
+     *  Retreive all users from the database
      */
-    public static function updateById($id, $data)
+    public function getAll()
     {
-        $params = [];
-        $sql = 'UPDATE users SET ';
-
-        if (isset($data["firstname"])) {
-            $sql .= ' f_name = ?, ';
-            $params[] = $data["firstname"];
-        }
-
-        if (isset($data["lastname"])) {
-            $sql .= ' l_name = ?, ';
-            $params[] = $data["lastname"];
-        }
-
-        if (isset($data["email"])) {
-            $sql .= ' email = ?, ';
-            $params[] = $data["email"];
-        }
-
-        if (isset($data["birthDate"])) {
-            $sql .= ' birth_date = ?, ';
-            $params[] = $data["birthDate"];
-        }
-
-        if (isset($data["role"])) {
-            $sql .= ' role = ?, ';
-            $params[] = $data["role"];
-        }
-
-        $sql .= ' updated_at = NOW() WHERE id = ?';
-
-        $params[] = $id;
-
-        $result = self::update($sql, $params);
-
-        return $result;
+        return DB::table($this->table)->select()->all();
     }
 
     /**
-     *  Delete a user from the database
+     *  Get a user by Id
      */
-    public static function destroy($id)
+    public function getById($id)
     {
-        $sql = "DELETE FROM users WHERE id = ?";
-        $result = User::delete($sql, [$id]);
-        return $result;
+        return DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
     }
 
     /**
-     *  Get number of users
+     *  Get a user by email
+     */
+    public function getByEmail($email)
+    {
+        return DB::table($this->table)->select()->where("email = :email", ["email" => $email]);
+    }
+
+    /**
+     *  Get the amount of users 
      */
     public static function count()
     {
-        $sql = "SELECT COUNT(*) AS QUANTITY FROM users";
-        $result = self::select($sql, []);
-        return (int)$result[0]["QUANTITY"];
+        return DB::table("users")->count();
     }
 
     /**
@@ -139,131 +103,12 @@ class User extends Database
     public function toArray()
     {
         return [
+            "id" => $this->id,
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "email" => $this->email,
             "birthDate" => $this->birthDate,
             "role" => $this->role,
         ];
-    }
-
-    /**
-     * Get the value of f_name
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * Set the value of f_name
-     *
-     * @return  self
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of l_name
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    /**
-     * Set the value of l_name
-     *
-     * @return  self
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of email
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set the value of email
-     *
-     * @return  self
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of password
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set the value of password
-     *
-     * @return  self
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of birth_date
-     */
-    public function getBirthDate()
-    {
-        return $this->birthDate;
-    }
-
-    /**
-     * Set the value of birth_date
-     *
-     * @return  self
-     */
-    public function setBirthDate($birthDate)
-    {
-        $this->birthDate = $birthDate;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of role
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * Set the value of role
-     *
-     * @return  self
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
     }
 }
