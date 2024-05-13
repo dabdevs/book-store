@@ -7,7 +7,7 @@ use App\DB;
 class Member extends User
 {
     private $table = "users";
-    private $role = "MEMBER";
+    private static $role = "MEMBER";
 
     /**
      *  Create a new Member instance if it does not exist
@@ -19,6 +19,14 @@ class Member extends User
         }
 
         return self::$instance;
+    }
+
+    /**
+     *  Retreive all members from the database
+     */
+    public function getAll()
+    {
+        return DB::table($this->table)->select()->where("role = :role", [":role" => self::$role]);
     }
 
     /**
@@ -49,6 +57,14 @@ class Member extends User
         }
 
         return null;
+    }
+
+    /**
+     *  Get the amount of members 
+     */
+    public static function count()
+    {
+        return count(DB::table("users")->select()->where("role = :role", [":role" => Member::$role]));
     }
 
     /**

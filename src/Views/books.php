@@ -30,43 +30,43 @@
                             foreach ($books as $book) { ?>
                                 <tr>
                                     <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["code"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->code ?></p>
                                     </td>
                                     <td>
                                         <div class="d-flex">
                                             <div>
-                                                <img src="<?= isset($book["cover"]) ? $book["cover"] : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                <img src="<?= isset($book->cover) ? $book->cover : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $book["title"] ?></h6>
-                                                <p class="text-xs text-secondary mb-0"><?= $book["description"] ?></p>
+                                                <h6 class="mb-0 text-sm"><?= $book->title ?></h6>
+                                                <p class="text-xs text-secondary mb-0"><?= $book->description ?></p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["author"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->author ?></p>
                                     </td>
                                     <td>
                                         <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                                        <span class="text-xs font-weight-bold mb-0"><?= $book["isbn"] ?></span>
+                                        <span class="text-xs font-weight-bold mb-0"><?= $book->isbn ?></span>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["genre"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->genre ?></p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["publisher"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->publisher ?></p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["published_date"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->published_date ?></p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["available"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->available ?></p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["created_at"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->created_at ?></p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book["updated_at"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $book->updated_at ?></p>
                                     </td>
                                     <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

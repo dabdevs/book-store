@@ -3,27 +3,28 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
-use App\Models\Loan;
+use App\Models\Member;
+use App\Models\User;
 
-class LoanController extends Controller
+class MemberController extends Controller
 {
     /**
-     *  Load all loans from the database
+     *  Load all users from the database
      */
     public function index()
     {
         try {
-            $loans = Loan::action()->getAll();
+            $users = Member::action()->getAll();
             $cardsData = $this->getCardsData();
 
-            $this->render("dashboard", compact("loans", "cardsData"));
+            $this->render("dashboard", compact("users", "cardsData"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
 
     /**
-     *  Create a loan in the database
+     *  Create a user in the database
      */
     public function store()
     {
@@ -41,23 +42,23 @@ class LoanController extends Controller
             $data["birth_date"] = $date_format->format('Y-m-d');
 
 
-            $loan = Loan::action()->create($data);
+            $user = User::action()->create($data);
 
-            $this->render('dashboard', compact('loan'));
+            $this->render('dashboard', compact('user'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
 
     /**
-     *  Update a loan using ID
+     *  Update a user using ID
      */
     public function update()
     {
         try {
             // Validate data
             $data = ["email" => "alainjean@gmail.com", "id" => 5];
-            Loan::action()->update($data);
+            User::action()->update($data);
 
             $this->render('dashboard', $_POST);
         } catch (\Exception $e) {
@@ -66,18 +67,18 @@ class LoanController extends Controller
     }
 
     /**
-     *  Delete a loan using ID
+     *  Delete a user using ID
      */
     public function destroy()
     {
         try {
             $id = $_POST["id"];
 
-            Loan::destroy($id);
+            User::destroy($id);
 
-            $loans = Loan::findAll();
+            $users = User::findAll();
 
-            $this->render('index', compact('loans'));
+            $this->render('index', compact('users'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -91,7 +92,7 @@ class LoanController extends Controller
         $password = $_POST["password"];
 
         $error = null;
-        $loan = null;
+        $user = null;
 
         // Validate data
         if (empty($email)) {
@@ -100,17 +101,17 @@ class LoanController extends Controller
             $error = "Invalid email";
         } else {
             // Authenticate 
-            $loan = Loan::action()->getByEmail($email);
-            if (!$loan) $error = "Invalid email/password";
+            $user = User::action()->getByEmail($email);
+            if (!$user) $error = "Invalid email/password";
         }
 
         // Store values in session to fill form
         session_start();
 
-        if (!($loan && password_verify($password, $loan->password))) {
+        if (!($user && password_verify($password, $user->password))) {
             $error = "Invalid email/password";
         } else {
-            $_SESSION["loan"] = $loan;
+            $_SESSION["user"] = $user;
             header("Location:/dashboard");
             exit;
         }

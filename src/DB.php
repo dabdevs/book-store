@@ -120,6 +120,7 @@ class DB
     public function where($clause, $params = [])
     {
         $this->query .= "WHERE $clause";
+        
         return $this->run($params);
     }
 

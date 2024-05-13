@@ -9,11 +9,11 @@ $user = $_SESSION['user'];
 
 <?php include_once "head.inc.html" ?>
 
-<?php include_once "dashboard/sidebar.inc.html" ?>
+<?php include_once "dashboard/sidebar.inc.php" ?>
 
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
-    <?php include_once "dashboard/navbar.inc.html" ?>
+    <?php include_once "dashboard/navbar.inc.php" ?>
     <!-- End Navbar -->
 
     <div class="container-fluid py-4">

@@ -24,25 +24,25 @@
                             foreach ($users as $user) { ?>
                                 <tr>
                                     <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0"><?= $user["id"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $user->id ?></p>
                                     </td>
                                     <td>
                                         <div class="d-flex">
                                             <div>
-                                                <img src="<?= isset($user["avatar"]) ? $user["avatar"] : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                <img src="<?= isset($user->avatar) ? $user->avatar : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $user["f_name"] ?> <?= $user["l_name"] ?></h6>
-                                                <p class="text-xs text-secondary mb-0"><?= $user["email"] ?></p>
+                                                <h6 class="mb-0 text-sm"><?= $user->firstname ?> <?= $user->lastname ?></h6>
+                                                <p class="text-xs text-secondary mb-0"><?= $user->email ?></p>
                                             </div> 
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $user["birth_date"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $user->birth_date ?></p>
                                     </td>
                                     <td>
                                         <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                                        <span class="text-xs font-weight-bold mb-0"><?= $user["role"] ?></span>
+                                        <span class="text-xs font-weight-bold mb-0"><?= $user->role ?></span>
                                     </td>
                                     <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

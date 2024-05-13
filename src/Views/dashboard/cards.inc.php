@@ -7,7 +7,7 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Books</p>
-                    <h4 class="mb-0"><?= $data["booksCount"] ?></h4>
+                    <h4 class="mb-0"><?= $cardsData["booksCount"] ?></h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Loans</p>
-                    <h4 class="mb-0"><?= $data["loansCount"] ?></h4>
+                    <h4 class="mb-0"><?= $cardsData["loansCount"] ?></h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <?php if ($user["role"] === 'ADMIN') { ?>
+    <?php if (in_array($user->role, ["ADMIN", "LIBRERIAN"])) { ?>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
@@ -44,8 +44,8 @@
                         <i class="material-icons opacity-10">person</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Users</p>
-                        <h4 class="mb-0"><?= $data["usersCount"] ?></h4>
+                        <p class="text-sm mb-0 text-capitalize">Members</p>
+                        <h4 class="mb-0"><?= $cardsData["membersCount"] ?></h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">

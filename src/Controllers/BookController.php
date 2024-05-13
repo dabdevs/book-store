@@ -13,9 +13,10 @@ class BookController extends Controller
     public function index()
     {
         try {
-            $books = Book::findAll();
+            $books = Book::action()->getAll();
+            $cardsData = $this->getCardsData();
 
-            $this->render('dashboard', compact('books'));
+            $this->render("dashboard", compact("books", "cardsData"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

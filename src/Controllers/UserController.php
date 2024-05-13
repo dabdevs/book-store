@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::findAll();
+            $users = User::action()->getAll();
 
             $this->render('dashboard', compact('users'));
         } catch (\Exception $e) {
@@ -99,14 +99,14 @@ class UserController extends Controller
             $error = "Invalid email";
         } else {
             // Authenticate 
-            $user = User::findBy("email", $email);
+            $user = User::action()->getByEmail($email);
             if (!$user) $error = "Invalid email/password";
         }
 
         // Store values in session to fill form
         session_start();
 
-        if (!($user && password_verify($password, $user["password"]))) {
+        if (!($user && password_verify($password, $user->password))) {
             $error = "Invalid email/password";
         } else {
             $_SESSION["user"] = $user;
