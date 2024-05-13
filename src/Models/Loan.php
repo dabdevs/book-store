@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Models;
+
 use App\DB;
 use Exception;
 
-class Loan 
+class Loan
 {
     protected static $instance;
     private $table = "loans";
@@ -123,7 +124,7 @@ class Loan
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -133,7 +134,7 @@ class Loan
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -143,7 +144,7 @@ class Loan
 
     /**
      * Get the value of user
-     */ 
+     */
     public function getUser()
     {
         return $this->user;
@@ -153,7 +154,7 @@ class Loan
      * Set the value of user
      *
      * @return  self
-     */ 
+     */
     public function setUser(User $user)
     {
         if ($user->getRole() !== User::$member) {
@@ -167,7 +168,7 @@ class Loan
 
     /**
      * Get the book associated with the loan
-     */ 
+     */
     public function getBook()
     {
         return $this->book;
@@ -177,7 +178,7 @@ class Loan
      * Set the book associated with the loan
      *
      * @return  self
-     */ 
+     */
     public function setBook(Book $book)
     {
         $this->book = $book;
@@ -187,7 +188,7 @@ class Loan
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus()
     {
         return $this->status;
@@ -197,7 +198,7 @@ class Loan
      * Set the value of status
      *
      * @return  self
-     */ 
+     */
     public function setStatus(string $status)
     {
         $this->status = $status;
@@ -207,7 +208,7 @@ class Loan
 
     /**
      * Get the value of borrowDate
-     */ 
+     */
     public function getBorrowDate()
     {
         return $this->borrowDate;
@@ -217,7 +218,7 @@ class Loan
      * Set the value of borrowDate
      *
      * @return  self
-     */ 
+     */
     public function setBorrowDate($borrowDate)
     {
         $this->borrowDate = $borrowDate;
@@ -227,7 +228,7 @@ class Loan
 
     /**
      * Get the value of returnDate
-     */ 
+     */
     public function getReturnDate()
     {
         return $this->returnDate;
@@ -237,7 +238,7 @@ class Loan
      * Set the value of returnDate
      *
      * @return  self
-     */ 
+     */
     public function setReturnDate($returnDate)
     {
         $this->returnDate = $returnDate;

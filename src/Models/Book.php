@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\DB;
 
 class Book
@@ -130,7 +131,7 @@ class Book
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -140,7 +141,7 @@ class Book
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -150,7 +151,7 @@ class Book
 
     /**
      * Get the value of code
-     */ 
+     */
     public function getCode()
     {
         return $this->code;
@@ -160,7 +161,7 @@ class Book
      * Set the value of code
      *
      * @return  self
-     */ 
+     */
     public function setCode($code)
     {
         $this->code = $code;
@@ -170,7 +171,7 @@ class Book
 
     /**
      * Get the value of title
-     */ 
+     */
     public function getTitle()
     {
         return $this->title;
@@ -180,7 +181,7 @@ class Book
      * Set the value of title
      *
      * @return  self
-     */ 
+     */
     public function setTitle($title)
     {
         $this->title = $title;
@@ -190,7 +191,7 @@ class Book
 
     /**
      * Get the value of description
-     */ 
+     */
     public function getDescription()
     {
         return $this->description;
@@ -200,7 +201,7 @@ class Book
      * Set the value of description
      *
      * @return  self
-     */ 
+     */
     public function setDescription($description)
     {
         $this->description = $description;
@@ -210,7 +211,7 @@ class Book
 
     /**
      * Get the value of author
-     */ 
+     */
     public function getAuthor()
     {
         return $this->author;
@@ -220,7 +221,7 @@ class Book
      * Set the value of author
      *
      * @return  self
-     */ 
+     */
     public function setAuthor($author)
     {
         $this->author = $author;
@@ -230,7 +231,7 @@ class Book
 
     /**
      * Get the value of isbn
-     */ 
+     */
     public function getIsbn()
     {
         return $this->isbn;
@@ -240,7 +241,7 @@ class Book
      * Set the value of isbn
      *
      * @return  self
-     */ 
+     */
     public function setIsbn($isbn)
     {
         $this->isbn = $isbn;
@@ -250,7 +251,7 @@ class Book
 
     /**
      * Get the value of genre
-     */ 
+     */
     public function getGenre()
     {
         return $this->genre;
@@ -260,7 +261,7 @@ class Book
      * Set the value of genre
      *
      * @return  self
-     */ 
+     */
     public function setGenre($genre)
     {
         $this->genre = $genre;
@@ -270,7 +271,7 @@ class Book
 
     /**
      * Get the value of publisher
-     */ 
+     */
     public function getPublisher()
     {
         return $this->publisher;
@@ -280,7 +281,7 @@ class Book
      * Set the value of publisher
      *
      * @return  self
-     */ 
+     */
     public function setPublisher($publisher)
     {
         $this->publisher = $publisher;
@@ -290,7 +291,7 @@ class Book
 
     /**
      * Get the value of publishedDate
-     */ 
+     */
     public function getPublishedDate()
     {
         return $this->publishedDate;
@@ -300,7 +301,7 @@ class Book
      * Set the value of publishedDate
      *
      * @return  self
-     */ 
+     */
     public function setPublishedDate($publishedDate)
     {
         $this->publishedDate = $publishedDate;
@@ -310,7 +311,7 @@ class Book
 
     /**
      * Get the value of cover
-     */ 
+     */
     public function getCover()
     {
         return $this->cover;
@@ -320,7 +321,7 @@ class Book
      * Set the value of cover
      *
      * @return  self
-     */ 
+     */
     public function setCover($cover)
     {
         $this->cover = $cover;
@@ -330,7 +331,7 @@ class Book
 
     /**
      * Get the value of available
-     */ 
+     */
     public function getAvailable()
     {
         return $this->available;
@@ -340,7 +341,7 @@ class Book
      * Set the value of available
      *
      * @return  self
-     */ 
+     */
     public function setAvailable($available)
     {
         $this->available = $available;
