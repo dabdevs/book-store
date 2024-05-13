@@ -13,6 +13,7 @@ $router->get('/', HomeController::class, 'login');
 
 // User routes
 $router->post('/login', UserController::class, 'login');
+$router->post('/logout', UserController::class, 'logout');
 $router->get('/users', UserController::class, 'index');
 $router->post('/users', UserController::class, 'store');
 $router->put('/users', UserController::class, 'update');

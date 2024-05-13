@@ -8,9 +8,9 @@ class User
 {
     protected static $instance;
     private $table = "users";
-    public $admin = "ADMIN";
-    public $librerian = "LIBRERIAN";
-    public $member = "MEMBER";
+    public static $admin = "ADMIN";
+    public static $librerian = "LIBRERIAN";
+    public static $member = "MEMBER";
     private $id;
     private $firstname;
     private $lastname;

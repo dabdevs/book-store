@@ -14,8 +14,9 @@ class UserController extends Controller
     {
         try {
             $users = User::action()->getAll();
+            $cardsData = $this->getCardsData();
 
-            $this->render('dashboard', compact('users'));
+            $this->render("dashboard", compact("users", "cardsData"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -82,6 +83,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     *  Log user in
+     */
     public function login()
     {
         if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
@@ -120,5 +124,16 @@ class UserController extends Controller
             header("Location:/");
             exit;
         }
+    }
+
+    /**
+     *  Log user out
+     */
+    public function logout()
+    {
+        session_start();
+        session_destroy();
+        header("Location:/");
+        exit;
     }
 }
