@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models;
+use App\DB;
 
-use App\Database;
-
-class Book extends Database
+class Book
 {
+    protected static $instance;
+    private $table = "books";
     private $id;
     private $code;
     private $title;
@@ -15,146 +16,96 @@ class Book extends Database
     private $genre;
     private $publisher;
     private $publishedDate;
+    private $cover;
     private $available;
-
-    // public function __construct($code, $title, $description, $author, $isbn = "", $genre, $publisher, $publishedDate, $available)
-    // {
-    //     $this->code = $code;
-    //     $this->title = $title;
-    //     $this->description = $description;
-    //     $this->author = $author;
-    //     $this->isbn = $isbn;
-    //     $this->genre = $genre;
-    //     $this->publisher = $publisher;
-    //     $this->publishedDate = $publishedDate;
-    //     $this->available = $available;
-    // }
 
     public function __construct()
     {
-        
-    }
-
-    public function __call($name, $args)
-    {
-        var_dump($name, $args);
     }
 
     /**
-     *  Create a book in the database
+     *  Create a new book instance if it does not exist
      */
-    public function save()
+    public static function action()
     {
-        try {
-            $params = array($this->code, $this->title, $this->description, $this->author, $this->isbn, $this->genre, $this->publisher, $this->publishedDate, $this->available);
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
 
-            $sql = "INSERT INTO 
-                        books (code, title, description, author, isbn, genre, publisher, published_date, available) 
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return self::$instance;
+    }
 
-            $last_id = self::insert($sql, $params);
-            return $last_id;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+    /**
+     *  Load input data
+     */
+    private function load(array $data)
+    {
+        if (count($data) > 0) {
+            foreach ($data as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+            }
         }
     }
 
     /**
-     *  Find a book by a specific column
+     *  Create a new book
      */
-    public function findBy($column, $val)
+    public function create(array $data)
     {
-        $sql = "SELECT * FROM books WHERE $column = ?";
-        $result = $this->select($sql, [$val]);
+        $lastId = DB::table($this->table)->insert($data);
+        $this->load($data, ["id" => $lastId]);
 
-        return empty($result) ? null : $result[0];
+        return $this;
     }
 
     /**
-     *  Find all books
+     *  Update existing book
      */
-    public function findAll()
+    public function update(array $data)
     {
-        $sql = "SELECT * FROM books ORDER BY created_at";
-        $result = $this->select($sql, []);
-        return $result;
+        return DB::table($this->table)->update($data);
     }
 
     /**
-     *  Update a book by ID
+     *  Retreive all books from the database
      */
-    public function updateById($id, $data)
+    public function getAll()
     {
-        $params = [];
-        $sql = 'UPDATE books SET ';
-
-        if (isset($data["code"])) {
-            $sql .= ' code = ?, ';
-            $params[] = $data["code"];
-        }
-
-        if (isset($data["title"])) {
-            $sql .= ' title = ?, ';
-            $params[] = $data["title"];
-        }
-
-        if (isset($data["description"])) {
-            $sql .= ' description = ?, ';
-            $params[] = $data["description"];
-        }
-
-        if (isset($data["isbn"])) {
-            $sql .= ' isbn = ?, ';
-            $params[] = $data["isbn"];
-        }
-
-        if (isset($data["genre"])) {
-            $sql .= ' genre = ?, ';
-            $params[] = $data["genre"];
-        }
-
-        if (isset($data["publisher"])) {
-            $sql .= ' publisher = ?, ';
-            $params[] = $data["publisher"];
-        }
-
-        if (isset($data["published_date"])) {
-            $sql .= ' published_date = ?, ';
-            $params[] = $data["published_date"];
-        }
-
-        if (isset($data["available"])) {
-            $sql .= ' available = ?, ';
-            $params[] = $data["available"];
-        }
-
-        $sql .= ' updated_at = NOW() WHERE id = ?';
-
-        $params[] = $id;
-
-        $result = self::update($sql, $params);
-
-        return $result;
+        return DB::table($this->table)->select()->all();
     }
 
     /**
-     *  Delete a book from the database
+     *  Get a book by Id
      */
-    public function destroy($id)
+    public function getById($id)
     {
-        $sql = "DELETE FROM books WHERE id = ?";
-        $result = self::delete($sql, [$id]);
-        return $result;
+        return DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
     }
 
     /**
-     *  Get number of books
+     *  Get a book by code
      */
-    public function count()
+    public function getByCode($code)
     {
-        $sql = "SELECT COUNT(*) AS QUANTITY FROM books";
-        $result = $this->select($sql, []);
-        return (int)$result[0]["QUANTITY"];
+        return DB::table($this->table)->select()->where("code = :code", ["code" => $code]);
+    }
+
+    /**
+     *  Get a book by title
+     */
+    public function getByTitle($title)
+    {
+        return DB::table($this->table)->select()->where("title = :title", ["title" => $title]);
+    }
+
+    /**
+     *  Get the amount of books 
+     */
+    public static function count()
+    {
+        return DB::table("books")->count();
     }
 
     /**
@@ -163,15 +114,38 @@ class Book extends Database
     public function toArray()
     {
         return [
+            "id" => $this->id,
             "code" => $this->code,
             "title" => $this->title,
             "description" => $this->description,
+            "author" => $this->author,
             "isbn" => $this->isbn,
             "genre" => $this->genre,
             "publisher" => $this->publisher,
-            "published_date" => $this->publishedDate,
+            "publishedDate" => $this->publishedDate,
+            "cover" => $this->cover,
             "available" => $this->available,
         ];
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -315,7 +289,7 @@ class Book extends Database
     }
 
     /**
-     * Get the value of published_date
+     * Get the value of publishedDate
      */ 
     public function getPublishedDate()
     {
@@ -323,13 +297,33 @@ class Book extends Database
     }
 
     /**
-     * Set the value of published_date
+     * Set the value of publishedDate
      *
      * @return  self
      */ 
     public function setPublishedDate($publishedDate)
     {
         $this->publishedDate = $publishedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cover
+     */ 
+    public function getCover()
+    {
+        return $this->cover;
+    }
+
+    /**
+     * Set the value of cover
+     *
+     * @return  self
+     */ 
+    public function setCover($cover)
+    {
+        $this->cover = $cover;
 
         return $this;
     }
