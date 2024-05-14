@@ -12,7 +12,7 @@ class BookValidation {
         "isbn" => ["string", "max:20"],
         "genre" => ["required", "string", "max:50"],
         "publisher" => ["required", "string", "max:50"],
-        "publishedDate" => ["required", "string"],
+        "published_date" => ["required", "string"],
         "cover" => ["required", "image:jpg,jpeg"],
         "available" => ["required", "number"],
     ];
