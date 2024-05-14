@@ -49,24 +49,24 @@ class Controller
 
                 // Validate if field is required
                 if (in_array("required", $rule) && $value === "") {
-                    $errors[$field] = "$field is required";
+                    $errors[$field] = str_replace("_", " ", $field) . " is required";
                 }
 
                 // Validate if field is a string
                 if (in_array("string", $rule) && !is_string($value)) {
-                    $errors[$field] = "$field must be a string";
+                    $errors[$field] = str_replace("_", " ", $field) . " must be a string";
                 }
 
                 // Validate if field is a number
                 if (in_array("number", $rule) && !is_numeric($value)) {
-                    $errors[$field] = "$field must be a number";
+                    $errors[$field] = str_replace("_", " ", $field) . " must be a number";
                 }
 
                 // Validate if field is unique in table
                 if (in_array("$table:unique", $rule)) {
-                    $exists = DB::table($table)->select()->where("$field = :$field", [":$field" => $value]);
+                    $exists = DB::table($table)->select()->where(str_replace("_", " ", $field) . " = :$field", [":$field" => $value]);
 
-                    if ($exists) $errors[$field] = "$field must be unique";
+                    if ($exists) $errors[$field] = str_replace("_", " ", $field) . " must be unique";
                 }
 
                 if ($value !== "") {
@@ -74,13 +74,13 @@ class Controller
                         // Validate minimum length
                         if (str_starts_with($r, "min")) {
                             $length = explode(":", $r)[1];
-                            if (strlen($value) < $length) $errors[$field] = "$field must be at least $length characters";
+                            if (strlen($value) < $length) $errors[$field] = str_replace("_", " ", $field) . " must be at least $length characters";
                         }
 
                         // Validate maximum length
                         if (str_starts_with($r, "max")) {
                             $length = explode(":", $r)[1];
-                            if (strlen($value) > $length) $errors[$field] = "$field must be at max $length characters";
+                            if (strlen($value) > $length) $errors[$field] = str_replace("_", " ", $field) . " must be at max $length characters";
                         }
 
                         // Validate image extension
@@ -88,7 +88,7 @@ class Controller
                             $allowedExtensions = explode(":", $r)[1];
                             $fileExtension = explode("/", $value["type"])[1];
                             if (!str_contains($allowedExtensions, $fileExtension)) {
-                                $errors[$field] = "$field's extension must be " . str_replace(",", " or ", $allowedExtensions);
+                                $errors[$field] = str_replace("_", " ", $field) . "'s extension must be " . str_replace(",", " or ", $allowedExtensions);
                             }
                         }
                     }
