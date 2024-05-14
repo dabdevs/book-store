@@ -4,9 +4,14 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 use App\Models\Book;
+use App\Validations\BookValidation;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+    }
+
     /**
      *  Load all books from the database
      */
@@ -28,24 +33,28 @@ class BookController extends Controller
     public function store()
     {
         try {
-            // Validate form data
-            $code = $_POST["code"];
-            $title = $_POST["title"];
-            $description = $_POST["description"];
-            $author = $_POST["author"];
-            $isbn = $_POST["isbn"];
-            $genre = $_POST["genre"];
-            $publisher = $_POST["publisher"];
-            $publishedDate = $_POST["published_date"];
-            $available = $_POST["available"];
+            $books = Book::action()->getAll();
+            $cardsData = $this->getCardsData();
+
+            // Validate fields
+            $errors = $this->validate(array_merge($_POST, $_FILES), BookValidation::$rules);
+
+            // if (count($errors) > 0) {
+            //     $this->render('dashboard', compact("books", "cardsData", "errors"));
+            //     exit;
+            // }
+
+            if (!empty($errors)) {
+                $_SESSION["oldInputs"] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location:/books");
+                exit;
+            }
 
             // Create new book
-            $book = new Book($code, $title, $description, $author, $isbn, $genre, $publisher, $publishedDate, $available);
-            $book->save();
+            $book = Book::action()->create($_POST);
 
-            $books = Book::findAll();
-
-            $this->render('index', compact('books'));
+            $this->render('dashboard', compact("books", "cardsData"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -79,7 +88,7 @@ class BookController extends Controller
 
             Book::destroy($id);
             $books = Book::findAll();
-            
+
             $this->render('dashboard', compact('books'));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

@@ -22,7 +22,7 @@ $user = $_SESSION['user'];
 
         <!-- Content -->
         <?php 
-            if (isset($users)) include "users.php";
+            if (isset($members)) include "members.php";
             if (isset($books)) include "books.php";
             if (isset($transactions)) include "loans.php";
 

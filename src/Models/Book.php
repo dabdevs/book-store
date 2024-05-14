@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\DB;
+use App\Database\DB;
 
 class Book
 {

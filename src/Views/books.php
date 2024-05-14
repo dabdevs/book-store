@@ -1,9 +1,16 @@
+<?php
+include "forms/book.php";
+?>
+
 <div class="row my-4" style="overflow-x: hidden;">
     <div class="col-12">
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <div class="d-flex justify-content-between bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <h6 class="text-white text-capitalize ps-3">Books</h6>
+                    <button class="px-3 bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#bookModal" id="open-book-form-btn">
+                        <i class="material-icons opacity-10 text-white">add_circle</i>
+                    </button>
                 </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -19,8 +26,6 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Publisher</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Published Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Available</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Created</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Modified</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
@@ -61,12 +66,6 @@
                                     </td>
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0"><?= $book->available ?></p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book->created_at ?></p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $book->updated_at ?></p>
                                     </td>
                                     <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

@@ -5,13 +5,13 @@ session_start();
 if (isset($_SESSION['user'])) header("Location:/dashboard");
 
 // Check if there are errors stored in session
-if (isset($_SESSION['error'])) {
-    $error = $_SESSION['error'];
-    $old_inputs = $_SESSION['old_inputs'];
-    unset($_SESSION['error'], $_SESSION['old_inputs']);
+if (isset($_SESSION['errors'])) {
+    $errors = $_SESSION['errors'];
+    $oldInputs = $_SESSION['oldInputs'];
+    unset($_SESSION['errors'], $_SESSION['oldInputs']);
 } else {
-    $error = null;
-    $old_inputs = [];
+    $errors = null;
+    $oldInputs = [];
 }
 ?>
 
@@ -30,20 +30,20 @@ if (isset($_SESSION['error'])) {
                             </div>
                         </div>
                         <div class="card-body">
-                            <?php if ($error) { ?>
+                            <?php if ($errors) { ?>
                                 <div class="alert alert-danger text-white">
-                                    <?= $error ?>
+                                    <?= $errors ?>
                                 </div>
                             <?php } ?>
 
                             <form role="form" class="text-start" method="POST" action="/login">
-                                <div class="input-group input-group-outline my-3 <?= $old_inputs ? 'focused is-focused' : ''  ?>">
+                                <div class="input-group input-group-outline my-3 <?= $oldInputs ? 'focused is-focused' : ''  ?>">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="email" value="<?= $old_inputs ? $old_inputs['email'] : ''  ?>" class="form-control">
+                                    <input type="email" name="email" value="<?= $oldInputs['email'] ?? ''  ?>" class="form-control">
                                 </div>
-                                <div class="input-group input-group-outline mb-3 <?= $old_inputs ? 'focused is-focused' : ''  ?>">
+                                <div class="input-group input-group-outline mb-3 <?= $oldInputs ? 'focused is-focused' : ''  ?>">
                                     <label class="form-label">Password</label>
-                                    <input type="password" name="password" value="<?= $old_inputs ? $old_inputs['password'] : ''  ?>" class="form-control">
+                                    <input type="password" name="password" value="<?= $oldInputs['password'] ?? ''  ?>" class="form-control">
                                 </div>
                                 <div class="form-check form-switch d-flex align-items-center mb-3">
                                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>

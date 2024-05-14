@@ -30,8 +30,8 @@ class UserController extends Controller
         try {
             // Validate data
             $data = [
-                "email" => "mjean@gmail.com", 
-                "firstname" => "Martha", 
+                "email" => "mjean@gmail.com",
+                "firstname" => "Martha",
                 "lastname" => "Jean",
                 "password" => password_hash("1234", PASSWORD_DEFAULT),
                 "role" => "MEMBER"
@@ -39,7 +39,7 @@ class UserController extends Controller
 
             $date_format = \DateTime::createFromFormat("Y/m/d", "1994/06/03");
             $data["birth_date"] = $date_format->format('Y-m-d');
-            
+
 
             $user = User::action()->create($data);
 
@@ -93,34 +93,34 @@ class UserController extends Controller
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        $error = null;
+        $errors = null;
         $user = null;
 
         // Validate data
         if (empty($email)) {
-            $error = "Email is required";
+            $errors = "Email is required";
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "Invalid email";
+            $errors = "Invalid email";
         } else {
             // Authenticate 
             $user = User::action()->getByEmail($email);
-            if (!$user) $error = "Invalid email/password";
+            if (!$user) $errors = "Invalid email/password";
         }
 
         // Store values in session to fill form
         session_start();
 
         if (!($user && password_verify($password, $user->password))) {
-            $error = "Invalid email/password";
+            $errors = "Invalid email/password";
         } else {
             $_SESSION["user"] = $user;
             header("Location:/dashboard");
             exit;
         }
 
-        if (!empty($error)) {
-            $_SESSION["old_inputs"] = $_POST;
-            $_SESSION["error"] = $error;
+        if (!empty($errors)) {
+            $_SESSION["oldInputs"] = $_POST;
+            $_SESSION["errors"] = $errors;
             header("Location:/");
             exit;
         }

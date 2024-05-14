@@ -24,6 +24,7 @@ $router->get('/members', MemberController::class, 'index');
 
 // Book routes
 $router->get('/books', BookController::class, 'index');
+$router->post('/books', BookController::class, 'store');
 
 // Loan routes
 $router->get('/loans', LoanController::class, 'index');

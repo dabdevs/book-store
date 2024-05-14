@@ -116,7 +116,7 @@ class LoanController extends Controller
         }
 
         if (!empty($error)) {
-            $_SESSION["old_inputs"] = $_POST;
+            $_SESSION["oldInputs"] = $_POST;
             $_SESSION["error"] = $error;
             header("Location:/");
             exit;

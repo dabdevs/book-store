@@ -1,4 +1,5 @@
 <aside
+    style="z-index: 500;"
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark bg-white"
     id="sidenav-main">
     <div class="sidenav-header">

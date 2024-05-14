@@ -6,7 +6,7 @@ class BookValidation {
     public static $rules = [
         "table" => "books",
         "code" => ["required", "string", "books:unique"],
-        "title" => ["required", "string", "books:unique"],
+        "title" => ["required", "string", "books:unique","min:10", "max:50"],
         "description" => ["string", "min:10", "max:100"],
         "author" => ["required", "string", "min:10", "max:50"],
         "isbn" => ["string", "max:20"],
