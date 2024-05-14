@@ -1,16 +1,12 @@
-<?php
-include "forms/book.php";
-?>
-
 <div class="row my-4" style="overflow-x: hidden;">
     <div class="col-12">
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="d-flex justify-content-between bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <h6 class="text-white text-capitalize ps-3">Books</h6>
-                    <button class="px-3 bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#bookModal" id="open-book-form-btn">
+                    <a class="px-3 bg-transparent border-0" href="/books/create">
                         <i class="material-icons opacity-10 text-white">add_circle</i>
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="card-body px-0 pb-2">

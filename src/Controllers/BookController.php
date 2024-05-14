@@ -20,8 +20,24 @@ class BookController extends Controller
         try {
             $books = Book::action()->getAll();
             $cardsData = $this->getCardsData();
+            $page = "Books";
 
-            $this->render("dashboard", compact("books", "cardsData"));
+            $this->render("dashboard", compact("books", "cardsData", "page"));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     *  Render create page
+     */
+    public function create()
+    {
+        try {
+            $cardsData = $this->getCardsData();
+            $page = "Create Book";
+
+            $this->render("dashboard", compact("cardsData", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -33,28 +49,28 @@ class BookController extends Controller
     public function store()
     {
         try {
-            $books = Book::action()->getAll();
-            $cardsData = $this->getCardsData();
-
-            // Validate fields
+            session_start();
+            
+            // Validate form
             $errors = $this->validate(array_merge($_POST, $_FILES), BookValidation::$rules);
-
-            // if (count($errors) > 0) {
-            //     $this->render('dashboard', compact("books", "cardsData", "errors"));
-            //     exit;
-            // }
-
+            
+            // If there is any error, save them in sessions with old inputs and redirect
             if (!empty($errors)) {
                 $_SESSION["oldInputs"] = $_POST;
                 $_SESSION["errors"] = $errors;
-                header("Location:/books");
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
                 exit;
             }
-
+            
             // Create new book
-            $book = Book::action()->create($_POST);
+            Book::action()->create($_POST);
 
-            $this->render('dashboard', compact("books", "cardsData"));
+            // Success message
+            $_SESSION["success"] = "Book created successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
