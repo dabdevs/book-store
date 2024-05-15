@@ -77,7 +77,7 @@ class BookController extends Controller
                 $fileName = md5(time() . $fileName) . "." . $fileExtension;
 
                 // Directory where the file will be moved
-                $uploadFileDir = dirname(__DIR__) . "/uploaded_files/";
+                $uploadFileDir = dirname(__DIR__) . "/images/books/";
 
                 // Full path of the file
                 $filePath = $uploadFileDir . $fileName;
