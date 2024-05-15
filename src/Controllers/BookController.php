@@ -104,7 +104,7 @@ class BookController extends Controller
             }
 
             // Save fileName in array to be saved
-            $_POST["cover"] = $fileName;
+            $_POST["cover"] = "/images/books/" . $fileName;
 
             // Create new book
             Book::action()->create($_POST);
