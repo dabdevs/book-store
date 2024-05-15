@@ -1,18 +1,3 @@
-<?php
-
-
-// Check if there are errors stored in session
-// if (isset($_SESSION['errors'])) {
-//     $errors = $_SESSION['errors'];
-//     $oldInputs = $_SESSION['oldInputs'];
-//     unset($_SESSION['errors'], $_SESSION['oldInputs']);
-// } else {
-//     $errors = null;
-//     $oldInputs = [];
-// }
-// var_dump($errors);
-?>
-
 <div class="card p-3 my-5">
     <form action="/books" method="POST" enctype="multipart/form-data">
         <div class="modal-body">
@@ -78,7 +63,7 @@
                 </div>
                 <div class="col-sm-4">
                     <label for="cover" class="form-label m-0">Cover</label>
-                    <input accept="image/png" type="file" class="form-control border field" value="<?= $oldInputs["cover"] ?? '' ?>" name="cover" id="cover">
+                    <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $oldInputs["cover"] ?? '' ?>" name="cover" id="cover">
                     <small class="text-danger"><?= $errors["cover"] ?? '' ?></small>
                 </div>
             </div>

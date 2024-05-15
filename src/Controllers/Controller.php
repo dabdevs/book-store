@@ -37,7 +37,7 @@ class Controller
         $table = $rules["table"];
         $errors = [];
         $data = array_merge($_POST, $_FILES);
-        
+
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
                 if ($key === "table") continue;
@@ -56,19 +56,19 @@ class Controller
                     if (in_array("string", $rule) && !is_string($value)) {
                         $errors[$field] = str_replace("_", " ", $field) . " must be a string";
                     }
-    
+
                     // Validate if field is a number
                     if (in_array("number", $rule) && !is_numeric($value)) {
                         $errors[$field] = str_replace("_", " ", $field) . " must be a number";
                     }
-    
+
                     // Validate if field is unique in table
                     if (in_array("$table:unique", $rule)) {
                         $exists = DB::table($table)->select()->where(str_replace("_", " ", $field) . " = :$field", [":$field" => $value]);
-    
+
                         if ($exists) $errors[$field] = str_replace("_", " ", $field) . " must be unique";
                     }
-    
+
                     if ($value !== "") {
                         foreach ($rule as $r) {
                             // Validate minimum length
@@ -76,13 +76,13 @@ class Controller
                                 $minLength = explode(":", $r)[1];
                                 if (strlen($value) < $minLength) $errors[$field] = str_replace("_", " ", $field) . " must be at least $minLength characters";
                             }
-    
+
                             // Validate maximum length
                             if (str_starts_with($r, "max")) {
                                 $maxLength = explode(":", $r)[1];
                                 if (strlen($value) > $maxLength) $errors[$field] = str_replace("_", " ", $field) . " must be at max $maxLength characters";
                             }
-    
+
                             // Validate image extension
                             if (str_starts_with($r, "image")) {
                                 $allowedExtensions = explode(":", $r)[1];
@@ -90,6 +90,18 @@ class Controller
                                 if (!str_contains($allowedExtensions, $fileExtension)) {
                                     $errors[$field] = str_replace("_", " ", $field) . "'s extension must be " . str_replace(",", " or ", $allowedExtensions);
                                 }
+                            }
+
+                            // Validate file size
+                            if (str_starts_with($r, "size")) {
+                                // Maximum size allowed in mb
+                                $sizeInMg = explode(":", $r)[1];
+
+                                // Convert size to bytes
+                                $maxSize = (int)$sizeInMg * 1024 * 1024;
+
+                                // If size exceeds maximum size return with error
+                                if ($value["size"] > $maxSize) $errors[$field] = str_replace("_", " ", $field) . " image size cant be over $sizeInMg mb";
                             }
                         }
                     }

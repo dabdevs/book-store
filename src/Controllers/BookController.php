@@ -50,10 +50,10 @@ class BookController extends Controller
     {
         try {
             session_start();
-            
+
             // Validate form
-            $errors = $this->validate(array_merge($_POST, $_FILES), BookValidation::$rules);
-            
+            $errors = $this->validate(BookValidation::$rules);
+
             // If there is any error, save them in sessions with old inputs and redirect
             if (!empty($errors)) {
                 $_SESSION["oldInputs"] = $_POST;
@@ -61,7 +61,51 @@ class BookController extends Controller
                 header("Location:" . $_SERVER["HTTP_REFERER"]);
                 exit;
             }
-            
+
+            // Upload file
+            if (!$_FILES["cover"]["error"]) {
+                $fileTmpName = $_FILES["cover"]["tmp_name"];
+                $fileName = $_FILES["cover"]["name"];
+
+                // Explode fileName to get extension
+                $fileNameCmps = explode(".", $fileName);
+
+                // Convert last element of array (extension) to lowercase
+                $fileExtension = strtolower(end($fileNameCmps));
+
+                // Create new hashed filename
+                $fileName = md5(time() . $fileName) . "." . $fileExtension;
+
+                // Directory where the file will be moved
+                $uploadFileDir = dirname(__DIR__) . "/uploaded_files/";
+
+                // Full path of the file
+                $filePath = $uploadFileDir . $fileName;
+
+                // Create the directory if it does not exist
+                if (!is_dir($uploadFileDir)) {
+                    mkdir($uploadFileDir, 0755, true);
+                }
+
+                // Move file to directory
+                if (!move_uploaded_file($fileTmpName, $filePath)) {
+                    $_SESSION["error"] = "An error ocurred while uploading the file. Please try again.";
+
+                    // Redirect back
+                    header("Location:" . $_SERVER["HTTP_REFERER"]);
+                    exit;
+                }
+            } else {
+                $_SESSION["error"] = "An error ocurred while uploading the file. Please try again.";
+
+                // Redirect back
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
+
+            // Save fileName in array to be saved
+            $_POST["cover"] = $fileName;
+
             // Create new book
             Book::action()->create($_POST);
 

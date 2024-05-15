@@ -19,6 +19,13 @@ if (isset($_SESSION["success"])) {
 } else {
     $success = null;
 } 
+
+if (isset($_SESSION["error"])) {
+    $error = $_SESSION["error"];
+    unset($_SESSION["error"]);
+} else {
+    $error = null;
+} 
 ?>
 
 <?php include_once "head.inc.html" ?>
@@ -49,10 +56,11 @@ if (isset($_SESSION["success"])) {
 <?php include_once "scripts.inc.html" ?>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toast-alert" class="toast align-items-center text-bg-success text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toast-alert" class="toast align-items-center text-bg-<?= $success ? 'success' : ($error ? 'danger' : '') ?> text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body">
                 <?= $success ?? "" ?>
+                <?= $error ?? "" ?>
             </div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
@@ -60,7 +68,7 @@ if (isset($_SESSION["success"])) {
 </div>
 
 <?php 
-    if (isset($success)) { ?>
+    if (isset($success) || isset($error)) { ?>
         <script>
             const toastAlert = document.getElementById('toast-alert')
             const toast = new bootstrap.Toast(toastAlert)
