@@ -32,6 +32,11 @@ $router->post("/books/delete", BookController::class, "destroy");
 
 // Loan routes
 $router->get("/loans", LoanController::class, "index");
+$router->post("/loans", LoanController::class, "store");
+$router->get("/loans/create", LoanController::class, "create");
+$router->get("/loans/edit", LoanController::class, "edit");
+$router->post("/loans/update", LoanController::class, "update");
+$router->post("/loans/delete", LoanController::class, "destroy");
 
 // Dashboard routes
 $router->get("/dashboard", DashboardController::class, "index");
