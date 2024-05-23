@@ -9,31 +9,33 @@ use App\Controllers\LoanController;
 use App\Router;
 
 $router = new Router();
-$router->get('/', HomeController::class, 'login');
+$router->get("/", HomeController::class, "login");
 
 // User routes
-$router->post('/login', UserController::class, 'login');
-$router->post('/logout', UserController::class, 'logout');
-$router->get('/users', UserController::class, 'index');
-$router->post('/users', UserController::class, 'store');
-$router->put('/users', UserController::class, 'update');
-$router->delete('/users', UserController::class, 'destroy');
+$router->post("/login", UserController::class, "login");
+$router->post("/logout", UserController::class, "logout");
+$router->get("/users", UserController::class, "index");
+$router->post("/users", UserController::class, "store");
+$router->put("/users", UserController::class, "update");
+$router->delete("/users", UserController::class, "destroy");
 
 // Member routes
-$router->get('/members', MemberController::class, 'index');
+$router->get("/members", MemberController::class, "index");
 
 // Book routes
-$router->get('/books', BookController::class, 'index');
-$router->post('/books', BookController::class, 'store');
-$router->get('/books/create', BookController::class, 'create');
+$router->get("/books", BookController::class, "index");
+$router->post("/books", BookController::class, "store");
+$router->get("/books/create", BookController::class, "create");
+$router->get("/books/edit", BookController::class, "edit");
+$router->post("/books/update", BookController::class, "update");
 
 // Loan routes
-$router->get('/loans', LoanController::class, 'index');
+$router->get("/loans", LoanController::class, "index");
 
 // Dashboard routes
-$router->get('/dashboard', DashboardController::class, 'index');
+$router->get("/dashboard", DashboardController::class, "index");
 
 // Not found route
-$router->get('/not-found', HomeController::class, 'not_found');
+$router->get("/not-found", HomeController::class, "not_found");
 
 $router->dispatch();

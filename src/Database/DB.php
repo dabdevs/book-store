@@ -44,6 +44,7 @@ class DB
     public function select()
     {
         $this->query = "SELECT * FROM " . self::$table . " ";
+        
         return self::$instance;
     }
 
@@ -111,17 +112,31 @@ class DB
      */
     public function all()
     {
-        return $this->run();
+        $this->run();
+        return self::$instance;
     }
 
     /**
      *  Where clause for query
      */
-    public function where($clause, $params = [])
+    public function where(string $clause, array $params = [])
     {
         $this->query .= "WHERE $clause";
         
         return $this->run($params);
+    }
+
+    /**
+     *  Oder by for query
+     *  $orderBy['field', 'order']
+     */
+    public function orderBy(array $orderBy)
+    {
+        if (isset($orderBy["field"])) $this->query .= "ORDER BY " . $orderBy["field"];
+        if (isset($orderBy["order"])) $this->query .= " " . $orderBy["order"];
+        
+        
+        return $this->run();
     }
 
     /**

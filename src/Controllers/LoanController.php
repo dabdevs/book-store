@@ -15,8 +15,9 @@ class LoanController extends Controller
         try {
             $loans = Loan::action()->getAll();
             $cardsData = $this->getCardsData();
+            $page = "Loans";
 
-            $this->render("dashboard", compact("loans", "cardsData"));
+            $this->render("dashboard", compact("loans", "cardsData", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

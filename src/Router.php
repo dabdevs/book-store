@@ -34,6 +34,7 @@ class Router {
     {
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
         $method =  $_SERVER['REQUEST_METHOD'];
+
         try {
             if (array_key_exists($uri, $this->routes[$method])) {
                 $controller = $this->routes[$method][$uri]['controller'];

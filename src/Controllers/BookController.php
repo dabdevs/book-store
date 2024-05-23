@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 use App\Models\Book;
+use App\Utils\Helper;
 use App\Validations\BookValidation;
 
 class BookController extends Controller
@@ -18,7 +19,8 @@ class BookController extends Controller
     public function index()
     {
         try {
-            $books = Book::action()->getAll();
+            $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
+
             $cardsData = $this->getCardsData();
             $page = "Books";
 
@@ -44,6 +46,24 @@ class BookController extends Controller
     }
 
     /**
+     *  Render edit page
+     */
+    public function edit()
+    {
+        try {
+            $queryParams = Helper::getQueryParameters();
+            $id = $queryParams["id"];
+            $cardsData = $this->getCardsData();
+            $page = "Edit Book";
+            $book = Book::action()->getById($id);
+
+            $this->render("dashboard", compact("cardsData", "book", "page"));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
      *  Create a book in the database
      */
     public function store()
@@ -63,7 +83,7 @@ class BookController extends Controller
             }
 
             // Upload file
-            if (!$_FILES["cover"]["error"]) {
+            if ($_FILES["cover"]["name"] !== "") {
                 $fileTmpName = $_FILES["cover"]["tmp_name"];
                 $fileName = $_FILES["cover"]["name"];
 
@@ -78,13 +98,14 @@ class BookController extends Controller
 
                 // Directory where the file will be moved
                 $uploadFileDir = dirname(__DIR__) . "/images/books/";
-
+                ///Applications/MAMP/htdocs/book-store/src/images/books/09f407843a6133516aefe59d24fffe10.jpg
                 // Full path of the file
                 $filePath = $uploadFileDir . $fileName;
 
                 // Create the directory if it does not exist
                 if (!is_dir($uploadFileDir)) {
                     mkdir($uploadFileDir, 0755, true);
+                    chmod($uploadFileDir, 0755);
                 }
 
                 // Move file to directory
@@ -95,16 +116,10 @@ class BookController extends Controller
                     header("Location:" . $_SERVER["HTTP_REFERER"]);
                     exit;
                 }
-            } else {
-                $_SESSION["error"] = "An error ocurred while uploading the file. Please try again.";
 
-                // Redirect back
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
+                // Save fileName in array to be saved
+                $_POST["cover"] = "/images/books/" . $fileName;
             }
-
-            // Save fileName in array to be saved
-            $_POST["cover"] = "/images/books/" . $fileName;
 
             // Create new book
             Book::action()->create($_POST);
@@ -126,13 +141,17 @@ class BookController extends Controller
     public function update()
     {
         try {
-            $id = $_POST["id"];
-
+            session_start();
+            
             // Validate form data
+            Book::action()->update($_POST);
 
-            Book::updateById($id, $_POST);
+            // Success message
+            $_SESSION["success"] = "Book updated successfuly!";
 
-            $this->render('index', $_POST);
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

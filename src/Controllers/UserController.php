@@ -15,8 +15,9 @@ class UserController extends Controller
         try {
             $users = User::action()->getAll();
             $cardsData = $this->getCardsData();
+            $page = "Users";
 
-            $this->render("dashboard", compact("users", "cardsData"));
+            $this->render("dashboard", compact("users", "cardsData", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -88,8 +89,6 @@ class UserController extends Controller
      */
     public function login()
     {
-        if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
-
         $email = $_POST["email"];
         $password = $_POST["password"];
 

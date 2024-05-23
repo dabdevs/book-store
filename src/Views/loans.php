@@ -21,28 +21,28 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($transactions as $transaction) { ?>
+                            foreach ($loans as $loan) { ?>
                                 <tr>
                                     <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0"><?= $transaction["id"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->id ?></p>
                                     </td>
                                     <td>
                                         <div class="d-flex">
                                             <div>
-                                                <img src="<?= isset($transaction["avatar"]) ? $transaction["avatar"] : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                <img src="<?= isset($loan->avatar) ? $loan->avatar : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $transaction["f_name"] ?> <?= $transaction["l_name"] ?></h6>
-                                                <p class="text-xs text-secondary mb-0"><?= $transaction["email"] ?></p>
+                                                <h6 class="mb-0 text-sm"><?= $loan->firstname ?> <?= $loan->lastname ?></h6>
+                                                <p class="text-xs text-secondary mb-0"><?= $loan->email ?></p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $transaction["birth_date"] ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->birth_date ?></p>
                                     </td>
                                     <td>
                                         <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                                        <span class="text-xs font-weight-bold mb-0"><?= $transaction["role"] ?></span>
+                                        <span class="text-xs font-weight-bold mb-0"><?= $loan->role ?></span>
                                     </td>
                                     <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

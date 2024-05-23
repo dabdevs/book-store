@@ -46,7 +46,7 @@ if (isset($_SESSION["error"])) {
         <?php
         if ($page === "Members") include "members.php";
         if ($page === "Books") include "books.php";
-        if ($page === "Create Book") include "forms/book.php";
+        if ($page === "Create Book" || $page === "Edit Book") include "forms/book.php";
         if ($page === "Loans") include "loans.php";
         ?>
         <!-- End content -->

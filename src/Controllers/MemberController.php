@@ -16,8 +16,9 @@ class MemberController extends Controller
         try {
             $members = Member::action()->getAll();
             $cardsData = $this->getCardsData();
+            $page = "Members";
 
-            $this->render("dashboard", compact("members", "cardsData"));
+            $this->render("dashboard", compact("members", "cardsData", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

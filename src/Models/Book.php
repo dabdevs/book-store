@@ -16,7 +16,7 @@ class Book
     private $isbn;
     private $genre;
     private $publisher;
-    private $published_date;
+    private $publishedDate;
     private $cover;
     private $available;
 
@@ -72,9 +72,14 @@ class Book
     /**
      *  Retreive all books from the database
      */
-    public function getAll()
+    public function getAll(array $orderBy = [])
     {
-        return DB::table($this->table)->select()->all();
+        $books = DB::table($this->table)->select()->all();
+        if (!empty($orderBy)) {
+            $books = $books->orderBy($orderBy);
+        }
+
+        return $books;
     }
 
     /**
@@ -82,7 +87,7 @@ class Book
      */
     public function getById($id)
     {
-        return DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
+        return DB::table($this->table)->select()->where("id = :id", ["id" => $id])[0];
     }
 
     /**
@@ -90,7 +95,7 @@ class Book
      */
     public function getByCode($code)
     {
-        return DB::table($this->table)->select()->where("code = :code", ["code" => $code]);
+        return DB::table($this->table)->select()->where("code = :code", ["code" => $code])[0];
     }
 
     /**
@@ -98,7 +103,7 @@ class Book
      */
     public function getByTitle($title)
     {
-        return DB::table($this->table)->select()->where("title = :title", ["title" => $title]);
+        return DB::table($this->table)->select()->where("title = :title", ["title" => $title])[0];
     }
 
     /**
@@ -294,7 +299,7 @@ class Book
      */
     public function getPublishedDate()
     {
-        return $this->published_date;
+        return $this->publishedDate;
     }
 
     /**
@@ -304,7 +309,7 @@ class Book
      */
     public function setPublishedDate($publishedDate)
     {
-        $this->published_date = $publishedDate;
+        $this->publishedDate = $publishedDate;
 
         return $this;
     }
