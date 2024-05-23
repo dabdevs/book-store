@@ -4,20 +4,60 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 use App\Models\Loan;
+use App\Utils\Helper;
+use App\Validations\LoanValidation;
 
 class LoanController extends Controller
 {
+    public function __construct()
+    {
+    }
+
     /**
      *  Load all loans from the database
      */
     public function index()
     {
         try {
-            $loans = Loan::action()->getAll();
+            $loans = Loan::action()->getAll(["field" => "id", "order" => "DESC"]);
+
             $cardsData = $this->getCardsData();
             $page = "Loans";
 
             $this->render("dashboard", compact("loans", "cardsData", "page"));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     *  Render create page
+     */
+    public function create()
+    {
+        try {
+            $cardsData = $this->getCardsData();
+            $page = "Create Loan";
+
+            $this->render("dashboard", compact("cardsData", "page"));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     *  Render edit page
+     */
+    public function edit()
+    {
+        try {
+            $queryParams = Helper::getQueryParameters();
+            $id = $queryParams["id"];
+            $cardsData = $this->getCardsData();
+            $page = "Edit Loan";
+            $loan = Loan::action()->getById($id);
+
+            $this->render("dashboard", compact("cardsData", "loan", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -29,24 +69,35 @@ class LoanController extends Controller
     public function store()
     {
         try {
-            // Validate data
-            $data = [
-                "email" => "mjean@gmail.com",
-                "firstname" => "Martha",
-                "lastname" => "Jean",
-                "password" => password_hash("1234", PASSWORD_DEFAULT),
-                "role" => "MEMBER"
-            ];
+            session_start();
 
-            $date_format = \DateTime::createFromFormat("Y/m/d", "1994/06/03");
-            $data["birth_date"] = $date_format->format('Y-m-d');
+            // Validate form
+            $errors = $this->validate(LoanValidation::$rules);
 
+            // If there is any error, save them in sessions with old inputs and redirect
+            if (!empty($errors)) {
+                $_SESSION["oldInputs"] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
 
-            $loan = Loan::action()->create($data);
+            // Create new loan
+            Loan::action()->create($_POST);
 
-            $this->render('dashboard', compact('loan'));
+            // Success message
+            $_SESSION["success"] = "Loan created successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
 
@@ -56,13 +107,27 @@ class LoanController extends Controller
     public function update()
     {
         try {
-            // Validate data
-            $data = ["email" => "alainjean@gmail.com", "id" => 5];
-            Loan::action()->update($data);
+            session_start();
 
-            $this->render('dashboard', $_POST);
+            // Upload file
+            Helper::updateFile("cover");
+
+            // Validate form data
+            Loan::action()->update($_POST);
+
+            // Success message
+            $_SESSION["success"] = "Loan updated successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
 
@@ -72,54 +137,24 @@ class LoanController extends Controller
     public function destroy()
     {
         try {
+            session_start();
+
             $id = $_POST["id"];
 
-            Loan::destroy($id);
+            Loan::action()->delete($id);
 
-            $loans = Loan::findAll();
+            // Success message
+            $_SESSION["success"] = "Loan deleted successfuly!";
 
-            $this->render('index', compact('loans'));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    public function login()
-    {
-        if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
-
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-
-        $error = null;
-        $loan = null;
-
-        // Validate data
-        if (empty($email)) {
-            $error = "Email is required";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "Invalid email";
-        } else {
-            // Authenticate 
-            $loan = Loan::action()->getByEmail($email);
-            if (!$loan) $error = "Invalid email/password";
-        }
-
-        // Store values in session to fill form
-        session_start();
-
-        if (!($loan && password_verify($password, $loan->password))) {
-            $error = "Invalid email/password";
-        } else {
-            $_SESSION["loan"] = $loan;
-            header("Location:/dashboard");
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
-        }
+        } catch (\Exception $e) {
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
 
-        if (!empty($error)) {
-            $_SESSION["oldInputs"] = $_POST;
-            $_SESSION["error"] = $error;
-            header("Location:/");
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         }
     }
