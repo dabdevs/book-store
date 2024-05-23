@@ -28,6 +28,7 @@ $router->post("/books", BookController::class, "store");
 $router->get("/books/create", BookController::class, "create");
 $router->get("/books/edit", BookController::class, "edit");
 $router->post("/books/update", BookController::class, "update");
+$router->post("/books/delete", BookController::class, "destroy");
 
 // Loan routes
 $router->get("/loans", LoanController::class, "index");

@@ -63,9 +63,13 @@
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0"><?= $book->available ?></p>
                                     </td>
-                                    <td class="align-middle">
-                                        <a href="/books/edit?id=<?= $book->id ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
+                                    <td class="align-middle p-0">
+                                        <a href="/books/edit?id=<?= $book->id ?>" class="font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <i class="material-icons opacity-10 text-success">edit</i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="#" onclick='deleteItem("<?= $book->title ?>", "<?= $book->id ?>", "/books/delete")'>
+                                            <i class="material-icons opacity-10 text-danger">delete</i>
                                         </a>
                                     </td>
                                 </tr>
@@ -77,3 +81,4 @@
         </div>
     </div>
 </div>
+

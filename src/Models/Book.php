@@ -70,6 +70,14 @@ class Book
     }
 
     /**
+     *  Delete existing book
+     */
+    public function delete($id)
+    {
+        return DB::table($this->table)->delete()->where("id = :id", ["id" => $id]);
+    }
+
+    /**
      *  Retreive all books from the database
      */
     public function getAll(array $orderBy = [])

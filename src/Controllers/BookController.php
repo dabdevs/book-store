@@ -131,7 +131,12 @@ class BookController extends Controller
             header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
 
@@ -142,7 +147,7 @@ class BookController extends Controller
     {
         try {
             session_start();
-            
+
             // Validate form data
             Book::action()->update($_POST);
 
@@ -153,7 +158,12 @@ class BookController extends Controller
             header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
 
@@ -163,14 +173,25 @@ class BookController extends Controller
     public function destroy()
     {
         try {
+            session_start();
+
             $id = $_POST["id"];
 
-            Book::destroy($id);
-            $books = Book::findAll();
+            Book::action()->delete($id);
 
-            $this->render('dashboard', compact('books'));
+            // Success message
+            $_SESSION["success"] = "Book deleted successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
 }
