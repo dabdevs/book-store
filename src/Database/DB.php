@@ -117,6 +117,16 @@ class DB
     }
 
     /**
+     *  Delete data from DB
+     */
+    public function delete()
+    {
+        $this->query = "DELETE FROM " . self::$table . " ";
+
+        return self::$instance;
+    }
+
+    /**
      *  Where clause for query
      */
     public function where(string $clause, array $params = [])
