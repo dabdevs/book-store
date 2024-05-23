@@ -36,7 +36,7 @@
                                     <td>
                                         <div class="d-flex">
                                             <div>
-                                                <img src="file:///Applications/MAMP/htdocs/book-store/src/images/books/09f407843a6133516aefe59d24fffe10.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                <img src="../src<?= $book->cover ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm"><?= $book->title ?></h6>
