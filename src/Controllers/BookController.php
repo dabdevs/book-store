@@ -82,10 +82,8 @@ class BookController extends Controller
                 exit;
             }
 
-            // Upload file
+            // Upload file and set filename in POST data
             Helper::updateFile("cover");
-
-            var_dump($_POST["cover"]); die;
 
             // Create new book
             Book::action()->create($_POST);
@@ -114,7 +112,7 @@ class BookController extends Controller
         try {
             session_start();
 
-            // Upload file
+            // Upload file and set filename in POST data
             Helper::updateFile("cover");
 
             // Validate form data
