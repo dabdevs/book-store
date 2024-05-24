@@ -37,10 +37,10 @@ class Controller
         $table = $rules["table"];
         $errors = [];
         $data = array_merge($_POST, $_FILES);
-
+        
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
-                if ($key === "table") continue;
+                if ($key === "table" || $key === "id") continue;
 
                 // Field being validated
                 $field = $key;
@@ -102,6 +102,14 @@ class Controller
 
                                 // If size exceeds maximum size return with error
                                 if ($value["size"] > $maxSize) $errors[$field] = str_replace("_", " ", $field) . " image size cant be over $sizeInMg mb";
+                            }
+
+                            // Validate if id exists
+                            if (str_ends_with($r, "exists")) {
+                                $checkTable = explode(":", $r)[0];
+                                $exists = DB::table($checkTable)->select()->where("id = :id", [":id" => $value]);
+
+                                if (!$exists) $errors[$field] = rtrim($checkTable, 's') . " does not exist";
                             }
                         }
                     }
