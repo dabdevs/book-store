@@ -2,8 +2,11 @@
     <div class="col-12">
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Transactions</h6>
+                <div class="d-flex justify-content-between bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Loans</h6>
+                    <a class="px-3 bg-transparent border-0" href="/books/create">
+                        <i class="material-icons opacity-10 text-white">add_circle</i>
+                    </a>
                 </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -11,12 +14,12 @@
                     <table class="table align-items-center mb-0">
                         <thead class="text-left">
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">ID</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Birth Date</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Role</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Book</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Borrowed Date</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Return Date</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
-                                <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,29 +27,27 @@
                             foreach ($loans as $loan) { ?>
                                 <tr>
                                     <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->id ?></p>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->title ?></p>
                                     </td>
                                     <td>
-                                        <div class="d-flex">
-                                            <div>
-                                                <img src="<?= isset($loan->avatar) ? $loan->avatar : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $loan->firstname ?> <?= $loan->lastname ?></h6>
-                                                <p class="text-xs text-secondary mb-0"><?= $loan->email ?></p>
-                                            </div>
-                                        </div>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->firstname ?> <?= $loan->lastname ?></p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->birth_date ?></p>
+                                        <span class="text-xs font-weight-bold mb-0"><?= $loan->borrow_date ?></span>
                                     </td>
                                     <td>
-                                        <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                                        <span class="text-xs font-weight-bold mb-0"><?= $loan->role ?></span>
+                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?></p>
                                     </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
+                                    <td>
+                                        <span class="badge badge-sm bg-gradient-success"><?= $loan->available ? 'Available' : 'Borrowed' ?></span>
+                                    </td>
+                                    <td class="align-middle p-0">
+                                        <a href="/books/edit?id=<?= $loan->id ?>" class="font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <i class="material-icons opacity-10 text-success">edit</i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="#" onclick='deleteItem("<?= $loan->title ?>", "<?= $loan->id ?>", "/books/delete")'>
+                                            <i class="material-icons opacity-10 text-danger">delete</i>
                                         </a>
                                     </td>
                                 </tr>
