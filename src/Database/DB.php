@@ -137,6 +137,17 @@ class DB
     }
 
     /**
+     *  Join clause for query
+     */
+    public function join(string $condition, array $params = [])
+    {
+        $this->query .= "JOIN $condition ";
+
+        $this->run($params);
+        return self::$instance;
+    }
+
+    /**
      *  Oder by for query
      *  $orderBy['field', 'order']
      */
