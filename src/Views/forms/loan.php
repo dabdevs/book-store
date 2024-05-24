@@ -2,7 +2,18 @@
 $id = '';
 $book_id = '';
 $user_id = '';
-$borrow_date = '';
+$today = date('Y-m-d h:i:s');
+$tm = strtotime("tomorrow");
+$tomorrow = date("Y-m-d h:i:s", $tm);
+
+if ($page === 'Create Loan') {
+    $borrow_date = $today;
+    $borrow_date_readonly = true;
+} else {
+    $borrow_date = '';
+    $borrow_date_readonly = false;
+}
+
 $return_date = '';
 $status = '';
 
@@ -22,10 +33,11 @@ if (isset($oldInputs["book_id"])) {
     $return_date = $oldInputs["return_date"];
     $status = $oldInputs["status"];
 }
+
 ?>
 
 <div class="card p-3 my-5">
-    <form action="/books<?= isset($loan) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
+    <form action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
         <div>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
@@ -36,7 +48,7 @@ if (isset($oldInputs["book_id"])) {
                         <?php
                         foreach ($books as $book) {
                         ?>
-                            <option value="Fantasy" <?= $book_id === $book->id ? "selected" : ''; ?>> <?= $book->title ?> </option>
+                            <option value="<?= $book->id ?>" <?= $book_id === $book->id ? "selected" : ''; ?>> <?= $book->title ?> </option>
                         <?php
                         }
                         ?>
@@ -50,7 +62,7 @@ if (isset($oldInputs["book_id"])) {
                         <?php
                         foreach ($users as $user) {
                         ?>
-                            <option value="Fantasy" <?= $user_id === $user->id ? "selected" : ''; ?>> <?= $user->firstname ?> <?= $user->lastname ?> </option>
+                            <option value="<?= $user->id ?>" <?= $user_id === $user->id ? "selected" : ''; ?>> <?= $user->firstname ?> <?= $user->lastname ?> </option>
                         <?php
                         }
                         ?>
@@ -61,12 +73,12 @@ if (isset($oldInputs["book_id"])) {
             <div class="row mb-3">
                 <div class="col-sm-2">
                     <label for="borrow_date" class="form-label m-0">Borrow Date</label>
-                    <input type="date" class="form-control border field" value="<?= $borrow_date ?>" name="borrow_date" id="borrow_date">
+                    <input <?= $borrow_date_readonly ? 'readonly' : '' ?> type="datetime-local" min="<?= $today ?>" class="form-control border field" value="<?= $borrow_date ?>" name="borrow_date" id="borrow_date">
                     <small class="text-danger"><?= $errors["borrow_date"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-2">
                     <label for="return_date" class="form-label m-0">Return Date</label>
-                    <input type="date" class="form-control border field" value="<?= $return_date ?>" name="return_date" id="return_date">
+                    <input type="datetime-local" class="form-control border field" value="<?= $return_date ?>" min="<?= $tomorrow ?>" name="return_date" id="return_date">
                     <small class="text-danger"><?= $errors["return_date"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-3">
@@ -81,7 +93,7 @@ if (isset($oldInputs["book_id"])) {
             </div>
         </div>
         <div class="modal-footer">
-            <a href="/books" class="btn">Cancel</a>
+            <a href="/loans" class="btn">Cancel</a>
             <button type="submit" class="btn btn-primary" id="submit-btn">
                 <i class="material-icons opacity-10 text-white">save</i>
                 Save
