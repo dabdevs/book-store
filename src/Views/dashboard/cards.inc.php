@@ -2,7 +2,7 @@
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/books'">
         <div class="card">
             <div class="card-header p-3 pt-2">
-                <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                <div class="icon icon-lg icon-shape <?= $page === 'Books' ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
                     <i class="material-icons opacity-10">menu_book</i>
                 </div>
                 <div class="text-end pt-1">
@@ -20,7 +20,7 @@
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/loans'">
         <div class="card">
             <div class="card-header p-3 pt-2">
-                <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                <div class="icon icon-lg icon-shape <?= $page === 'Loans' ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
                     <i class="material-icons opacity-10">compare_arrows</i>
                 </div>
                 <div class="text-end pt-1">
@@ -40,7 +40,7 @@
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/members'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
-                    <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                    <div class="icon icon-lg icon-shape <?= $page === 'Members' ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">person</i>
                     </div>
                     <div class="text-end pt-1">
@@ -61,7 +61,7 @@
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/librerians'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
-                    <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                    <div class="icon icon-lg icon-shape <?= $page === 'Librerians' ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">local_library</i>
                     </div>
                     <div class="text-end pt-1">
