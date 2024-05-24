@@ -13,7 +13,7 @@ class Loan
     private $member;
     private $borrowDate;
     private $returnDate;
-    private $available;
+    private $status;
 
     public function __construct()
     {
@@ -77,11 +77,11 @@ class Loan
      */
     public function getAll(array $orderBy = [])
     {
-        $loans = DB::table($this->table)->select()->join("users ON loans.user_id = users.id")->join("books ON loans.book_id = books.id");
-        
-        if (!empty($orderBy)) {
-            $loans = $loans->orderBy($orderBy);
-        }
+        $sql = "SELECT l.*, u.firstname, u.lastname, b.title FROM loans l
+                JOIN users u ON l.user_id = u.id 
+                JOIN books b ON l.book_id = b.id
+                ORDER BY l.id DESC";
+        $loans = DB::table($this->table)->query($sql);
 
         return $loans;
     }

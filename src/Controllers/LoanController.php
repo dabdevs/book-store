@@ -3,7 +3,10 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Loan;
+use App\Models\Member;
+use App\Models\User;
 use App\Utils\Helper;
 use App\Validations\LoanValidation;
 
@@ -37,8 +40,10 @@ class LoanController extends Controller
         try {
             $cardsData = $this->getCardsData();
             $page = "Create Loan";
+            $books = Book::action()->getAvailableBooks();
+            $members = Member::action()->getAll(["field" => "id", "order" => "DESC"]);
 
-            $this->render("dashboard", compact("cardsData", "page"));
+            $this->render("dashboard", compact("cardsData", "page", "books", "members"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -55,8 +60,10 @@ class LoanController extends Controller
             $cardsData = $this->getCardsData();
             $page = "Edit Loan";
             $loan = Loan::action()->getById($id);
+            $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
+            $members = Member::action()->getAll(["field" => "id", "order" => "DESC"]);
 
-            $this->render("dashboard", compact("cardsData", "loan", "page"));
+            $this->render("dashboard", compact("cardsData", "loan", "books", "members", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -68,10 +75,17 @@ class LoanController extends Controller
     public function store()
     {
         try {
-            session_start();
-
             // Validate form
             $errors = $this->validate(LoanValidation::$rules);
+
+            session_start();
+
+            // Validate if user is a member
+            $member = Member::action()->getById($_POST["user_id"]);
+
+            if (!$member) {
+                $errors["user_id"] = "User is not a member";
+            }
 
             // If there is any error, save them in sessions with old inputs and redirect
             if (!empty($errors)) {
@@ -106,10 +120,18 @@ class LoanController extends Controller
     public function update()
     {
         try {
+            // Validate form
+            $errors = $this->validate(LoanValidation::$rules);
+            var_dump($_POST);
             session_start();
 
-            // Upload file
-            Helper::updateFile("cover");
+            // If there is any error, save them in sessions with old inputs and redirect
+            if (!empty($errors)) {
+                $_SESSION["oldInputs"] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
 
             // Validate form data
             Loan::action()->update($_POST);
@@ -122,7 +144,7 @@ class LoanController extends Controller
             exit;
         } catch (\Exception $e) {
             // Error message
-            $_SESSION["error"] = "Operation failed! Please try again later.";
+            $_SESSION["error"] = $e->getMessage();
 
             // Redirect back
             header("Location:" . $_SERVER["HTTP_REFERER"]);
@@ -138,7 +160,7 @@ class LoanController extends Controller
         try {
             session_start();
 
-            $id = $_POST["id"];
+            $id = $_POST["id"]; 
 
             Loan::action()->delete($id);
 

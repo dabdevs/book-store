@@ -7,9 +7,8 @@ class LoanValidation
     public static $rules = [
         "table" => "loans", 
         "book_id" => ["required", "number", "books:exists"],
-        "user_id" => ["required", "number", "users:exists", "users:member"],
-        "borrow_date" => ["required", "string"],
+        "user_id" => ["required", "number", "users:exists"],
         "return_date" => ["required", "string"],
-        "available" => ["required", "boolean"],
+        "status" => ["required", "enum:BORROWED,RETURNED"],
     ];
 }

@@ -1,26 +1,19 @@
 <?php
 $id = '';
 $book_id = '';
-$user_id = '';
-$today = date('Y-m-d h:i:s');
+$member_id = '';
+$td = strtotime("today");
+$today = date("Y-m-d h:i:s", $td);
 $tm = strtotime("tomorrow");
 $tomorrow = date("Y-m-d h:i:s", $tm);
-
-if ($page === 'Create Loan') {
-    $borrow_date = $today;
-    $borrow_date_readonly = true;
-} else {
-    $borrow_date = '';
-    $borrow_date_readonly = false;
-}
-
-$return_date = '';
+$borrow_date = '';
+$return_date = $tomorrow;
 $status = '';
 
 if (isset($loan)) {
     $id = $loan->id;
     $book_id = $loan->book_id;
-    $user_id = $loan->user_id;
+    $member_id = $loan->user_id;
     $borrow_date = $loan->borrow_date;
     $return_date = $loan->return_date;
     $status = $loan->status;
@@ -28,7 +21,7 @@ if (isset($loan)) {
 
 if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
-    $user_id = $oldInputs["user_id"];
+    $member_id = $oldInputs["user_id"];
     $borrow_date = $oldInputs["borrow_date"];
     $return_date = $oldInputs["return_date"];
     $status = $oldInputs["status"];
@@ -56,13 +49,13 @@ if (isset($oldInputs["book_id"])) {
                     <small class="text-danger"><?= $errors["book_id"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-6">
-                    <label for="user_id" class="form-label m-0">User</label>
+                    <label for="user_id" class="form-label m-0">Member</label>
                     <select class="form-control border field" name="user_id" id="user_id">
-                        <option value="">Select</option>
+                        <option value="">Select <?= $member_id ?></option>
                         <?php
-                        foreach ($users as $user) {
+                        foreach ($members as $member) {
                         ?>
-                            <option value="<?= $user->id ?>" <?= $user_id === $user->id ? "selected" : ''; ?>> <?= $user->firstname ?> <?= $user->lastname ?> </option>
+                            <option value="<?= $member->id ?>" <?= $member_id == $member->id ? "selected" : ''; ?>> <?= $member->firstname ?> <?= $member->lastname ?></option>
                         <?php
                         }
                         ?>
@@ -72,24 +65,21 @@ if (isset($oldInputs["book_id"])) {
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2">
-                    <label for="borrow_date" class="form-label m-0">Borrow Date</label>
-                    <input <?= $borrow_date_readonly ? 'readonly' : '' ?> type="datetime-local" min="<?= $today ?>" class="form-control border field" value="<?= $borrow_date ?>" name="borrow_date" id="borrow_date">
-                    <small class="text-danger"><?= $errors["borrow_date"] ?? '' ?></small>
-                </div>
-                <div class="col-sm-2">
                     <label for="return_date" class="form-label m-0">Return Date</label>
-                    <input type="datetime-local" class="form-control border field" value="<?= $return_date ?>" min="<?= $tomorrow ?>" name="return_date" id="return_date">
+                    <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($return_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="return_date" id="return_date">
                     <small class="text-danger"><?= $errors["return_date"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-3">
-                    <label for="status" class="form-label m-0">Status</label>
-                    <select class="form-control border field" name="status" id="status">
-                        <option value="">Select</option>
-                        <option value="BORROWED">Borrowed</option>
-                        <option value="RETURNED">Returned</option>
-                    </select>
-                    <small class="text-danger"><?= $errors["status"] ?? '' ?></small>
-                </div>
+                <?php if ($page === "Edit Loan") { ?>
+                    <div class="col-sm-3">
+                        <label for="status" class="form-label m-0">Status</label>
+                        <select class="form-control border field" name="status" id="status">
+                            <option value="">Select</option>
+                            <option value="BORROWED" <?= $status == "BORROWED" ? "selected" : "" ?>>Borrowed</option>
+                            <option value="RETURNED" <?= $status == "RETURNED" ? "selected" : "" ?>>Returned</option>
+                        </select>
+                        <small class="text-danger"><?= $errors["status"] ?? '' ?></small>
+                    </div>
+                <?php } ?>
             </div>
         </div>
         <div class="modal-footer">
