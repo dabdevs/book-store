@@ -111,6 +111,14 @@ class Controller
 
                                 if (!$exists) $errors[$field] = rtrim($checkTable, 's') . " does not exist";
                             }
+
+                            // Validate enum
+                            if (str_starts_with($r, "enum")) {
+                                $enums = explode(":", $r)[1];
+                                $enums = explode(",", $enums);
+
+                                if (!in_array($value, $enums)) $errors[$field] = "$value is not a valid value";
+                            }
                         }
                     }
                 }
