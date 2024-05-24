@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page === 'Books' ? 'active bg-gradient-primary' : '' ?>" href="/books">
+                <a class="nav-link text-white <?= str_contains($page, 'Book') ? 'active bg-gradient-primary' : '' ?>" href="/books">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">menu_book</i>
                     </div>
@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page === 'Loans' ? 'active bg-gradient-primary' : '' ?>" href="/loans">
+                <a class="nav-link text-white <?= str_contains($page, 'Loan') ? 'active bg-gradient-primary' : '' ?>" href="/loans">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">compare_arrows</i>
                     </div>
@@ -35,7 +35,7 @@
             </li>
             <?php if (in_array($user->role, ["ADMIN", "LIBRERIAN"])) { ?>
                 <li class="nav-item">
-                    <a class="nav-link text-white <?= $page === 'Members' ? 'active bg-gradient-primary' : '' ?>" href="/members">
+                    <a class="nav-link text-white <?= str_contains($page, 'Member') ? 'active bg-gradient-primary' : '' ?>" href="/members">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
                         </div>
@@ -45,7 +45,7 @@
             <?php } ?>
             <?php if ($user->role === "ADMIN") { ?>
                 <li class="nav-item">
-                    <a class="nav-link text-white <?= $page === 'Librerians' ? 'active bg-gradient-primary' : '' ?>" href="/librerians">
+                    <a class="nav-link text-white <?= str_contains($page, 'Librerian') ? 'active bg-gradient-primary' : '' ?>" href="/librerians">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">local_library</i>
                         </div>
