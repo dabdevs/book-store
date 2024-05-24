@@ -19,8 +19,7 @@ class LoanController extends Controller
     public function index()
     {
         try {
-            $loans = Loan::action()->getAll(["field" => "id", "order" => "DESC"]);
-
+            $loans = Loan::action()->getAll(["field" => "loans.id", "order" => "DESC"]);
             $cardsData = $this->getCardsData();
             $page = "Loans";
 
