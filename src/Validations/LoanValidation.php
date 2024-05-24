@@ -10,6 +10,6 @@ class LoanValidation
         "user_id" => ["required", "number", "users:exists", "users:member"],
         "borrow_date" => ["required", "string"],
         "return_date" => ["required", "string"],
-        "status" => ["required", "enum:BORROWED,RETURNED"],
+        "available" => ["required", "boolean"],
     ];
 }
