@@ -44,10 +44,15 @@ if (isset($_SESSION["error"])) {
 
         <!-- Content -->
         <?php
-        if ($page === "Members") include "members.php";
+        // Book pages
         if ($page === "Books") include "books.php";
         if ($page === "Create Book" || $page === "Edit Book") include "forms/book.php";
+
+        // Loan pages
         if ($page === "Loans") include "loans.php";
+        if ($page === "Create Loan" || $page === "Edit Loan") include "forms/loan.php";
+
+        if ($page === "Members") include "members.php";
         ?>
         <!-- End content -->
     </div>
