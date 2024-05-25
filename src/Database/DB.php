@@ -41,10 +41,15 @@ class DB
     /**
      *  Select data from DB
      */
-    public function select()
+    public function select($fields="")
     {
-        $this->query = "SELECT * FROM " . self::$table . " ";
-        
+        $this->query = "SELECT ";
+
+        if ($fields === "") $this->query .= "* ";
+        else $this->query .= "$fields ";
+
+        $this->query .= "FROM " . self::$table . " ";
+
         return self::$instance;
     }
 
