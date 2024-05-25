@@ -52,7 +52,10 @@ if (isset($_SESSION["error"])) {
         if ($page === "Loans") include "loans.php";
         if ($page === "Create Loan" || $page === "Edit Loan") include "forms/loan.php";
 
+        // Member pages
         if ($page === "Members") include "members.php";
+        if ($page === "Create Member" || $page === "Edit Member") include "forms/user.php";
+
         ?>
         <!-- End content -->
     </div>
@@ -72,9 +75,30 @@ if (isset($_SESSION["error"])) {
     </div>
 </div>
 
-<form id="delete-form" method="POST">
-    <input type="hidden" name="id" id="delete-id">
+
+<!-- Modal -->
+<form class="modal fade" id="delete-form" method="POST" tabindex="-1" role="dialog" aria-labelledby="delete-form" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-normal" id="delete-form">Delete <b id="item-title"></b></h5>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" id="delete-id">
+                Are you sure you want to continue?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn bg-gradient-primary">Confirm Delete</button>
+            </div>
+        </div>
+    </div>
 </form>
+
+
 
 <?php
 if (isset($success) || isset($error)) { ?>
