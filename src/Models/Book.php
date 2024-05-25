@@ -91,11 +91,19 @@ class Book
     }
 
     /**
+     *  Get a available books
+     */
+    public function getAvailableBooks()
+    {
+        return DB::table($this->table)->select()->where("available > :count", [":count" => 0]);
+    }
+
+    /**
      *  Get a book by Id
      */
     public function getById($id)
     {
-        return DB::table($this->table)->select()->where("id = :id", ["id" => $id])[0];
+        return DB::table($this->table)->select()->where("id = :id", [":id" => $id])[0];
     }
 
     /**
@@ -103,7 +111,7 @@ class Book
      */
     public function getByCode($code)
     {
-        return DB::table($this->table)->select()->where("code = :code", ["code" => $code])[0];
+        return DB::table($this->table)->select()->where("code = :code", [":code" => $code])[0];
     }
 
     /**
@@ -111,7 +119,7 @@ class Book
      */
     public function getByTitle($title)
     {
-        return DB::table($this->table)->select()->where("title = :title", ["title" => $title])[0];
+        return DB::table($this->table)->select()->where("title = :title", [":title" => $title])[0];
     }
 
     /**
