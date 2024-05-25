@@ -12,17 +12,17 @@ $available = '';
 $cover = '';
 
 if (isset($book)) {
-    $id = $book->id;
-    $code = $book->code;
-    $title = $book->title;
-    $description = $book->description;
-    $author = $book->author;
-    $isbn = $book->isbn;
-    $genre = $book->genre;
-    $publisher = $book->publisher;
-    $published_date = $book->published_date;
-    $available = $book->available;
-    $cover = $book->cover;
+    $id = $book->getId();
+    $code = $book->getCode();
+    $title = $book->getTitle();
+    $description = $book->getDescription();
+    $author = $book->getAuthor();
+    $isbn = $book->getIsbn();
+    $genre = $book->getGenre();
+    $publisher = $book->getPublisher();
+    $published_date = $book->getPublishedDate();
+    $available = $book->getAvailable();
+    $cover = $book->getCover();
 }
 
 if (isset($oldInputs["code"])) {
