@@ -4,12 +4,15 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 use App\Models\Member;
-use App\Models\User;
+use App\Utils\Helper;
+use App\Validations\UserValidation;
 
 class MemberController extends Controller
 {
+    private $role = "MEMBER";
+
     /**
-     *  Load all users from the database
+     *  Members index page
      */
     public function index()
     {
@@ -25,103 +28,185 @@ class MemberController extends Controller
     }
 
     /**
-     *  Create a user in the database
+     *  Render create page
+     */
+    public function create()
+    {
+        try {
+            $cardsData = $this->getCardsData();
+            $page = "Create Member";
+            $this->render("dashboard", compact("cardsData", "page"));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     *  Create a member in the database
      */
     public function store()
     {
         try {
-            // Validate data
-            $data = [
-                "email" => "mjean@gmail.com",
-                "firstname" => "Martha",
-                "lastname" => "Jean",
-                "password" => password_hash("1234", PASSWORD_DEFAULT),
-                "role" => "MEMBER"
-            ];
+            session_start();
 
-            $date_format = \DateTime::createFromFormat("Y/m/d", "1994/06/03");
-            $data["birth_date"] = $date_format->format('Y-m-d');
+            // Validate form
+            $errors = $this->validate(UserValidation::$rules);
 
+            // If there is any error, save them in sessions with old inputs and redirect
+            if (!empty($errors)) {
+                $_POST["avatar"] = $_FILES["avatar"]["name"];
+                $_SESSION["oldInputs"] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
 
-            $user = User::action()->create($data);
+            // Hash password
+            $_POST["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-            $this->render('dashboard', compact('user'));
+            // Upload file and set filename in POST data
+            Helper::updateFile("avatar");
+
+            // Create new book
+            Member::action()->create($_POST);
+
+            // Success message
+            $_SESSION["success"] = "Member created successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
+        } catch (\Exception $e) {
+            // Error message
+            $_SESSION["error"] = "Operation failed! Please try again later.";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
+        }
+    }
+
+    /**
+     *  Render edit page
+     */
+    public function edit()
+    {
+        try {
+            $queryParams = Helper::getQueryParameters();
+            $id = $queryParams["id"];
+            $cardsData = $this->getCardsData();
+            $page = "Edit Member";
+            $member = Member::action()->getById($id);
+
+            $this->render("dashboard", compact("cardsData", "member", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
 
     /**
-     *  Update a user using ID
+     *  Update a member using ID
      */
     public function update()
     {
         try {
-            // Validate data
-            $data = ["email" => "alainjean@gmail.com", "id" => 5];
-            User::action()->update($data);
+            // Validate form
+            $errors = $this->validate(UserValidation::$rules);
 
-            $this->render('dashboard', $_POST);
+            session_start();
+
+            // If there is any error, save them in sessions with old inputs and redirect
+            if (!empty($errors)) {
+                $_SESSION["oldInputs"] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
+
+            // Validate form data
+            Member::action()->update($_POST);
+
+            // Success message
+            $_SESSION["success"] = "Member updated successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            // Error message
+            $_SESSION["error"] = $e->getMessage();
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
 
     /**
-     *  Delete a user using ID
+     *  Delete a member using ID
      */
     public function destroy()
     {
         try {
             $id = $_POST["id"];
 
-            User::destroy($id);
+            Member::action()->delete($id);
 
-            $users = User::findAll();
+            session_start();
 
-            $this->render('index', compact('users'));
+            // Success message
+            $_SESSION["success"] = "Member deleted successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
+            // Error message
+            $_SESSION["error"] = $e->getMessage();
 
-    public function login()
-    {
-        if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
-
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-
-        $error = null;
-        $user = null;
-
-        // Validate data
-        if (empty($email)) {
-            $error = "Email is required";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "Invalid email";
-        } else {
-            // Authenticate 
-            $user = User::action()->getByEmail($email);
-            if (!$user) $error = "Invalid email/password";
-        }
-
-        // Store values in session to fill form
-        session_start();
-
-        if (!($user && password_verify($password, $user->password))) {
-            $error = "Invalid email/password";
-        } else {
-            $_SESSION["user"] = $user;
-            header("Location:/dashboard");
-            exit;
-        }
-
-        if (!empty($error)) {
-            $_SESSION["oldInputs"] = $_POST;
-            $_SESSION["error"] = $error;
-            header("Location:/");
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         }
     }
+
+    // public function login()
+    // {
+    //     if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
+
+    //     $email = $_POST["email"];
+    //     $password = $_POST["password"];
+
+    //     $error = null;
+    //     $member = null;
+
+    //     // Validate data
+    //     if (empty($email)) {
+    //         $error = "Email is required";
+    //     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //         $error = "Invalid email";
+    //     } else {
+    //         // Authenticate 
+    //         $member = Member::action()->getByEmail($email);
+    //         if (!$member) $error = "Invalid email/password";
+    //     }
+
+    //     // Store values in session to fill form
+    //     session_start();
+
+    //     if (!($member && password_verify($password, $member->password))) {
+    //         $error = "Invalid email/password";
+    //     } else {
+    //         $_SESSION["member"] = $member;
+    //         header("Location:/dashboard");
+    //         exit;
+    //     }
+
+    //     if (!empty($error)) {
+    //         $_SESSION["oldInputs"] = $_POST;
+    //         $_SESSION["error"] = $error;
+    //         header("Location:/");
+    //         exit;
+    //     }
+    // }
 }

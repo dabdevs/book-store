@@ -2,8 +2,11 @@
     <div class="col-12">
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <div class="d-flex justify-content-between bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <h6 class="text-white text-capitalize ps-3">Members</h6>
+                    <a class="px-3 bg-transparent border-0" href="/members/create">
+                        <i class="material-icons opacity-10 text-white">add_circle</i>
+                    </a>
                 </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -21,36 +24,44 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($members as $member) { ?>
-                                <tr>
-                                    <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0"><?= $member->id ?></p>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex">
-                                            <div>
-                                                <img src="<?= isset($member->avatar) ? $member->avatar : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                            if (!empty($members)) {
+                                foreach ($members as $member) { ?>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <p class="text-xs font-weight-bold mb-0"><?= $member->id ?></p>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <img src="<?= isset($member->avatar) ? $member->avatar : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $member->firstname ?> <?= $member->lastname ?></h6>
+                                                    <p class="text-xs text-secondary mb-0"><?= $member->email ?></p>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $member->firstname ?> <?= $member->lastname ?></h6>
-                                                <p class="text-xs text-secondary mb-0"><?= $member->email ?></p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $member->birth_date ?></p>
-                                    </td>
-                                    <td>
-                                        <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                                        <span class="text-xs font-weight-bold mb-0"><?= $member->role ?></span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $member->birth_date ?></p>
+                                        </td>
+                                        <td>
+                                            <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
+                                            <span class="text-xs font-weight-bold mb-0"><?= $member->role ?></span>
+                                        </td>
+                                        <td class="align-middle p-0">
+                                            <a href="/members/edit?id=<?= $member->id ?>" class="font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Edit member">
+                                                <i class="material-icons opacity-10">edit</i>
+                                            </a>
+                                            &nbsp;
+                                            <a href="#" onclick='deleteItem("<?= $member->firstname ?> <?= $member->lastname ?>", "<?= $member->id ?>", "/members/delete")' data-bs-toggle="tooltip" data-bs-title="Delete member">
+                                                <i class="material-icons opacity-10">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                            <?php }
+                            } else {
+                                echo "<tr><td colspan='5' class='text-center py-5'>No items</td></tr>";
+                            } ?>
                         </tbody>
                     </table>
                 </div>
