@@ -103,7 +103,14 @@ class Book
      */
     public function getById($id)
     {
-        return DB::table($this->table)->select()->where("id = :id", [":id" => $id])[0];
+        $book = DB::table($this->table)->select()->where("id = :id", [":id" => $id]);
+
+        if ($book) {
+            $this->load((array)$book[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
@@ -111,7 +118,14 @@ class Book
      */
     public function getByCode($code)
     {
-        return DB::table($this->table)->select()->where("code = :code", [":code" => $code])[0];
+        $book = DB::table($this->table)->select()->where("code = :code", [":code" => $code]);
+
+        if ($book) {
+            $this->load((array)$book[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
@@ -119,7 +133,14 @@ class Book
      */
     public function getByTitle($title)
     {
-        return DB::table($this->table)->select()->where("title = :title", [":title" => $title])[0];
+        $book = DB::table($this->table)->select()->where("title = :title", [":title" => $title]);
+
+        if ($book) {
+            $this->load((array)$book[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
