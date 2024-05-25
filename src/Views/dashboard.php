@@ -1,5 +1,10 @@
 <?php
 
+$td = strtotime("today");
+$today = date("Y-m-d h:i:s", $td);
+$tm = strtotime("tomorrow");
+$tomorrow = date("Y-m-d h:i:s", $tm);
+
 if (!isset($_SESSION["user"])) header("Location:/");
 
 $user = $_SESSION["user"];
