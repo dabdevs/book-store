@@ -16,9 +16,7 @@ class Member extends User
      */
     public static function action()
     {
-        if (!self::$instance) {
-            self::$instance = new self("MEMBER");
-        }
+        self::$instance = new self("MEMBER");
 
         return self::$instance;
     }

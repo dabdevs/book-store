@@ -10,7 +10,7 @@ abstract class User
     protected $table = "users";
     public static $admin = "ADMIN";
     public static $librerian = "LIBRERIAN";
-    public static $user = "MEMBER";
+    public static $member = "MEMBER";
     protected $id;
     protected $firstname;
     protected $lastname;
@@ -114,38 +114,6 @@ abstract class User
     }
 
     /**
-     *  Create a new user
-     */
-    // public function create(array $data)
-    // {
-    //     $lastId = DB::table($this->table)->insert($data);
-    //     $this->load($data, ["id" => $lastId]);
-
-    //     return $this;
-    // }
-
-    /**
-     *  Update existing user
-     */
-    // public function update(array $data)
-    // {
-    //     return DB::table($this->table)->update($data);
-    // }
-
-    // /**
-    //  *  Retreive all users from the database
-    //  */
-    // public function getAll(array $orderBy = [])
-    // {
-    //     $users = DB::table($this->table)->select()->all();
-    //     if (!empty($orderBy)) {
-    //         $users = $users->orderBy($orderBy);
-    //     }
-
-    //     return $users;
-    // }
-
-    /**
      *  Convert user object to array
      */
     public function toArray()
@@ -155,7 +123,9 @@ abstract class User
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "email" => $this->email,
-            "birthDate" => $this->birthDate,
+            "birth_date" => $this->birth_date,
+            "role" => $this->role,
+            "avatar" => $this->avatar,
         ];
     }
 
