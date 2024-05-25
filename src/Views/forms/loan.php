@@ -2,21 +2,17 @@
 $id = '';
 $book_id = '';
 $member_id = '';
-$td = strtotime("today");
-$today = date("Y-m-d h:i:s", $td);
-$tm = strtotime("tomorrow");
-$tomorrow = date("Y-m-d h:i:s", $tm);
 $borrow_date = '';
 $return_date = $tomorrow;
 $status = '';
 
 if (isset($loan)) {
-    $id = $loan->id;
-    $book_id = $loan->book_id;
-    $member_id = $loan->user_id;
-    $borrow_date = $loan->borrow_date;
-    $return_date = $loan->return_date;
-    $status = $loan->status;
+    $id = $loan->getId(); //echo "<pre>"; var_dump($loan); die;
+    $book_id = $loan->getBook()->getId();
+    $member_id = $loan->getMember()->getId();
+    $borrow_date = $loan->getBorrowDate();
+    $return_date = $loan->getReturnDate();
+    $status = $loan->getStatus();
 }
 
 if (isset($oldInputs["book_id"])) {
