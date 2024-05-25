@@ -88,7 +88,7 @@ class LoanController extends Controller
                 $book = Book::action()->getById($_POST["book_id"]); 
                 $loan = Loan::action()->getByMemberAndBook($member, $book);
               
-                if ($loan) $errors["user_id"] = "This member already has a loan for this book.";
+                if ($loan && $loan->getStatus() === Loan::$borrowed) $errors["user_id"] = "This member already has a loan for this book.";
             } else {
                 $errors["user_id"] = "User is not a member";
             }
