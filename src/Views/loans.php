@@ -26,40 +26,44 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($loans as $loan) { ?>
-                                <tr>
-                                    <td class="ps-4">
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->title ?></p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->firstname ?> <?= $loan->lastname ?></p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold mb-0"><?= $loan->borrow_date ?></span>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-sm bg-gradient-<?= $loan->status === 'BORROWED' ? 'success' : 'danger' ?>"><?= $loan->status ?></span>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->created_at ?></p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0"><?= $loan->updated_at ?></p>
-                                    </td>
-                                    <td class="align-middle p-0">
-                                        <a href="/loans/edit?id=<?= $loan->id ?>" class="font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Edit loan">
-                                            <i class="material-icons opacity-10">edit</i>
-                                        </a>
-                                        &nbsp;
-                                        <a href="#" onclick='deleteItem("<?= $loan->title ?>", "<?= $loan->id ?>", "/loans/delete")' data-bs-toggle="tooltip" data-bs-title="Delete loan">
-                                            <i class="material-icons opacity-10">delete</i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                            if (!empty($loans)) {
+                                foreach ($loans as $loan) { ?>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->title ?></p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->firstname ?> <?= $loan->lastname ?></p>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold mb-0"><?= $loan->borrow_date ?></span>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?></p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-sm bg-gradient-<?= $loan->status === 'BORROWED' ? 'success' : 'danger' ?>"><?= $loan->status ?></span>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->created_at ?></p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->updated_at ?></p>
+                                        </td>
+                                        <td class="align-middle p-0">
+                                            <a href="/loans/edit?id=<?= $loan->id ?>" class="font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Edit loan">
+                                                <i class="material-icons opacity-10">edit</i>
+                                            </a>
+                                            &nbsp;
+                                            <a href="#" onclick='deleteItem("<?= $loan->title ?>", "<?= $loan->id ?>", "/loans/delete")' data-bs-toggle="tooltip" data-bs-title="Delete loan">
+                                                <i class="material-icons opacity-10">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                            <?php }
+                            } else {
+                                echo "<tr><td colspan='8' class='text-center py-5'>No items</td></tr>";
+                            } ?>
                         </tbody>
                     </table>
                 </div>
