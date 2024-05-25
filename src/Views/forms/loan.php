@@ -22,9 +22,8 @@ if (isset($loan)) {
 if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
     $member_id = $oldInputs["user_id"];
-    $borrow_date = $oldInputs["borrow_date"];
     $return_date = $oldInputs["return_date"];
-    $status = $oldInputs["status"];
+    $status = isset($oldInputs["status"]) ? $oldInputs["status"] : '';
 }
 
 ?>
