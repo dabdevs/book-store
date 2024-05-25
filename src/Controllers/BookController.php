@@ -72,10 +72,11 @@ class BookController extends Controller
             session_start();
 
             // Validate form
-            $errors = $this->validate(BookValidation::$rules);
+            $errors = $this->validate(BookValidation::$rules); 
 
             // If there is any error, save them in sessions with old inputs and redirect
             if (!empty($errors)) {
+                $_POST["cover"] = $_FILES["cover"]["name"];
                 $_SESSION["oldInputs"] = $_POST;
                 $_SESSION["errors"] = $errors;
                 header("Location:" . $_SERVER["HTTP_REFERER"]);
