@@ -14,6 +14,7 @@
                     <table class="table align-items-center mb-0">
                         <thead class="text-left">
                             <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">ID</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Book</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Borrowed Date</th>
@@ -27,8 +28,13 @@
                         <tbody>
                             <?php
                             if (!empty($loans)) {
-                                foreach ($loans as $loan) { ?>
+                                foreach ($loans as $loan) { 
+                                    if (strtotime($loan->return_date) < strtotime("today") && $loan->status === "BORROWED") $loan->status = "overdue";
+                                ?>
                                     <tr>
+                                        <td class="ps-4">
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->id ?></p>
+                                        </td>
                                         <td class="ps-4">
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->title ?></p>
                                         </td>
@@ -42,7 +48,7 @@
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?></p>
                                         </td>
                                         <td>
-                                            <span class="badge badge-sm bg-gradient-<?= $loan->status === 'BORROWED' ? 'success' : 'danger' ?>"><?= $loan->status ?></span>
+                                            <span class="w-100 badge badge-sm bg-gradient-<?php if($loan->status === 'BORROWED') { echo 'success'; } elseif($loan->status === 'RETURNED') { echo 'danger'; } else { echo 'warning'; } ?>"><?= $loan->status ?></span>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->created_at ?></p>
