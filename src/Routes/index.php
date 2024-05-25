@@ -21,6 +21,11 @@ $router->delete("/users", UserController::class, "destroy");
 
 // Member routes
 $router->get("/members", MemberController::class, "index");
+$router->post("/members", MemberController::class, "store");
+$router->get("/members/create", MemberController::class, "create");
+$router->get("/members/edit", MemberController::class, "edit");
+$router->post("/members/update", MemberController::class, "update");
+$router->post("/members/delete", MemberController::class, "destroy");
 
 // Book routes
 $router->get("/books", BookController::class, "index");
