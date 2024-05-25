@@ -16,7 +16,7 @@ class Book
     private $isbn;
     private $genre;
     private $publisher;
-    private $publishedDate;
+    private $published_date;
     private $cover;
     private $available;
 
@@ -336,7 +336,7 @@ class Book
      */
     public function getPublishedDate()
     {
-        return $this->publishedDate;
+        return $this->published_date;
     }
 
     /**
