@@ -1,4 +1,16 @@
 <?php
+
+if (isset($member)) {
+    $user = $member;
+    $action = "members";
+} elseif (isset($librerian)) {
+    $user = $librerian;
+    $action = "librerians";
+} elseif (isset($admin)) {
+    $user = $admin;
+    $action = "admins";
+}
+
 $id = '';
 $firstname = '';
 $lastname = '';
@@ -13,21 +25,24 @@ $avatar = '';
 
 if ($page === "Create Member") {
     $role = "MEMBER";
+    $action = "members";
 } elseif ($page === "Create Librerian") {
     $role = "LIBRERIAN";
+    $action = "librerians";
 } elseif ($page === "Create Admin") {
     $role = "ADMIN";
+    $action = "admins";
 }
 
-if (isset($member)) {
-    $id = $member->getId();
-    $firstname = $member->getFirstname();
-    $lastname = $member->getLastname();
-    $email = $member->getEmail();
-    $password = $member->getPassword();
-    $birth_date = $member->getBirthdate();
-    $role = $member->getRole();
-    $avatar = $member->getAvatar();
+if (isset($user)) {
+    $id = $user->getId();
+    $firstname = $user->getFirstname();
+    $lastname = $user->getLastname();
+    $email = $user->getEmail();
+    $password = $user->getPassword();
+    $birth_date = $user->getBirthdate();
+    $role = $user->getRole();
+    $avatar = $user->getAvatar();
 }
 
 if (isset($oldInputs["firstname"])) {
@@ -38,11 +53,10 @@ if (isset($oldInputs["firstname"])) {
     $birth_date = $oldInputs["birth_date"];
     $avatar = $oldInputs["avatar"];
 }
-
 ?>
 
 <div class="card p-3 my-5">
-    <form action="/members<?= isset($member) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
+    <form action="/<?= $action ?><?= isset($user) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
         <div>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
@@ -86,7 +100,7 @@ if (isset($oldInputs["firstname"])) {
             </div>
         </div>
         <div class="modal-footer">
-            <a href="/members" class="btn">Cancel</a>
+            <a href="/<?= $action ?>" class="btn">Cancel</a>
             <button type="submit" class="btn btn-primary" id="submit-btn">
                 <i class="material-icons opacity-10 text-white">save</i>
                 Save

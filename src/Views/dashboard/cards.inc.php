@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <?php if (in_array($user->role, ["ADMIN", "LIBRERIAN"])) { ?>
+    <?php if (in_array($authUser->role, ["ADMIN", "LIBRERIAN"])) { ?>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/members'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
@@ -57,7 +57,7 @@
         </div>
     <?php } ?>
 
-    <?php if ($user->role === "ADMIN") { ?>
+    <?php if ($authUser->role === "ADMIN") { ?>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/librerians'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
