@@ -33,7 +33,7 @@
                     <span class="nav-link-text">Loans</span>
                 </a>
             </li>
-            <?php if (in_array($user->role, ["ADMIN", "LIBRERIAN"])) { ?>
+            <?php if (in_array($authUser->role, ["ADMIN", "LIBRERIAN"])) { ?>
                 <li class="nav-item">
                     <a class="nav-link text-white <?= str_contains($page, 'Member') ? 'active bg-gradient-primary' : '' ?>" href="/members">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -43,7 +43,7 @@
                     </a>
                 </li>
             <?php } ?>
-            <?php if ($user->role === "ADMIN") { ?>
+            <?php if ($authUser->role === "ADMIN") { ?>
                 <li class="nav-item">
                     <a class="nav-link text-white <?= str_contains($page, 'Librerian') ? 'active bg-gradient-primary' : '' ?>" href="/librerians">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

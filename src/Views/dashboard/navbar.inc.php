@@ -106,7 +106,7 @@
                 <li class="nav-item d-flex align-items-center">
                     <a href="/profile" class="nav-link font-weight-bold px-0 text-body">
                         <i class="fa fa-user me-sm-1" aria-hidden="true"></i>
-                        <span class="d-sm-inline d-none"><?= $user->firstname ?> <?= $user->lastname ?></span>
+                        <span class="d-sm-inline d-none"><?= $authUser->firstname ?> <?= $authUser->lastname ?></span>
                     </a>
                 </li>
             </ul>

@@ -7,7 +7,7 @@ $tomorrow = date("Y-m-d h:i:s", $tm);
 
 if (!isset($_SESSION["user"])) header("Location:/");
 
-$user = $_SESSION["user"];
+$authUser = $_SESSION["user"];
 
 if (isset($_SESSION["errors"])) {
     $errors = $_SESSION["errors"];
@@ -60,6 +60,10 @@ if (isset($_SESSION["error"])) {
         // Member pages
         if ($page === "Members") include "members.php";
         if ($page === "Create Member" || $page === "Edit Member") include "forms/user.php";
+        
+        // Librerian pages
+        if ($page === "Librerians") include "librerians.php";
+        if ($page === "Create Librerian" || $page === "Edit Librerian") include "forms/user.php";
 
         ?>
         <!-- End content -->
