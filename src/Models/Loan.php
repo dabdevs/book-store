@@ -91,7 +91,14 @@ class Loan
      */
     public function getById($id)
     {
-        return DB::table($this->table)->select()->where("id = :id", ["id" => $id])[0];
+        $loan = DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
+        
+        if ($loan) {
+            $this->load((array)$loan[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
@@ -99,15 +106,46 @@ class Loan
      */
     public function getByBook(Book $book)
     {
-        return DB::table($this->table)->select()->where("book_id = :book", ["book" => $book->getId()]);
+        $loan = DB::table($this->table)->select()->where("book_id = :book", ["book" => $book->getId()]);
+        
+        if ($loan) {
+            $this->load((array)$loan[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
-     *  Get a loan by user
+     *  Get a loan by member
      */
-    public function getByUser(User $user)
+    public function getByMember(Member $member)
     {
-        return DB::table($this->table)->select()->where("user_id = :user", ["user" => $user->getId()]);
+        $loan = DB::table($this->table)->select()->where("user_id = :user_id", [":user_id" => $member->getId()]);
+
+        if ($loan) {
+            $this->load((array)$loan[0]);
+            return $this;
+        }
+
+        return null;
+    }
+
+    /**
+     *  Get a loan by member and book
+     */
+    public function getByMemberAndBook(Member $member, Book $book)
+    {
+        $loan = DB::table($this->table)
+            ->select()
+            ->where("user_id = :user_id AND book_id = :book_id", ["user_id" => $member->getId(), "book_id" => $book->getId()]);
+
+        if ($loan) {
+            $this->load((array)$loan[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
