@@ -30,7 +30,7 @@ if (isset($oldInputs["book_id"])) {
 ?>
 
 <div class="card p-3 my-5">
-    <form action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
+    <form action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
         <div>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
@@ -64,18 +64,26 @@ if (isset($oldInputs["book_id"])) {
                 </div>
             </div>
             <div class="row mb-3">
+                <?php if ($page === "Edit Loan") { ?>
+                    <div class="col-sm-2">
+                        <label for="borrow_date" class="form-label m-0">Borrow Date</label>
+                        <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($borrow_date)) ?>" name="borrow_date" id="borrow_date" disabled>
+                    </div>
+                <?php } ?>
+
                 <div class="col-sm-2">
                     <label for="return_date" class="form-label m-0">Return Date</label>
-                    <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($return_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="return_date" id="return_date">
+                    <input <?= $status === "RETURNED" ? 'disabled' : '' ?> type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($return_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="return_date" id="return_date">
                     <small class="text-danger"><?= $errors["return_date"] ?? '' ?></small>
                 </div>
+
                 <?php if ($page === "Edit Loan") { ?>
                     <div class="col-sm-3">
                         <label for="status" class="form-label m-0">Status</label>
-                        <select class="form-control border field" name="status" id="status">
+                        <select class="form-control border field" name="status" id="status" <?= $status === "RETURNED" ? 'disabled' : '' ?>>
                             <option value="">Select</option>
-                            <option value="BORROWED" <?= $status == "BORROWED" ? "selected" : "" ?>>Borrowed</option>
-                            <option value="RETURNED" <?= $status == "RETURNED" ? "selected" : "" ?>>Returned</option>
+                            <option value="BORROWED" <?= $status === "BORROWED" ? "selected" : "" ?>>Borrowed</option>
+                            <option value="RETURNED" <?= $status === "RETURNED" ? "selected" : "" ?>>Returned</option>
                         </select>
                         <small class="text-danger"><?= $errors["status"] ?? '' ?></small>
                     </div>
