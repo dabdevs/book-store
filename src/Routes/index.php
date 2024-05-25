@@ -4,6 +4,7 @@ use App\Controllers\BookController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\DashboardController;
+use App\Controllers\LibrerianController;
 use App\Controllers\MemberController;
 use App\Controllers\LoanController;
 use App\Router;
@@ -26,6 +27,14 @@ $router->get("/members/create", MemberController::class, "create");
 $router->get("/members/edit", MemberController::class, "edit");
 $router->post("/members/update", MemberController::class, "update");
 $router->post("/members/delete", MemberController::class, "destroy");
+
+// Librerian routes
+$router->get("/librerians", LibrerianController::class, "index");
+$router->post("/librerians", LibrerianController::class, "store");
+$router->get("/librerians/create", LibrerianController::class, "create");
+$router->get("/librerians/edit", LibrerianController::class, "edit");
+$router->post("/librerians/update", LibrerianController::class, "update");
+$router->post("/librerians/delete", LibrerianController::class, "destroy");
 
 // Book routes
 $router->get("/books", BookController::class, "index");
