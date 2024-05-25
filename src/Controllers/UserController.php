@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Database\DB;
 use App\Models\User;
 
 class UserController extends Controller
@@ -102,7 +103,7 @@ class UserController extends Controller
             $errors = "Invalid email";
         } else {
             // Authenticate 
-            $user = User::action()->getByEmail($email);
+            $user = DB::table("users")->select()->where("email = :email", [":email" => $email])[0];
             if (!$user) $errors = "Invalid email/password";
         }
 

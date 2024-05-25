@@ -4,35 +4,34 @@ namespace App\Models;
 
 use App\Database\DB;
 
-class User
+abstract class User
 {
     protected static $instance;
-    private $table = "users";
+    protected $table = "users";
     public static $admin = "ADMIN";
     public static $librerian = "LIBRERIAN";
-    public static $member = "MEMBER";
-    private $id;
-    private $firstname;
-    private $lastname;
-    private $email;
-    private $password;
-    private $birthDate;
-    private $role;
+    public static $user = "MEMBER";
+    protected $id;
+    protected $firstname;
+    protected $lastname;
+    protected $email;
+    protected $password;
+    protected $birth_date;
+    protected $role;
+    protected $avatar;
 
     public function __construct()
     {
     }
 
     /**
-     *  Create a new User instance if it does not exist
+     *  Retreive all users from the database
      */
-    public static function action()
+    public function getAll(array $orderBy = [])
     {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+        $users = DB::table($this->table)->select()->where("role = :role", ["role" => $this->role]);
+  
+        return $users;
     }
 
     /**
@@ -69,11 +68,11 @@ class User
     }
 
     /**
-     *  Retreive all users from the database
+     *  Delete existing user
      */
-    public function getAll()
+    public function delete($id)
     {
-        return DB::table($this->table)->select()->all();
+        return DB::table($this->table)->delete()->where("id = :id", ["id" => $id]);
     }
 
     /**
@@ -81,9 +80,14 @@ class User
      */
     public function getById($id)
     {
-        $user = DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
+        $user = DB::table($this->table)->select()->where("id = :id AND role = :role", ["id" => $id, "role" => $this->role]);
 
-        return $user ? $user[0] : null;
+        if ($user) {
+            $this->load((array)$user[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
@@ -91,18 +95,55 @@ class User
      */
     public function getByEmail($email)
     {
-        $user = DB::table($this->table)->select()->where("email = :email", ["email" => $email]);
+        $user = DB::table($this->table)->select()->where("email = :email AND role = :role", ["email" => $email, "role" => $this->role]);
 
-        return $user ? $user[0] : null;
+        if ($user) {
+            $this->load((array)$user[0]);
+            return $this;
+        }
+
+        return null;
     }
 
     /**
      *  Get the amount of users 
      */
-    public static function count()
+    public function count()
     {
-        return DB::table("users")->count();
+        return (int)DB::table("users")->select("COUNT(id) as count")->where("role = :role", [":role" => $this->role])[0]->count;
     }
+
+    /**
+     *  Create a new user
+     */
+    // public function create(array $data)
+    // {
+    //     $lastId = DB::table($this->table)->insert($data);
+    //     $this->load($data, ["id" => $lastId]);
+
+    //     return $this;
+    // }
+
+    /**
+     *  Update existing user
+     */
+    // public function update(array $data)
+    // {
+    //     return DB::table($this->table)->update($data);
+    // }
+
+    // /**
+    //  *  Retreive all users from the database
+    //  */
+    // public function getAll(array $orderBy = [])
+    // {
+    //     $users = DB::table($this->table)->select()->all();
+    //     if (!empty($orderBy)) {
+    //         $users = $users->orderBy($orderBy);
+    //     }
+
+    //     return $users;
+    // }
 
     /**
      *  Convert user object to array
@@ -115,7 +156,6 @@ class User
             "lastname" => $this->lastname,
             "email" => $this->email,
             "birthDate" => $this->birthDate,
-            "role" => $this->role,
         ];
     }
 
@@ -224,7 +264,7 @@ class User
      */
     public function getBirthDate()
     {
-        return $this->birthDate;
+        return $this->birth_date;
     }
 
     /**
@@ -234,14 +274,14 @@ class User
      */
     public function setBirthDate($birthDate)
     {
-        $this->birthDate = $birthDate;
+        $this->birth_date = $birthDate;
 
         return $this;
     }
 
     /**
      * Get the value of role
-     */
+     */ 
     public function getRole()
     {
         return $this->role;
@@ -251,10 +291,30 @@ class User
      * Set the value of role
      *
      * @return  self
-     */
+     */ 
     public function setRole($role)
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of avatar
+     */ 
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set the value of avatar
+     *
+     * @return  self
+     */ 
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
