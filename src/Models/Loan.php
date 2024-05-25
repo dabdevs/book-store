@@ -8,6 +8,8 @@ class Loan
 {
     protected static $instance;
     private $table = "loans";
+    public static $borrowed = "BORROWED";
+    public static $returned = "RETURNED";
     private $id;
     private $book;
     private $member;
@@ -38,6 +40,13 @@ class Loan
     {
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
+                if ($key === "book_id") {
+                    $this->book = Book::action()->getById($value);
+                }
+                if ($key === "user_id") {
+                    $this->member = Member::action()->getById($value);
+                }
+
                 if (property_exists($this, $key)) {
                     $this->{$key} = $value;
                 }
@@ -287,6 +296,26 @@ class Loan
     public function setAvailable($available)
     {
         $this->available = $available;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */ 
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
         return $this;
     }
