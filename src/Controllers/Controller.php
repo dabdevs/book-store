@@ -20,13 +20,14 @@ class Controller
 
     protected function getCardsData()
     {
-        $data["booksCount"] = Book::count();
-        $data["loansCount"] = Loan::count();
-        $data["membersCount"] = Member::count();
+        $data["booksCount"] = Book::action()->count();
+        $data["loansCount"] = Loan::action()->count();
+        $data["membersCount"] = Member::action()->count();
 
         session_start();
+
         if (isset($_SESSION["user"]) && $_SESSION["user"]->role === User::$admin) {
-            $data["libreriansCount"] = Librerian::count();
+            $data["libreriansCount"] = Librerian::action()->count();
         }
 
         return $data;
@@ -37,7 +38,7 @@ class Controller
         $table = $rules["table"];
         $errors = [];
         $data = array_merge($_POST, $_FILES);
-        
+
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
                 if ($key === "table" || $key === "id") continue;

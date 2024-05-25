@@ -113,7 +113,7 @@ class Loan
     /**
      *  Get the amount of loans 
      */
-    public static function count()
+    public function count()
     {
         return DB::table("loans")->count();
     }

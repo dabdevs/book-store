@@ -125,7 +125,7 @@ class Book
     /**
      *  Get the amount of books 
      */
-    public static function count()
+    public function count()
     {
         return DB::table("books")->count();
     }
