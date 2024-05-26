@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use App\Database\DB;
 
 class Book
@@ -165,7 +164,7 @@ class Book
             "isbn" => $this->isbn,
             "genre" => $this->genre,
             "publisher" => $this->publisher,
-            "publishedDate" => $this->publishedDate,
+            "published_date" => $this->published_date,
             "cover" => $this->cover,
             "available" => $this->available,
         ];

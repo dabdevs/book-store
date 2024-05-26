@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use App\Database\DB;
 
 class Loan
@@ -13,8 +12,8 @@ class Loan
     private $id;
     private $book;
     private $member;
-    private $borrowDate;
-    private $returnDate;
+    private $borrow_date;
+    private $return_date;
     private $status;
 
     public function __construct()
@@ -101,7 +100,7 @@ class Loan
     public function getById($id)
     {
         $loan = DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
-        
+
         if ($loan) {
             $this->load((array)$loan[0]);
             return $this;
@@ -116,7 +115,7 @@ class Loan
     public function getByBook(Book $book)
     {
         $loan = DB::table($this->table)->select()->where("book_id = :book", ["book" => $book->getId()]);
-        
+
         if ($loan) {
             $this->load((array)$loan[0]);
             return $this;
@@ -174,15 +173,15 @@ class Loan
             "id" => $this->id,
             "book" => $this->book,
             "member" => $this->member,
-            "borrowDate" => $this->borrowDate,
-            "returnDate" => $this->returnDate,
+            "borrow_date" => $this->borrow_date,
+            "return_date" => $this->return_date,
             "status" => $this->status,
         ];
     }
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -192,7 +191,7 @@ class Loan
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -202,7 +201,7 @@ class Loan
 
     /**
      * Get the value of book
-     */ 
+     */
     public function getBook()
     {
         return $this->book;
@@ -212,7 +211,7 @@ class Loan
      * Set the value of book
      *
      * @return  self
-     */ 
+     */
     public function setBook($book)
     {
         $this->book = $book;
@@ -222,7 +221,7 @@ class Loan
 
     /**
      * Get the value of member
-     */ 
+     */
     public function getMember()
     {
         return $this->member;
@@ -232,7 +231,7 @@ class Loan
      * Set the value of member
      *
      * @return  self
-     */ 
+     */
     public function setMember($member)
     {
         $this->member = $member;
@@ -242,67 +241,47 @@ class Loan
 
     /**
      * Get the value of borrowDate
-     */ 
+     */
     public function getBorrowDate()
     {
-        return $this->borrowDate;
+        return $this->borrow_date;
     }
 
     /**
      * Set the value of borrowDate
      *
      * @return  self
-     */ 
+     */
     public function setBorrowDate($borrowDate)
     {
-        $this->borrowDate = $borrowDate;
+        $this->borrow_date = $borrowDate;
 
         return $this;
     }
 
     /**
      * Get the value of returnDate
-     */ 
+     */
     public function getReturnDate()
     {
-        return $this->returnDate;
+        return $this->return_date;
     }
 
     /**
      * Set the value of returnDate
      *
      * @return  self
-     */ 
+     */
     public function setReturnDate($returnDate)
     {
-        $this->returnDate = $returnDate;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of available
-     */ 
-    public function getAvailable()
-    {
-        return $this->available;
-    }
-
-    /**
-     * Set the value of available
-     *
-     * @return  self
-     */ 
-    public function setAvailable($available)
-    {
-        $this->available = $available;
+        $this->return_date = $returnDate;
 
         return $this;
     }
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus()
     {
         return $this->status;
@@ -312,7 +291,7 @@ class Loan
      * Set the value of status
      *
      * @return  self
-     */ 
+     */
     public function setStatus($status)
     {
         $this->status = $status;

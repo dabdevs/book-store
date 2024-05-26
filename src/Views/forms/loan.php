@@ -7,7 +7,7 @@ $return_date = $tomorrow;
 $status = '';
 
 if (isset($loan)) {
-    $id = $loan->getId(); //echo "<pre>"; var_dump($loan); die;
+    $id = $loan->getId(); 
     $book_id = $loan->getBook()->getId();
     $member_id = $loan->getMember()->getId();
     $borrow_date = $loan->getBorrowDate();
