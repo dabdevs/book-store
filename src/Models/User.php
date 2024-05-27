@@ -19,6 +19,11 @@ abstract class User
     protected $role;
     protected $avatar;
 
+    protected $member_id;
+    protected $bio;
+    protected $cellphone;
+    protected $city;
+
     public function __construct()
     {
     }
@@ -284,6 +289,86 @@ abstract class User
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of member_id
+     */ 
+    public function getMemberId()
+    {
+        return $this->member_id;
+    }
+
+    /**
+     * Set the value of member_id
+     *
+     * @return  self
+     */ 
+    public function setMemberId($memberId)
+    {
+        $this->member_id = $memberId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of bio
+     */ 
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * Set the value of bio
+     *
+     * @return  self
+     */ 
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cellphone
+     */ 
+    public function getCellphone()
+    {
+        return $this->cellphone;
+    }
+
+    /**
+     * Set the value of cellphone
+     *
+     * @return  self
+     */ 
+    public function setCellphone($cellphone)
+    {
+        $this->cellphone = $cellphone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of city
+     */ 
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set the value of city
+     *
+     * @return  self
+     */ 
+    public function setCity($city)
+    {
+        $this->city = $city;
 
         return $this;
     }
