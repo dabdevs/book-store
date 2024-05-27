@@ -18,6 +18,7 @@ class Book
     private $published_date;
     private $cover;
     private $available;
+    private $loan_count;
 
     public function __construct()
     {
@@ -386,6 +387,26 @@ class Book
     public function setAvailable($available)
     {
         $this->available = $available;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of loan_count
+     */ 
+    public function getLoanCount()
+    {
+        return $this->loan_count;
+    }
+
+    /**
+     * Set the value of loan_count
+     *
+     * @return  self
+     */ 
+    public function setLoanCount($loanCount)
+    {
+        $this->loan_count = $loanCount;
 
         return $this;
     }
