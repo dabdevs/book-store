@@ -7,7 +7,7 @@ $tomorrow = date("Y-m-d h:i:s", $tm);
 
 if (!isset($_SESSION["user"])) header("Location:/");
 
-$authUser = $_SESSION["user"];
+$authUser = (object)$_SESSION["user"]; 
 
 if (isset($_SESSION["errors"])) {
     $errors = $_SESSION["errors"];
@@ -44,11 +44,12 @@ if (isset($_SESSION["error"])) {
 
     <div class="container-fluid py-4">
         <!-- Cards -->
-        <?php include_once "dashboard/cards.inc.php" ?>
+        <?php if ($page !== "Profile") include_once "dashboard/cards.inc.php" ?>
         <!-- End Cards -->
 
         <!-- Content -->
         <?php
+    
         // Book pages
         if ($page === "Books") include "books.php";
         if ($page === "Create Book" || $page === "Edit Book") include "forms/book.php";
@@ -60,11 +61,13 @@ if (isset($_SESSION["error"])) {
         // Member pages
         if ($page === "Members") include "members.php";
         if ($page === "Create Member" || $page === "Edit Member") include "forms/user.php";
-        
+
         // Librerian pages
         if ($page === "Librerians") include "librerians.php";
         if ($page === "Create Librerian" || $page === "Edit Librerian") include "forms/user.php";
-
+        
+        // Profile page
+        if ($page === "Profile") include "profile.php";
         ?>
         <!-- End content -->
     </div>

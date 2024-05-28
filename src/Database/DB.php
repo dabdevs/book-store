@@ -41,7 +41,7 @@ class DB
     /**
      *  Select data from DB
      */
-    public function select($fields="")
+    public function select($fields = "")
     {
         $this->query = "SELECT ";
 
@@ -66,9 +66,10 @@ class DB
 
         foreach ($data as $key => $value) {
             if ($key === "id") continue;
+
             $fields .= "$key,";
-            $values .= "?,";
-            $params[] = $value;
+            $values .= ":$key,";
+            $params[":$key"] = $value;
         }
 
         $fields = rtrim($fields, ',');
@@ -86,30 +87,40 @@ class DB
      */
     public function update(array $params)
     {
-        if (count($params) === 0) {
-            throw new Exception("Query parameters missing.");
+        try {
+            if (count($params) === 0) {
+                throw new Exception("Query parameters missing.");
+            }
+
+            if (!isset($params["id"])) {
+                throw new Exception("Id missing.");
+            }
+
+            $this->query = "UPDATE " . self::$table . " SET ";
+
+            foreach ($params as $key => $value) {
+                if ($key === "id") continue;
+
+                $this->query .= " $key = :$key, ";
+                $params[":$key"] = $value;
+                unset($params[$key]);
+            }
+
+            $this->query .= " updated_at = NOW() WHERE id = :id";
+            $params[":id"] = $params["id"];
+            unset($params["id"]);
+
+            $this->run($params);
+
+            return self::$instance;
+        } catch (\Exception $e) {
+            // Error message
+            $_SESSION["error"] = $e->getMessage();
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
-
-        if (!isset($params["id"])) {
-            throw new Exception("Id missing.");
-        }
-
-        $this->query = "UPDATE " . self::$table . " SET ";
-
-        foreach ($params as $key => $value) {
-            if ($key === "id") continue;
-
-            $this->query .= " $key = :$key, ";
-            $params[":$key"] = $value;
-        }
-
-        $this->query .= " updated_at = NOW() WHERE id = :id";
-
-        $params[":id"] = $params["id"];
-
-        $this->run($params);
-
-        return self::$instance;
     }
 
     /**
@@ -137,7 +148,7 @@ class DB
     public function where(string $clause, array $params = [])
     {
         $this->query .= "WHERE $clause";
-        
+
         return $this->run($params);
     }
 
@@ -160,8 +171,8 @@ class DB
     {
         if (isset($orderBy["field"])) $this->query .= "ORDER BY " . $orderBy["field"];
         if (isset($orderBy["order"])) $this->query .= " " . $orderBy["order"];
-        
-        
+
+
         return $this->run();
     }
 

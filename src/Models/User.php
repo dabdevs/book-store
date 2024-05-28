@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Database\DB;
 
 abstract class User
@@ -18,7 +19,6 @@ abstract class User
     protected $birth_date;
     protected $role;
     protected $avatar;
-
     protected $member_id;
     protected $bio;
     protected $cellphone;
@@ -29,21 +29,31 @@ abstract class User
     }
 
     /**
+     *  Create a new member instance if it does not exist
+     */
+    public static function action()
+    {
+        self::$instance = new self();
+
+        return self::$instance;
+    }
+
+    /**
      *  Retreive all users from the database
      */
     public function getAll(array $orderBy = [])
     {
         $users = DB::table($this->table)->select()->where("role = :role", ["role" => $this->role]);
-  
+
         return $users;
     }
 
     /**
      *  Load input data
      */
-    protected function load(array $data)
+    public function load($data)
     {
-        if (count($data) > 0) {
+        if (!empty($data)) {
             foreach ($data as $key => $value) {
                 if (property_exists($this, $key)) {
                     $this->{$key} = $value;
@@ -255,7 +265,7 @@ abstract class User
 
     /**
      * Get the value of role
-     */ 
+     */
     public function getRole()
     {
         return $this->role;
@@ -265,7 +275,7 @@ abstract class User
      * Set the value of role
      *
      * @return  self
-     */ 
+     */
     public function setRole($role)
     {
         $this->role = $role;
@@ -275,7 +285,7 @@ abstract class User
 
     /**
      * Get the value of avatar
-     */ 
+     */
     public function getAvatar()
     {
         return $this->avatar;
@@ -285,7 +295,7 @@ abstract class User
      * Set the value of avatar
      *
      * @return  self
-     */ 
+     */
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
@@ -295,7 +305,7 @@ abstract class User
 
     /**
      * Get the value of member_id
-     */ 
+     */
     public function getMemberId()
     {
         return $this->member_id;
@@ -305,7 +315,7 @@ abstract class User
      * Set the value of member_id
      *
      * @return  self
-     */ 
+     */
     public function setMemberId($memberId)
     {
         $this->member_id = $memberId;
@@ -315,7 +325,7 @@ abstract class User
 
     /**
      * Get the value of bio
-     */ 
+     */
     public function getBio()
     {
         return $this->bio;
@@ -325,7 +335,7 @@ abstract class User
      * Set the value of bio
      *
      * @return  self
-     */ 
+     */
     public function setBio($bio)
     {
         $this->bio = $bio;
@@ -335,7 +345,7 @@ abstract class User
 
     /**
      * Get the value of cellphone
-     */ 
+     */
     public function getCellphone()
     {
         return $this->cellphone;
@@ -345,7 +355,7 @@ abstract class User
      * Set the value of cellphone
      *
      * @return  self
-     */ 
+     */
     public function setCellphone($cellphone)
     {
         $this->cellphone = $cellphone;
@@ -355,7 +365,7 @@ abstract class User
 
     /**
      * Get the value of city
-     */ 
+     */
     public function getCity()
     {
         return $this->city;
@@ -365,7 +375,7 @@ abstract class User
      * Set the value of city
      *
      * @return  self
-     */ 
+     */
     public function setCity($city)
     {
         $this->city = $city;

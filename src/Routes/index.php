@@ -52,8 +52,13 @@ $router->get("/loans/edit", LoanController::class, "edit");
 $router->post("/loans/update", LoanController::class, "update");
 $router->post("/loans/delete", LoanController::class, "destroy");
 
+// Profile routes
+$router->get("/profile", UserController::class, "profile");
+$router->post("/profile", UserController::class, "updateProfile");
+
 // Dashboard routes
 $router->get("/dashboard", DashboardController::class, "index");
+
 
 // Not found route
 $router->get("/not-found", HomeController::class, "not_found");

@@ -72,7 +72,7 @@ class BookController extends Controller
             session_start();
 
             // Validate form
-            $errors = $this->validate(BookValidation::$rules); 
+            $errors = $this->validate(BookValidation::$rules);
 
             // If there is any error, save them in sessions with old inputs and redirect
             if (!empty($errors)) {
@@ -84,7 +84,7 @@ class BookController extends Controller
             }
 
             // Upload file and set filename in POST data
-            Helper::updateFile("cover");
+            Helper::uploadFile("cover", "/images/books/");
 
             // Create new book
             Book::action()->create($_POST);
@@ -97,7 +97,7 @@ class BookController extends Controller
             exit;
         } catch (\Exception $e) {
             // Error message
-            $_SESSION["error"] = "Operation failed! Please try again later.";
+            $_SESSION["error"] = $e->getMessage();
 
             // Redirect back
             header("Location:" . $_SERVER["HTTP_REFERER"]);
@@ -114,7 +114,7 @@ class BookController extends Controller
             session_start();
 
             // Upload file and set filename in POST data
-            Helper::updateFile("cover");
+            Helper::uploadFile("cover", "/images/books/");
 
             // Validate form data
             Book::action()->update($_POST);
@@ -127,7 +127,7 @@ class BookController extends Controller
             exit;
         } catch (\Exception $e) {
             // Error message
-            $_SESSION["error"] = "Operation failed! Please try again later.";
+            $_SESSION["error"] = $e->getMessage();
 
             // Redirect back
             header("Location:" . $_SERVER["HTTP_REFERER"]);
@@ -155,7 +155,7 @@ class BookController extends Controller
             exit;
         } catch (\Exception $e) {
             // Error message
-            $_SESSION["error"] = "Operation failed! Please try again later.";
+            $_SESSION["error"] = $e->getMessage();
 
             // Redirect back
             header("Location:" . $_SERVER["HTTP_REFERER"]);

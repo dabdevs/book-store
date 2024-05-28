@@ -26,7 +26,9 @@ class Controller
 
         session_start();
 
-        if (isset($_SESSION["user"]) && $_SESSION["user"]->role === User::$admin) {
+        $user = (object)$_SESSION["user"];
+        
+        if (isset($user) && $user->role === User::$admin) {
             $data["libreriansCount"] = Librerian::action()->count();
         }
 
@@ -50,9 +52,7 @@ class Controller
                 $rule = $rules[$key];
 
                 // Validate if field is required
-                if (in_array("required", $rule) && $value === "") {
-                    $errors[$field] = str_replace("_", " ", $field) . " is required";
-                } else {
+                if ($value !== "") {
                     // Validate if field is a string
                     if (in_array("string", $rule) && !is_string($value)) {
                         $errors[$field] = str_replace("_", " ", $field) . " must be a string";
@@ -83,9 +83,8 @@ class Controller
                                 $maxLength = explode(":", $r)[1];
                                 if (strlen($value) > $maxLength) $errors[$field] = str_replace("_", " ", $field) . " must be at max $maxLength characters";
                             }
-
                             // Validate image extension
-                            if (str_starts_with($r, "image")) {
+                            if (str_starts_with($r, "image") && !empty($value["name"])) {
                                 $allowedExtensions = explode(":", $r)[1];
                                 $fileExtension = explode("/", $value["type"])[1];
                                 if (!str_contains($allowedExtensions, $fileExtension)) {
@@ -122,6 +121,8 @@ class Controller
                             }
                         }
                     }
+                } else {
+                    if (in_array("required", $rule)) $errors[$field] = str_replace("_", " ", $field) . " is required";
                 }
             }
         }

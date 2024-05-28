@@ -4,87 +4,15 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 use App\Database\DB;
+use App\Models\Admin;
+use App\Models\Librerian;
+use App\Models\Member;
 use App\Models\User;
+use App\Utils\Helper;
+use App\Validations\UserValidation;
 
 class UserController extends Controller
 {
-    /**
-     *  Load all users from the database
-     */
-    public function index()
-    {
-        try {
-            $users = User::action()->getAll();
-            $cardsData = $this->getCardsData();
-            $page = "Users";
-
-            $this->render("dashboard", compact("users", "cardsData", "page"));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    /**
-     *  Create a user in the database
-     */
-    public function store()
-    {
-        try {
-            // Validate data
-            $data = [
-                "email" => "mjean@gmail.com",
-                "firstname" => "Martha",
-                "lastname" => "Jean",
-                "password" => password_hash("1234", PASSWORD_DEFAULT),
-                "role" => "MEMBER"
-            ];
-
-            $date_format = \DateTime::createFromFormat("Y/m/d", "1994/06/03");
-            $data["birth_date"] = $date_format->format('Y-m-d');
-
-
-            $user = User::action()->create($data);
-
-            $this->render('dashboard', compact('user'));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    /**
-     *  Update a user using ID
-     */
-    public function update()
-    {
-        try {
-            // Validate data
-            $data = ["email" => "alainjean@gmail.com", "id" => 5];
-            User::action()->update($data);
-
-            $this->render('dashboard', $_POST);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    /**
-     *  Delete a user using ID
-     */
-    public function destroy()
-    {
-        try {
-            $id = $_POST["id"];
-
-            User::destroy($id);
-
-            $users = User::findAll();
-
-            $this->render('index', compact('users'));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
     /**
      *  Log user in
      */
@@ -135,5 +63,81 @@ class UserController extends Controller
         session_destroy();
         header("Location:/");
         exit;
+    }
+
+    public function profile()
+    {
+        try {
+            session_start();
+            $page = "Profile";
+
+            $this->render("dashboard", compact("page"));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function updateProfile()
+    {
+        try {
+            session_start();
+
+            // Validate form
+            $errors = $this->validate(UserValidation::$rules);
+
+            // If there is any error, save them in sessions with old inputs and redirect
+            if (!empty($errors)) {
+                $_POST["cover"] = $_FILES["cover"]["name"];
+                $_SESSION["oldInputs"] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
+
+            // Upload file and set filename in POST data
+            Helper::uploadFile("avatar", "/images/users/");
+
+            // Update user
+            DB::table("users")->update($_POST);
+
+            $_SESSION["user"] = $_POST;
+
+            // Success message
+            $_SESSION["success"] = "Profile updated successfuly!";
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
+        } catch (\Exception $e) {
+            // Error message
+            $_SESSION["error"] = $e->getMessage();
+
+            // Redirect back
+            header("Location:" . $_SERVER["HTTP_REFERER"]);
+            exit;
+        }
+    }
+
+    function setAuthUserType(array $data)
+    {
+        $role = $data["role"];
+        $authUser = null;
+
+        switch ($role) {
+            case User::$admin:
+                $authUser = Admin::action($role);
+                $authUser->load($data);
+                break;
+            case User::$member:
+                $authUser = Member::action($role);
+                $authUser->load($data);
+                break;
+            case User::$librerian:
+                $authUser = Librerian::action($role);
+                $authUser->load($data);
+                break;
+        }
+
+        return $authUser;
     }
 }

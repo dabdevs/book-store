@@ -169,44 +169,4 @@ class MemberController extends Controller
             exit;
         }
     }
-
-    // public function login()
-    // {
-    //     if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
-
-    //     $email = $_POST["email"];
-    //     $password = $_POST["password"];
-
-    //     $error = null;
-    //     $member = null;
-
-    //     // Validate data
-    //     if (empty($email)) {
-    //         $error = "Email is required";
-    //     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //         $error = "Invalid email";
-    //     } else {
-    //         // Authenticate 
-    //         $member = Member::action()->getByEmail($email);
-    //         if (!$member) $error = "Invalid email/password";
-    //     }
-
-    //     // Store values in session to fill form
-    //     session_start();
-
-    //     if (!($member && password_verify($password, $member->password))) {
-    //         $error = "Invalid email/password";
-    //     } else {
-    //         $_SESSION["member"] = $member;
-    //         header("Location:/dashboard");
-    //         exit;
-    //     }
-
-    //     if (!empty($error)) {
-    //         $_SESSION["oldInputs"] = $_POST;
-    //         $_SESSION["error"] = $error;
-    //         header("Location:/");
-    //         exit;
-    //     }
-    // }
 }
