@@ -5,29 +5,33 @@ namespace App;
 class Router {
     protected $routes = [];
 
-    private function addRoute($route, $controller, $action, $method) 
+    private function addRoute($route, $controller, $action, $method, $middleware) 
     {
-        $this->routes[$method][$route] = ['controller' => $controller, 'action' => $action];
+        $this->routes[$method][$route] = [
+            'controller' => $controller, 
+            'action' => $action,
+            'middleware' => $middleware
+        ];
     }
 
-    public function get($route, $controller, $action)
+    public function get($route, $controller, $action, $middleware="")
     {
-        $this->addRoute($route, $controller, $action, 'GET');
+        $this->addRoute($route, $controller, $action, 'GET', $middleware);
     }
 
-    public function post($route, $controller, $action)
+    public function post($route, $controller, $action, $middleware="")
     {
-        $this->addRoute($route, $controller, $action, 'POST');
+        $this->addRoute($route, $controller, $action, 'POST', $middleware);
     }
 
-    public function put($route, $controller, $action)
+    public function put($route, $controller, $action, $middleware="")
     {
-        $this->addRoute($route, $controller, $action, 'PUT');
+        $this->addRoute($route, $controller, $action, 'PUT', $middleware);
     }
 
-    public function delete($route, $controller, $action)
+    public function delete($route, $controller, $action, $middleware="")
     {
-        $this->addRoute($route, $controller, $action, 'DELETE');
+        $this->addRoute($route, $controller, $action, 'DELETE', $middleware);
     }
 
     public function dispatch()

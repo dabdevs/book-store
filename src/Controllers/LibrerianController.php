@@ -9,6 +9,16 @@ use App\Validations\UserValidation;
 
 class LibrerianController extends Controller
 {
+    public function __construct()
+    {
+        session_start();
+
+        if ($_SESSION["user"]->role !== "ADMIN") {
+            header("Location:/forbidden");
+            exit;
+        }
+    }
+
     /**
      *  Librerians index page
      */

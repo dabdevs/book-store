@@ -17,23 +17,23 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white <?= str_contains($page, 'Book') ? 'active bg-gradient-primary' : '' ?>" href="/books">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">menu_book</i>
-                    </div>
-                    <span class="nav-link-text">Books</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white <?= str_contains($page, 'Loan') ? 'active bg-gradient-primary' : '' ?>" href="/loans">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">compare_arrows</i>
-                    </div>
-                    <span class="nav-link-text">Loans</span>
-                </a>
-            </li>
             <?php if (in_array($authUser->role, ["ADMIN", "LIBRERIAN"])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= str_contains($page, 'Book') ? 'active bg-gradient-primary' : '' ?>" href="/books">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">menu_book</i>
+                        </div>
+                        <span class="nav-link-text">Books</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= str_contains($page, 'Loan') ? 'active bg-gradient-primary' : '' ?>" href="/loans">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">compare_arrows</i>
+                        </div>
+                        <span class="nav-link-text">Loans</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-white <?= str_contains($page, 'Member') ? 'active bg-gradient-primary' : '' ?>" href="/members">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -43,6 +43,7 @@
                     </a>
                 </li>
             <?php } ?>
+
             <?php if ($authUser->role === "ADMIN") { ?>
                 <li class="nav-item">
                     <a class="nav-link text-white <?= str_contains($page, 'Librerian') ? 'active bg-gradient-primary' : '' ?>" href="/librerians">
@@ -62,7 +63,7 @@
             </li>
             <?php if (isset($authUser)) { ?>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="/profile">
+                    <a class="nav-link text-white <?= str_contains($page, 'Profile') ? 'active bg-gradient-primary' : '' ?>" href="/profile">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
                         </div>

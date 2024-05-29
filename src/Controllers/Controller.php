@@ -20,11 +20,11 @@ class Controller
 
     protected function getCardsData()
     {
+        if (!isset($_SESSION["user"])) session_start();
+        
         $data["booksCount"] = Book::action()->count();
         $data["loansCount"] = Loan::action()->count();
         $data["membersCount"] = Member::action()->count();
-
-        session_start();
 
         $user = (object)$_SESSION["user"];
         

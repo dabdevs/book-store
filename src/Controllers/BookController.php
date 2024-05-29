@@ -11,19 +11,25 @@ class BookController extends Controller
 {
     public function __construct()
     {
+        session_start();
+
+        if (!in_array($_SESSION["user"]->role, ["ADMIN", "LIBRERIAN"])) {
+            header("Location:/forbidden");
+            exit;
+        }
     }
 
     /**
      *  Load all books from the database
      */
     public function index()
-    {
+    { 
         try {
             $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
 
             $cardsData = $this->getCardsData();
             $page = "Books";
-
+            
             $this->render("dashboard", compact("books", "cardsData", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

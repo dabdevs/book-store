@@ -12,7 +12,7 @@ $available = '';
 $cover = '';
 
 if (isset($book)) {
-    $id = $book->id;
+    $id = $book->getId();
     $code = $book->getCode();
     $title = $book->getTitle();
     $description = $book->getDescription();

@@ -1,7 +1,7 @@
 <?php
 
 use App\Controllers\BookController;
-use App\Controllers\HomeController;
+use App\Controllers\WebController;
 use App\Controllers\UserController;
 use App\Controllers\DashboardController;
 use App\Controllers\LibrerianController;
@@ -10,7 +10,7 @@ use App\Controllers\LoanController;
 use App\Router;
 
 $router = new Router();
-$router->get("/", HomeController::class, "login");
+$router->get("/", WebController::class, "login");
 
 // User routes
 $router->post("/login", UserController::class, "login");
@@ -21,7 +21,7 @@ $router->put("/users", UserController::class, "update");
 $router->delete("/users", UserController::class, "destroy");
 
 // Member routes
-$router->get("/members", MemberController::class, "index");
+$router->get("/members", MemberController::class, "index", "admin");
 $router->post("/members", MemberController::class, "store");
 $router->get("/members/create", MemberController::class, "create");
 $router->get("/members/edit", MemberController::class, "edit");
@@ -53,14 +53,16 @@ $router->post("/loans/update", LoanController::class, "update");
 $router->post("/loans/delete", LoanController::class, "destroy");
 
 // Profile routes
-$router->get("/profile", UserController::class, "profile");
+$router->get("/profile", UserController::class, "profile", "admin");
 $router->post("/profile", UserController::class, "updateProfile");
 
 // Dashboard routes
 $router->get("/dashboard", DashboardController::class, "index");
 
+// Forbidden route
+$router->get("/forbidden", WebController::class, "forbidden");
 
 // Not found route
-$router->get("/not-found", HomeController::class, "not_found");
+$router->get("/not-found", WebController::class, "notFound");
 
 $router->dispatch();

@@ -13,6 +13,11 @@ use App\Validations\UserValidation;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        session_start();
+    }
+
     /**
      *  Log user in
      */
@@ -68,7 +73,6 @@ class UserController extends Controller
     public function profile()
     {
         try {
-            session_start();
             $page = "Profile";
 
             $this->render("dashboard", compact("page"));

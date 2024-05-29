@@ -14,6 +14,12 @@ class LoanController extends Controller
 {
     public function __construct()
     {
+        session_start();
+
+        if (!in_array($_SESSION["user"]->role, ["ADMIN", "LIBRERIAN"])) {
+            header("Location:/forbidden");
+            exit;
+        }
     }
 
     /**

@@ -9,7 +9,15 @@ use App\Validations\UserValidation;
 
 class MemberController extends Controller
 {
-    private $role = "MEMBER";
+    public function __construct()
+    {
+        session_start();
+
+        if (!in_array($_SESSION["user"]->role, ["ADMIN", "LIBRERIAN"])) {
+            header("Location:/forbidden");
+            exit;
+        }
+    }
 
     /**
      *  Members index page
@@ -65,7 +73,7 @@ class MemberController extends Controller
             $_POST["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
             // Upload file and set filename in POST data
-            Helper::updateFile("avatar");
+            // Helper::uploadFile("avatar");
 
             // Create new book
             Member::action()->create($_POST);
