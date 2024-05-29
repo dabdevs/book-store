@@ -11,7 +11,7 @@ class Loan
     public static $returned = "RETURNED";
     private $id;
     private $book;
-    private $member;
+    private $user;
     private $borrow_date;
     private $return_date;
     private $status;
@@ -43,7 +43,7 @@ class Loan
                     $this->book = Book::action()->getById($value);
                 }
                 if ($key === "user_id") {
-                    $this->member = Member::action()->getById($value);
+                    $this->user = DB::table("users")->select()->where("id = :id", [":id" => $value])[0];
                 }
 
                 if (property_exists($this, $key)) {
@@ -142,11 +142,11 @@ class Loan
     /**
      *  Get a loan by member and book
      */
-    public function getByMemberAndBook(Member $member, Book $book)
+    public function getByMemberAndBook(int $user_id, Book $book)
     {
         $loan = DB::table($this->table)
             ->select()
-            ->where("user_id = :user_id AND book_id = :book_id", ["user_id" => $member->getId(), "book_id" => $book->getId()]);
+            ->where("user_id = :user_id AND book_id = :book_id", ["user_id" => $user_id, "book_id" => $book->getId()]);
 
         if ($loan) {
             $this->load((array)$loan[0]);
@@ -172,7 +172,7 @@ class Loan
         return [
             "id" => $this->id,
             "book" => $this->book,
-            "member" => $this->member,
+            "user" => $this->user,
             "borrow_date" => $this->borrow_date,
             "return_date" => $this->return_date,
             "status" => $this->status,
@@ -220,21 +220,21 @@ class Loan
     }
 
     /**
-     * Get the value of member
+     * Get the value of user
      */
-    public function getMember()
+    public function getUser()
     {
-        return $this->member;
+        return $this->user;
     }
 
     /**
-     * Set the value of member
+     * Set the value of user
      *
      * @return  self
      */
-    public function setMember($member)
+    public function setUser($user)
     {
-        $this->member = $member;
+        $this->user = $user;
 
         return $this;
     }

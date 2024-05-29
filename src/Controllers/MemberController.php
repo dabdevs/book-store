@@ -55,28 +55,16 @@ class MemberController extends Controller
     public function store()
     {
         try {
-            session_start();
-
             // Validate form
-            $errors = $this->validate(UserValidation::$rules);
+            $data = $this->validate(UserValidation::$rules);
 
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_POST["avatar"] = $_FILES["avatar"]["name"];
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
-
-            // Hash password
-            $_POST["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
+            $data["avatar"] = $data["avatar"]["name"]; 
 
             // Upload file and set filename in POST data
             // Helper::uploadFile("avatar");
 
             // Create new book
-            Member::action()->create($_POST);
+            Member::action()->create($data);
 
             // Success message
             $_SESSION["success"] = "Member created successfuly!";
@@ -86,7 +74,7 @@ class MemberController extends Controller
             exit;
         } catch (\Exception $e) {
             // Error message
-            $_SESSION["error"] = "Operation failed! Please try again later.";
+            $_SESSION["error"] = $e->getMessage();
 
             // Redirect back
             header("Location:" . $_SERVER["HTTP_REFERER"]);
@@ -105,7 +93,6 @@ class MemberController extends Controller
             $cardsData = $this->getCardsData();
             $page = "Edit Member";
             $member = Member::action()->getById($id);
-
             $this->render("dashboard", compact("cardsData", "member", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -119,20 +106,15 @@ class MemberController extends Controller
     {
         try {
             // Validate form
-            $errors = $this->validate(UserValidation::$rules);
-
-            session_start();
-
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
+            $data = $this->validate(UserValidation::$rules);
+            
+            $data["avatar"] = $data["avatar"]["name"]; 
+            
+            // Upload file and set filename in POST data
+            // Helper::uploadFile("avatar");
 
             // Validate form data
-            Member::action()->update($_POST);
+            Member::action()->update($data);
 
             // Success message
             $_SESSION["success"] = "Member updated successfuly!";

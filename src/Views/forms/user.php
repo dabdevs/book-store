@@ -2,13 +2,10 @@
 
 if (isset($member)) {
     $user = $member;
-    $action = "members";
 } elseif (isset($librerian)) {
     $user = $librerian;
-    $action = "librerians";
 } elseif (isset($admin)) {
     $user = $admin;
-    $action = "admins";
 }
 
 $id = '';
@@ -18,18 +15,18 @@ $td = strtotime("today");
 $today = date("Y-m-d h:i:s", $td);
 $tm = strtotime("tomorrow");
 $tomorrow = date("Y-m-d h:i:s", $tm);
-$email = '';
+$email = ''; 
 $password = '';
 $birth_date = '';
 $avatar = '';
 
-if ($page === "Create Member") {
+if (str_contains($page, "Member")) {
     $role = "MEMBER";
     $action = "members";
-} elseif ($page === "Create Librerian") {
+} elseif (str_contains($page, "Librerian")) {
     $role = "LIBRERIAN";
     $action = "librerians";
-} elseif ($page === "Create Admin") {
+} elseif (str_contains($page, "Admin")) {
     $role = "ADMIN";
     $action = "admins";
 }
@@ -39,7 +36,6 @@ if (isset($user)) {
     $firstname = $user->getFirstname();
     $lastname = $user->getLastname();
     $email = $user->getEmail();
-    $password = $user->getPassword();
     $birth_date = $user->getBirthdate();
     $role = $user->getRole();
     $avatar = $user->getAvatar();
@@ -51,7 +47,7 @@ if (isset($oldInputs["firstname"])) {
     $email = $oldInputs["email"];
     $password = $oldInputs["password"];
     $birth_date = $oldInputs["birth_date"];
-    $avatar = $oldInputs["avatar"];
+    $avatar = isset($oldInputs["avatar"]) ? $oldInputs["avatar"] : '';
 }
 ?>
 
@@ -77,7 +73,7 @@ if (isset($oldInputs["firstname"])) {
                     <input type="email" class="form-control border field" value="<?= $email ?>" name="email" id="email">
                     <small class="text-danger"><?= $errors["email"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-3 <?= $page === 'Edit Member' ? 'd-none' : '' ?>">
+                <div class="col-sm-3">
                     <label for="password" class="form-label m-0">Password</label>
                     <input type="password" class="form-control border field" value="<?= $password ?>" name="password" id="password">
                     <small class="text-danger"><?= $errors["password"] ?? '' ?></small>
@@ -89,7 +85,12 @@ if (isset($oldInputs["firstname"])) {
                 </div>
                 <div class="col-sm-2">
                     <label for="role" class="form-label m-0">Role</label>
-                    <input readonly type="text" class="form-control border field" value="<?= $role ?>" name="role" id="role">
+                    <select <?= $_SESSION["user"]->role !== "ADMIN" ? 'readonly' : ''; ?> class="form-control border field" name="role" value="" id="role">
+                        <option value="">Select</option>
+                        <option value="ADMIN" <?= $role === "ADMIN" ? "selected" : ''; ?>>ADMIN</option>
+                        <option value="LIBRERIAN" <?= $role === "LIBRERIAN" ? "selected" : ''; ?>>LIBRERIAN</option>
+                        <option value="MEMBER" <?= $role === "MEMBER" ? "selected" : ''; ?>>MEMBER</option>
+                    </select>
                     <small class="text-danger"><?= $errors["role"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-5">

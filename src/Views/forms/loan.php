@@ -1,7 +1,7 @@
 <?php
 $id = '';
 $book_id = '';
-$member_id = '';
+$user_id = '';
 $borrow_date = '';
 $return_date = $tomorrow;
 $status = '';
@@ -9,7 +9,7 @@ $status = '';
 if (isset($loan)) {
     $id = $loan->getId(); 
     $book_id = $loan->getBook()->getId();
-    $member_id = $loan->getMember()->getId();
+    $user_id = $loan->getUser()->id;
     $borrow_date = $loan->getBorrowDate();
     $return_date = $loan->getReturnDate();
     $status = $loan->getStatus();
@@ -17,7 +17,7 @@ if (isset($loan)) {
 
 if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
-    $member_id = $oldInputs["user_id"];
+    $user_id = $oldInputs["user_id"];
     $return_date = $oldInputs["return_date"];
     $status = isset($oldInputs["status"]) ? $oldInputs["status"] : '';
 }
@@ -44,13 +44,13 @@ if (isset($oldInputs["book_id"])) {
                     <small class="text-danger"><?= $errors["book_id"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-6">
-                    <label for="user_id" class="form-label m-0">Member</label>
+                    <label for="user_id" class="form-label m-0">User</label>
                     <select class="form-control border field" name="user_id" id="user_id">
-                        <option value="">Select <?= $member_id ?></option>
+                        <option value="">Select</option>
                         <?php
                         foreach ($members as $member) {
                         ?>
-                            <option value="<?= $member->id ?>" <?= $member_id == $member->id ? "selected" : ''; ?>> <?= $member->firstname ?> <?= $member->lastname ?></option>
+                            <option value="<?= $member->id ?>" <?= $user_id == $member->id ? "selected" : ''; ?>> <?= $member->firstname ?> <?= $member->lastname ?></option>
                         <?php
                         }
                         ?>

@@ -93,9 +93,9 @@ abstract class User
      *  Get a user by Id
      */
     public function getById($id)
-    {
+    { 
         $user = DB::table($this->table)->select()->where("id = :id AND role = :role", ["id" => $id, "role" => $this->role]);
-
+   
         if ($user) {
             $this->load((array)$user[0]);
             return $this;

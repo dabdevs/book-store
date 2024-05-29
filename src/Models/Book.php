@@ -14,6 +14,7 @@ class Book
     private $author;
     private $isbn;
     private $genre;
+    private $language;
     private $publisher;
     private $published_date;
     private $cover;
@@ -101,7 +102,7 @@ class Book
     /**
      *  Get a book by Id
      */
-    public function getById($id)
+    public function getById(int $id)
     {
         $book = DB::table($this->table)->select()->where("id = :id", [":id" => $id]);
 
@@ -312,6 +313,26 @@ class Book
     }
 
     /**
+     * Get the value of language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set the value of language
+     *
+     * @return  self
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
      * Get the value of publisher
      */
     public function getPublisher()
@@ -346,7 +367,7 @@ class Book
      */
     public function setPublishedDate($publishedDate)
     {
-        $this->publishedDate = $publishedDate;
+        $this->published_date = $publishedDate;
 
         return $this;
     }

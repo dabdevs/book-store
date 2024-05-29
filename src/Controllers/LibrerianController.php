@@ -55,28 +55,16 @@ class LibrerianController extends Controller
     public function store()
     {
         try {
-            session_start();
-
             // Validate form
-            $errors = $this->validate(UserValidation::$rules);
+            $data = $this->validate(UserValidation::$rules);
 
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_POST["avatar"] = $_FILES["avatar"]["name"];
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
-
-            // Hash password
-            $_POST["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
+            $data["avatar"] = $data["avatar"]["name"];
 
             // Upload file and set filename in POST data
-            Helper::updateFile("avatar");
+            // Helper::uploadFile("avatar");
 
             // Create new book
-            Librerian::action()->create($_POST);
+            Librerian::action()->create($data);
 
             // Success message
             $_SESSION["success"] = "Librerian created successfuly!";
@@ -119,20 +107,15 @@ class LibrerianController extends Controller
     {
         try {
             // Validate form
-            $errors = $this->validate(UserValidation::$rules);
+            $data = $this->validate(UserValidation::$rules);
 
-            session_start();
+            $data["avatar"] = $data["avatar"]["name"];
 
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
+            // Upload file and set filename in POST data
+            // Helper::uploadFile("avatar");
 
             // Validate form data
-            Librerian::action()->update($_POST);
+            Librerian::action()->update($data);
 
             // Success message
             $_SESSION["success"] = "Librerian updated successfuly!";
@@ -177,44 +160,4 @@ class LibrerianController extends Controller
             exit;
         }
     }
-
-    // public function login()
-    // {
-    //     if ($_SERVER["REQUEST_METHOD"] !== "POST") header("Location:/");
-
-    //     $email = $_POST["email"];
-    //     $password = $_POST["password"];
-
-    //     $error = null;
-    //     $librerian = null;
-
-    //     // Validate data
-    //     if (empty($email)) {
-    //         $error = "Email is required";
-    //     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //         $error = "Invalid email";
-    //     } else {
-    //         // Authenticate 
-    //         $librerian = Librerian::action()->getByEmail($email);
-    //         if (!$librerian) $error = "Invalid email/password";
-    //     }
-
-    //     // Store values in session to fill form
-    //     session_start();
-
-    //     if (!($librerian && password_verify($password, $librerian->password))) {
-    //         $error = "Invalid email/password";
-    //     } else {
-    //         $_SESSION["librerian"] = $librerian;
-    //         header("Location:/dashboard");
-    //         exit;
-    //     }
-
-    //     if (!empty($error)) {
-    //         $_SESSION["oldInputs"] = $_POST;
-    //         $_SESSION["error"] = $error;
-    //         header("Location:/");
-    //         exit;
-    //     }
-    // }
 }

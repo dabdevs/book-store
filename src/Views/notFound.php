@@ -8,7 +8,7 @@
                 <div class="card col-lg-4 col-md-8 col-12 text-center mx-auto">
                     <h1 class="text- font-weight-bold fs-1" style="font-size: 190px;">404</h1>
                     <p class="text-">It seems like you are lost :(</p>
-                    <a class="btn btn-primary" href="javascript:history.back()">Go back</a>
+                    <a class="btn btn-primary" href="history.back()">Go back</a>
                 </div>
             </div>
         </div>

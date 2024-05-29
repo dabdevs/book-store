@@ -49,7 +49,7 @@ class DB
         else $this->query .= "$fields ";
 
         $this->query .= "FROM " . self::$table . " ";
-
+        
         return self::$instance;
     }
 
@@ -146,9 +146,9 @@ class DB
      *  Where clause for query
      */
     public function where(string $clause, array $params = [])
-    {
+    { 
         $this->query .= "WHERE $clause";
-
+       
         return $this->run($params);
     }
 

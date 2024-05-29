@@ -10,6 +10,7 @@ class BookValidation
         "title" => ["required", "string", "books:unique", "min:10", "max:50"],
         "description" => ["string", "min:10", "max:100"],
         "author" => ["required", "string", "min:10", "max:50"],
+        "language" => ["required", "string"],
         "isbn" => ["string", "max:20"],
         "genre" => ["required", "string", "max:50"],
         "publisher" => ["required", "string", "max:50"],

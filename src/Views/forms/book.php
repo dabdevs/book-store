@@ -4,6 +4,7 @@ $code = '';
 $title = '';
 $description = '';
 $author = '';
+$language = '';
 $isbn = '';
 $genre = '';
 $publisher = '';
@@ -19,6 +20,7 @@ if (isset($book)) {
     $author = $book->getAuthor();
     $isbn = $book->getIsbn();
     $genre = $book->getGenre();
+    $language = $book->getLanguage();
     $publisher = $book->getPublisher();
     $published_date = $book->getPublishedDate();
     $available = $book->getAvailable();
@@ -32,10 +34,11 @@ if (isset($oldInputs["code"])) {
     $author = $oldInputs["author"];
     $isbn = $oldInputs["isbn"];
     $genre = $oldInputs["genre"];
+    $language = $oldInputs["language"];
     $publisher = $oldInputs["publisher"];
     $published_date = $oldInputs["published_date"];
     $available = $oldInputs["available"];
-    $cover = $oldInputs["cover"];
+    $cover = isset($oldInputs["cover"]) ? $oldInputs["cover"] : '';
 }
 ?>
 
@@ -63,10 +66,23 @@ if (isset($oldInputs["code"])) {
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <label for="author" class="form-label m-0">Author</label>
                     <input type="text" class="form-control border field" name="author" value="<?= $author ?>" id="author">
                     <small class="text-danger"><?= $errors["author"] ?? '' ?></small>
+                </div>
+                <div class="col-sm-2">
+                    <label for="language" class="form-label m-0">Language</label>
+                    <select class="form-control border field" name="language" value="" id="language">
+                        <option value="">Select</option>
+                        <option value="English" <?= $language === "English" ? "selected" : ''; ?>>English</option>
+                        <option value="Spanish" <?= $language === "Spanish" ? "selected" : ''; ?>>Spanish</option>
+                        <option value="French" <?= $language === "French" ? "selected" : ''; ?>>French</option>
+                        <option value="Italian" <?= $language === "Italian" ? "selected" : ''; ?>>Italian</option>
+                        <option value="Chinese" <?= $language === "Chinese" ? "selected" : ''; ?>>Chinese</option>
+                        <option value="Japanese" <?= $language === "Japanese" ? "selected" : ''; ?>>Japanese</option>
+                    </select>
+                    <small class="text-danger"><?= $errors["language"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-3">
                     <label for="isbn" class="form-label m-0">ISBN</label>

@@ -64,11 +64,11 @@ class LoanController extends Controller
             $queryParams = Helper::getQueryParameters();
             $id = $queryParams["id"];
             $cardsData = $this->getCardsData();
-            $page = "Edit Loan";
-            $loan = Loan::action()->getById($id);
+            $page = "Edit Loan"; 
+            $loan = Loan::action()->getById($id); 
             $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
             $members = Member::action()->getAll(["field" => "id", "order" => "DESC"]);
-
+          
             $this->render("dashboard", compact("cardsData", "loan", "books", "members", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -82,33 +82,15 @@ class LoanController extends Controller
     {
         try {
             // Validate form
-            $errors = $this->validate(LoanValidation::$rules);
+            $data = $this->validate(LoanValidation::$rules);
+        
+            $book = Book::action()->getById((int)$data["book_id"]); 
+            $loan = Loan::action()->getByMemberAndBook((int)$data["user_id"], $book);
 
-            session_start();
-
-            // Validate if user is a member
-            $member = Member::action()->getById($_POST["user_id"]);
-
-            // Validate if the member already borrowed this book
-            if ($member) {
-                $book = Book::action()->getById($_POST["book_id"]); 
-                $loan = Loan::action()->getByMemberAndBook($member, $book);
-              
-                if ($loan && $loan->getStatus() === Loan::$borrowed) $errors["user_id"] = "This member already has a loan for this book.";
-            } else {
-                $errors["user_id"] = "User is not a member";
-            }
-
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
+            if ($loan && $loan->getStatus() === Loan::$borrowed) $errors["user_id"] = "This member already has a loan for this book.";
 
             // Create new loan
-            Loan::action()->create($_POST);
+            Loan::action()->create($data);
 
             // Success message
             $_SESSION["success"] = "Loan created successfuly!";
@@ -133,20 +115,10 @@ class LoanController extends Controller
     {
         try {
             // Validate form
-            $errors = $this->validate(LoanValidation::$rules);
-            var_dump($_POST);
-            session_start();
-
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
+            $data = $this->validate(LoanValidation::$rules);
 
             // Validate form data
-            Loan::action()->update($_POST);
+            Loan::action()->update($data);
 
             // Success message
             $_SESSION["success"] = "Loan updated successfuly!";

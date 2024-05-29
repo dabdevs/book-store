@@ -12,7 +12,7 @@ class BookController extends Controller
     public function __construct()
     {
         session_start();
-
+        
         if (!in_array($_SESSION["user"]->role, ["ADMIN", "LIBRERIAN"])) {
             header("Location:/forbidden");
             exit;
@@ -78,22 +78,13 @@ class BookController extends Controller
             session_start();
 
             // Validate form
-            $errors = $this->validate(BookValidation::$rules);
-
-            // If there is any error, save them in sessions with old inputs and redirect
-            if (!empty($errors)) {
-                $_POST["cover"] = $_FILES["cover"]["name"];
-                $_SESSION["oldInputs"] = $_POST;
-                $_SESSION["errors"] = $errors;
-                header("Location:" . $_SERVER["HTTP_REFERER"]);
-                exit;
-            }
+            $data = $this->validate(BookValidation::$rules);
 
             // Upload file and set filename in POST data
             Helper::uploadFile("cover", "/images/books/");
 
             // Create new book
-            Book::action()->create($_POST);
+            Book::action()->create($data);
 
             // Success message
             $_SESSION["success"] = "Book created successfuly!";

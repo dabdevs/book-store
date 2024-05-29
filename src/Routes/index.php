@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\AuthController;
 use App\Controllers\BookController;
 use App\Controllers\WebController;
 use App\Controllers\UserController;
@@ -13,11 +14,11 @@ $router = new Router();
 $router->get("/", WebController::class, "login");
 
 // User routes
-$router->post("/login", UserController::class, "login");
-$router->post("/logout", UserController::class, "logout");
+$router->post("/login", AuthController::class, "login");
+$router->post("/logout", AuthController::class, "logout");
 $router->get("/users", UserController::class, "index");
 $router->post("/users", UserController::class, "store");
-$router->put("/users", UserController::class, "update");
+$router->post("/users", UserController::class, "update");
 $router->delete("/users", UserController::class, "destroy");
 
 // Member routes
