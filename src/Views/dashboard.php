@@ -1,6 +1,5 @@
 <?php
-
-function timeAgo($datetime)
+function timeElapsed($datetime)
 {
     $now = new DateTime();
     $then = new DateTime($datetime);
@@ -142,7 +141,7 @@ if (isset($_SESSION["error"])) {
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                <?= timeAgo($loan->borrow_date) ?>
+                                                <?= timeElapsed($loan->borrow_date) ?> 
                                             </div>
                                         </li>
                                 <?php }
@@ -161,7 +160,7 @@ if (isset($_SESSION["error"])) {
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                                <?= timeAgo($loan->borrow_date) ?>
+                                                <?= timeElapsed($loan->return_date) ?> 
                                             </div>
                                         </li>
                                 <?php }
