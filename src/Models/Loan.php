@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Database\DB;
 
 class Loan
@@ -14,6 +15,7 @@ class Loan
     private $user;
     private $borrow_date;
     private $return_date;
+    private $end_date;
     private $status;
 
     public function __construct()
@@ -30,6 +32,24 @@ class Loan
         }
 
         return self::$instance;
+    }
+
+    /**
+     *  Set end date
+     */
+    public function setEndDate($endDate)
+    {
+        $this->end_date = $endDate;
+
+        return $this;
+    }
+
+    /**
+     *  Get end date
+     */
+    public function getEndDate()
+    {
+        return $this->end_date;
     }
 
     /**
@@ -184,6 +204,62 @@ class Loan
     }
 
     /**
+     *  Get top latest loans
+     */
+    public function latestLoans()
+    {
+        $sql = "SELECT
+                    b.title,
+                    l.borrow_date,
+                    l.return_date,
+                    u.email,
+                    u.firstname,
+                    u.lastname
+                FROM
+                    loans l
+                    JOIN users u ON l.user_id = u.id
+                    JOIN books b ON l.book_id = b.id
+                WHERE
+                    l.borrow_date < NOW() AND l.status = 'BORROWED'
+                ORDER BY l.borrow_date DESC";
+
+        $members = DB::table($this->table)
+            ->query($sql)
+            ->limit(10)
+            ->get();
+
+        return $members;
+    }
+
+    /**
+     *  Get top latest returns
+     */
+    public function latestReturns()
+    {
+        $sql = "SELECT
+                    b.title,
+                    l.borrow_date,
+                    l.return_date,
+                    u.email,
+                    u.firstname,
+                    u.lastname
+                FROM
+                    loans l
+                    JOIN users u ON l.user_id = u.id
+                    JOIN books b ON l.book_id = b.id
+                WHERE
+                    l.return_date < NOW() AND l.status = 'RETURNED'
+                ORDER BY l.return_date DESC";
+
+        $members = DB::table($this->table)
+            ->query($sql)
+            ->limit(10)
+            ->get();
+
+        return $members;
+    }
+
+    /**
      *  Convert loan object to array
      */
     public function toArray()
@@ -193,6 +269,7 @@ class Loan
             "book" => $this->book,
             "user" => $this->user,
             "borrow_date" => $this->borrow_date,
+            "end_date" => $this->end_date,
             "return_date" => $this->return_date,
             "status" => $this->status,
         ];

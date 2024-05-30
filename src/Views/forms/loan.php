@@ -12,6 +12,7 @@ if (isset($loan)) {
     $user_id = $loan->getUser()->id;
     $borrow_date = $loan->getBorrowDate();
     $return_date = $loan->getReturnDate();
+    $end_date = $loan->getEndDate();
     $status = $loan->getStatus();
 }
 
@@ -19,6 +20,7 @@ if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
     $user_id = $oldInputs["user_id"];
     $return_date = $oldInputs["return_date"];
+    $end_date = $oldInputs["end_date"];
     $status = isset($oldInputs["status"]) ? $oldInputs["status"] : '';
 }
 
@@ -65,6 +67,12 @@ if (isset($oldInputs["book_id"])) {
                         <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($borrow_date)) ?>" name="borrow_date" id="borrow_date" disabled>
                     </div>
                 <?php } ?>
+
+                <div class="col-sm-2">
+                    <label for="end_date" class="form-label m-0">End Date</label>
+                    <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($end_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="end_date" id="end_date">
+                    <small class="text-danger"><?= $errors["end_date"] ?? '' ?></small>
+                </div>
 
                 <div class="col-sm-2">
                     <label for="return_date" class="form-label m-0">Return Date</label>
