@@ -16,6 +16,11 @@ class UserController extends Controller
     public function __construct()
     {
         session_start();
+        if ($_SESSION["user"]->role !== User::$admin && $_GET["id"] !== $_SESSION["user"]->id) {
+            // Redirect back
+            header("Location:/forbidden");
+            exit;
+        }
     }
 
     public function profile()
