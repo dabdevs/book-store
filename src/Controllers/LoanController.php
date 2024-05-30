@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\User;
 use App\Utils\Helper;
 use App\Validations\LoanValidation;
+use DateTime;
 
 class LoanController extends Controller
 {
@@ -100,6 +101,8 @@ class LoanController extends Controller
                 exit;
             }
             
+            $data["created_by"] = $_SESSION["user"]->id;
+            
             // Create new loan
             Loan::action()->create($data);
 
@@ -128,6 +131,10 @@ class LoanController extends Controller
             // Validate form
             $data = $this->validate(LoanValidation::$rules);
 
+            if ($data["status"] === Loan::$returned) {
+                $data["return_date"] = date('Y-m-d H:i:s');
+            } 
+         
             // Validate form data
             Loan::action()->update($data);
 

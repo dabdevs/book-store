@@ -3,7 +3,7 @@ $id = '';
 $book_id = '';
 $user_id = '';
 $borrow_date = '';
-$return_date = $tomorrow;
+$due_date = '';
 $status = '';
 
 if (isset($loan)) {
@@ -11,15 +11,13 @@ if (isset($loan)) {
     $book_id = $loan->getBook()->getId();
     $user_id = $loan->getUser()->id;
     $borrow_date = $loan->getBorrowDate();
-    $return_date = $loan->getReturnDate();
-    $due_date = $loan->getEndDate();
+    $due_date = $loan->getDueDate();
     $status = $loan->getStatus();
 }
 
 if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
     $user_id = $oldInputs["user_id"];
-    $return_date = $oldInputs["return_date"];
     $due_date = $oldInputs["due_date"];
     $status = isset($oldInputs["status"]) ? $oldInputs["status"] : '';
 }
@@ -28,7 +26,7 @@ if (isset($oldInputs["book_id"])) {
 
 <div class="card p-3 my-5">
     <form action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
-        <div>
+        <fieldset <?php if ($status === "RETURNED") echo 'disabled' ?>>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
                 <div class="col-sm-6">
@@ -70,20 +68,13 @@ if (isset($oldInputs["book_id"])) {
 
                 <div class="col-sm-2">
                     <label for="due_date" class="form-label m-0">Due Date</label>
-                    <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="due_date" id="due_date">
+                    <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="due_date" id="due_date">
                     <small class="text-danger"><?= $errors["due_date"] ?? '' ?></small>
                 </div>
-
-                <div class="col-sm-2">
-                    <label for="return_date" class="form-label m-0">Return Date</label>
-                    <input <?= $status === "RETURNED" ? 'disabled' : '' ?> type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($return_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="return_date" id="return_date">
-                    <small class="text-danger"><?= $errors["return_date"] ?? '' ?></small>
-                </div>
-
                 <?php if ($page === "Edit Loan") { ?>
                     <div class="col-sm-3">
                         <label for="status" class="form-label m-0">Status</label>
-                        <select class="form-control border field" name="status" id="status" <?= $status === "RETURNED" ? 'disabled' : '' ?>>
+                        <select class="form-control border field" name="status" id="status">
                             <option value="">Select</option>
                             <option value="BORROWED" <?= $status === "BORROWED" ? "selected" : "" ?>>Borrowed</option>
                             <option value="RETURNED" <?= $status === "RETURNED" ? "selected" : "" ?>>Returned</option>
@@ -92,13 +83,15 @@ if (isset($oldInputs["book_id"])) {
                     </div>
                 <?php } ?>
             </div>
-        </div>
+        </fieldset>
         <div class="modal-footer">
             <a href="/loans" class="btn">Cancel</a>
-            <button type="submit" class="btn btn-primary" id="submit-btn">
-                <i class="material-icons opacity-10 text-white">save</i>
-                Save
-            </button>
+            <?php if ($status !== "RETURNED") { ?>
+                <button type="submit" class="btn btn-primary" id="submit-btn">
+                    <i class="material-icons opacity-10 text-white">save</i>
+                    Save
+                </button>
+            <?php } ?>
         </div>
     </form>
 </div>

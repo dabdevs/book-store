@@ -8,7 +8,6 @@ class LoanValidation
         "table" => "loans",
         "book_id" => ["required", "number", "books:exists"],
         "user_id" => ["required", "number", "users:exists"],
-        "return_date" => ["required", "string"],
         "due_date" => ["required", "string"],
         "status" => ["required", "enum:BORROWED,RETURNED"],
     ];

@@ -1,4 +1,5 @@
 <?php
+
 function timeAgo($datetime)
 {
     $now = new DateTime();

@@ -47,7 +47,7 @@ class Loan
     /**
      *  Get Due Date
      */
-    public function getEndDate()
+    public function getDueDate()
     {
         return $this->due_date;
     }

@@ -29,7 +29,7 @@
                             <?php
                             if (!empty($loans)) {
                                 foreach ($loans as $loan) {
-                                    if (strtotime($loan->return_date) < strtotime("today") && $loan->status === "BORROWED") $loan->status = "overdue";
+                                    if (strtotime($loan->due_date) < strtotime("today") && $loan->status === "BORROWED") $loan->status = "overdue";
                             ?>
                                     <tr>
                                         <td class="ps-4">
@@ -45,7 +45,7 @@
                                             <span class="text-xs font-weight-bold mb-0"><?= $loan->borrow_date ?></span>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?></p>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?? 'N/A' ?></p>
                                         </td>
                                         <td>
                                             <span class="w-100 badge badge-sm bg-gradient-<?php if ($loan->status === 'BORROWED') {
