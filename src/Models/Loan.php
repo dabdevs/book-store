@@ -223,12 +223,12 @@ class Loan
                     l.borrow_date < NOW() AND l.status = 'BORROWED'
                 ORDER BY l.borrow_date DESC";
 
-        $members = DB::table($this->table)
+        $loans = DB::table($this->table)
             ->query($sql)
             ->limit(10)
             ->get();
 
-        return $members;
+        return $loans;
     }
 
     /**
@@ -251,12 +251,12 @@ class Loan
                     l.return_date < NOW() AND l.status = 'RETURNED'
                 ORDER BY l.return_date DESC";
 
-        $members = DB::table($this->table)
+        $returns = DB::table($this->table)
             ->query($sql)
             ->limit(10)
             ->get();
 
-        return $members;
+        return $returns;
     }
 
     /**
