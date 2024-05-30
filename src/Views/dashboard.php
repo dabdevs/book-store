@@ -64,7 +64,7 @@ if (isset($_SESSION["error"])) {
                                                 <h6 class="mb-3 text-sm"><?= $book->title ?></h6>
                                                 <span class="mb-2 text-xs">Description: <span class="text-dark font-weight-bold ms-sm-2"><?= $book->description ? $book->description : 'N/A' ?></span></span>
                                                 <span class="mb-2 text-xs">Genre: <span class="text-dark ms-sm-2 font-weight-bold"><?= $book->genre ?></span></span>
-                                                <span class="text-xs">Rented: <span class="text-dark ms-sm-2 font-weight-bold"><?= $book->loan_count ?> time<?= $book->loan_count > 1 ? 's' : '' ?></span></span>
+                                                <span class="text-xs">Loans: <span class="text-dark ms-sm-2 font-weight-bold"><?= $book->loan_count ?></span></span>
                                             </div>
                                         </li>
                                 <?php }
@@ -74,7 +74,7 @@ if (isset($_SESSION["error"])) {
                     </div>
                     <div class="card my-4">
                         <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">Top Renters</h6>
+                            <h6 class="mb-0">Top Lenders</h6>
                         </div>
                         <div class="card-body pt-4 p-3">
                             <ul class="list-group">
