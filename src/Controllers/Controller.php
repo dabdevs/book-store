@@ -70,6 +70,11 @@ class Controller
                         $errors[$field] = str_replace("_", " ", $field) . " must be a number";
                     }
 
+                    // Validate if field is an email
+                    if (in_array("email", $rule) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                        $errors[$field] = str_replace("_", " ", $field) . " is not valid";
+                    }
+
                     // Validate if field is unique in table
                     if (in_array("$table:unique", $rule)) {
                         $exists = DB::table($table)->select()->where(str_replace("_", " ", $field) . " = :$field", [":$field" => $value])->get();
@@ -89,6 +94,7 @@ class Controller
                             $maxLength = explode(":", $r)[1];
                             if (strlen($value) > $maxLength) $errors[$field] = str_replace("_", " ", $field) . " must be at max $maxLength characters";
                         }
+
                         // Validate image extension
                         if (str_starts_with($r, "image") && !empty($value["name"])) {
                             $allowedExtensions = explode(":", $r)[1];
