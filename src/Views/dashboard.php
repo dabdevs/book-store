@@ -78,22 +78,18 @@ if (isset($_SESSION["error"])) {
                         </div>
                         <div class="card-body pt-4 p-3">
                             <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                </li>
+                                <?php if (!empty($topMembers)) {
+                                    foreach ($topMembers as $member) { ?>
+                                        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-3 text-sm"><?= $member->firstname ?> <?= $member->lastname ?></h6>
+                                                <span class="mb-2 text-xs">Email: <span class="text-dark font-weight-bold ms-sm-2"><?= $member->email ?></span></span>
+                                                <span class="mb-2 text-xs">City: <span class="text-dark ms-sm-2 font-weight-bold"><?= $member->city ?? 'N/A' ?></span></span>
+                                                <span class="text-xs">Loans: <span class="text-dark ms-sm-2 font-weight-bold"><?= $member->loans ?></span></span>
+                                            </div>
+                                        </li>
+                                <?php }
+                                } ?>
                             </ul>
                         </div>
                     </div>

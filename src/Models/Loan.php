@@ -170,13 +170,14 @@ class Loan
      */
     public function getTopMembers()
     {
-        $sql = "SELECT l.*, u.email, u.firstname, u.lastname, b.title FROM loans l
+        $sql = "SELECT COUNT(l.user_id) as loans, u.email, u.firstname, u.lastname, u.city FROM loans l
                 JOIN users u ON l.user_id = u.id 
-                JOIN books b ON l.book_id = b.id
-                ORDER BY l.id DESC";
+                GROUP BY l.user_id
+                ORDER BY loans DESC";
 
         $members = DB::table($this->table)
             ->query($sql)
+            ->limit(3)
             ->get();
 
         return $members;

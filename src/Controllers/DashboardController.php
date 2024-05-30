@@ -12,9 +12,9 @@ class DashboardController extends Controller
     {
         $cardsData = $this->getCardsData();
         $topBooks = Book::action()->getTopBooks(); 
-        // $topMembers = Loan::action()->getTopMembers(); 
+        $topMembers = Loan::action()->getTopMembers(); 
         $page = "Dashboard";
 
-        $this->render("dashboard", compact("cardsData", "topBooks", "page"));
+        $this->render("dashboard", compact("cardsData", "topBooks", "topMembers", "page"));
     }
 }
