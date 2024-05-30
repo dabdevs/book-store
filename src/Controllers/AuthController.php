@@ -36,7 +36,7 @@ class AuthController extends Controller
             $errors = "Invalid email";
         } else {
             // Authenticate 
-            $user = DB::table("users")->select()->where("email = :email", [":email" => $email])[0];
+            $user = DB::table("users")->select()->where("email = :email", [":email" => $email])->get()[0];
             if (!$user) $errors = "Invalid email/password";
         }
 

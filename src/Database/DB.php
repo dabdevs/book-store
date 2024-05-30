@@ -158,6 +158,15 @@ class DB
     }
 
     /**
+     *  Limit clause for query
+     */
+    public function limit(int $limit)
+    {
+        $this->query .= " LIMIT $limit ";
+        return self::$instance;
+    }
+
+    /**
      *  Oder by for query
      *  $orderBy['field' => $value, 'order' => $value]
      */

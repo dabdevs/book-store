@@ -166,6 +166,23 @@ class Loan
     }
 
     /**
+     *  Get top members
+     */
+    public function getTopMembers()
+    {
+        $sql = "SELECT l.*, u.email, u.firstname, u.lastname, b.title FROM loans l
+                JOIN users u ON l.user_id = u.id 
+                JOIN books b ON l.book_id = b.id
+                ORDER BY l.id DESC";
+
+        $members = DB::table($this->table)
+            ->query($sql)
+            ->get();
+
+        return $members;
+    }
+
+    /**
      *  Convert loan object to array
      */
     public function toArray()

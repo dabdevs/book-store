@@ -10,12 +10,12 @@
         <form class="card-body p-3" action="/profile" method="POST" enctype="multipart/form-data">
             <div class="row mb-3">
                 <input type="hidden" name="id" value="<?= $authUser->id ?>">
-                <div class="col-sm-3 my-3">
+                <div class="col-sm-6 my-3">
                     <label for="firstname" class="form-label h6 text-dark m-0">Firstname </label>
                     <input type="text" class="form-control border field" value="<?= $authUser->firstname ?>" name="firstname" id="firstname">
                     <small class="text-danger"><?= $errors["firstname"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-3 my-3">
+                <div class="col-sm-6 my-3">
                     <label for="lastname" class="form-label h6 text-dark m-0">Lastname </label>
                     <input type="text" class="form-control border field" value="<?= $authUser->lastname ?>" name="lastname" id="lastname">
                     <small class="text-danger"><?= $errors["lastname"] ?? '' ?></small>
@@ -40,15 +40,7 @@
                     <input type="text" class="form-control border field" value="<?= $authUser->city ?>" name="city" id="city">
                     <small class="text-danger"><?= $errors["city"] ?? '' ?></small>
                 </div>
-                <?php if ($authUser->role === "ADMIN") { ?>
-                    <div class="col-sm-3 my-3">
-                        <label for="role" class="form-label h6 text-dark m-0">Role </label>
-                        <input type="text" class="form-control border field" value="<?= $authUser->role ?>" name="role" id="role">
-                        <small class="text-danger"><?= $errors["role"] ?? '' ?></small>
-                    </div>
-                <?php } else { ?>
-                    <input type="hidden" name="role" value="<?= $authUser->role ?>">
-                <?php } ?>
+                <input type="hidden" name="role" value="<?= $authUser->role ?>">
             </div>
             <div class="row my-2">
                 <div class="col-sm-6">

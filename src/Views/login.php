@@ -50,10 +50,10 @@ if (isset($_SESSION['errors'])) {
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                                 </div>
-                                <p class="mt-4 text-sm text-center">
+                                <!-- <p class="mt-4 text-sm text-center">
                                     Forgot password?
                                     <a href="/forgot-password" class="text-primary text-gradient font-weight-bold">Reset password</a>
-                                </p>
+                                </p> -->
                             </form>
                         </div>
                     </div>

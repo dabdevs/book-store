@@ -97,6 +97,14 @@ class Book
     }
 
     /**
+     *  Get a top books
+     */
+    public function getTopBooks()
+    {
+        return DB::table($this->table)->select()->where("loan_count > :loan_count", ["loan_count" => 0])->orderBy(["field" => "loan_count", "order" => "DESC"])->limit(3)->get();
+    }
+
+    /**
      *  Get a book by Id
      */
     public function getById(int $id)

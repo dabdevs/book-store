@@ -15,7 +15,7 @@ $td = strtotime("today");
 $today = date("Y-m-d h:i:s", $td);
 $tm = strtotime("tomorrow");
 $tomorrow = date("Y-m-d h:i:s", $tm);
-$email = ''; 
+$email = '';
 $password = '';
 $birth_date = '';
 $avatar = '';
@@ -83,16 +83,20 @@ if (isset($oldInputs["firstname"])) {
                     <input type="date" class="form-control border field" value="<?= $birth_date ?>" name="birth_date" id="birth_date">
                     <small class="text-danger"><?= $errors["birth_date"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-2">
-                    <label for="role" class="form-label m-0">Role</label>
-                    <select <?= $_SESSION["user"]->role !== "ADMIN" ? 'readonly' : ''; ?> class="form-control border field" name="role" value="" id="role">
-                        <option value="">Select</option>
-                        <option value="ADMIN" <?= $role === "ADMIN" ? "selected" : ''; ?>>ADMIN</option>
-                        <option value="LIBRERIAN" <?= $role === "LIBRERIAN" ? "selected" : ''; ?>>LIBRERIAN</option>
-                        <option value="MEMBER" <?= $role === "MEMBER" ? "selected" : ''; ?>>MEMBER</option>
-                    </select>
-                    <small class="text-danger"><?= $errors["role"] ?? '' ?></small>
-                </div>
+                <?php if (empty($user)) { ?>
+                    <input type="hidden" name="role" value="<?= $role ?>">
+                <?php } else { ?>
+                    <div class="col-sm-2">
+                        <label for="role" class="form-label m-0">Role</label>
+                        <select class="form-control border field" name="role" value="" id="role">
+                            <option value="">Select</option>
+                            <option value="ADMIN" <?= $role === "ADMIN" ? "selected" : ''; ?>>ADMIN</option>
+                            <option value="LIBRERIAN" <?= $role === "LIBRERIAN" ? "selected" : ''; ?>>LIBRERIAN</option>
+                            <option value="MEMBER" <?= $role === "MEMBER" ? "selected" : ''; ?>>MEMBER</option>
+                        </select>
+                        <small class="text-danger"><?= $errors["role"] ?? '' ?></small>
+                    </div>
+                <?php } ?>
                 <div class="col-sm-5">
                     <label for="avatar" class="form-label m-0">Avatar</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $avatar ?>" name="avatar" id="avatar">
