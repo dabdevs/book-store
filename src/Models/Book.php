@@ -81,12 +81,9 @@ class Book
     /**
      *  Retreive all books from the database
      */
-    public function getAll(array $orderBy = [])
+    public function getAll()
     {
-        $books = DB::table($this->table)->select()->all();
-        if (!empty($orderBy)) {
-            $books = $books->orderBy($orderBy);
-        }
+        $books = DB::table($this->table)->select()->orderBy(["field" => "id", "order" => "DESC"])->get();
 
         return $books;
     }
@@ -96,7 +93,7 @@ class Book
      */
     public function getAvailableBooks()
     {
-        return DB::table($this->table)->select()->where("available > :count", [":count" => 0]);
+        return DB::table($this->table)->select()->where("available > :count", [":count" => 0])->get();
     }
 
     /**
@@ -104,7 +101,7 @@ class Book
      */
     public function getById(int $id)
     {
-        $book = DB::table($this->table)->select()->where("id = :id", [":id" => $id]);
+        $book = DB::table($this->table)->select()->where("id = :id", [":id" => $id])->get();
 
         if ($book) {
             $this->load((array)$book[0]);
@@ -414,7 +411,7 @@ class Book
 
     /**
      * Get the value of loan_count
-     */ 
+     */
     public function getLoanCount()
     {
         return $this->loan_count;

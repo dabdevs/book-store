@@ -41,9 +41,9 @@ abstract class User
     /**
      *  Retreive all users from the database
      */
-    public function getAll(array $orderBy = [])
+    public function getAll()
     {
-        $users = DB::table($this->table)->select()->where("role = :role", ["role" => $this->role]);
+        $users = DB::table($this->table)->select()->where("role = :role", ["role" => $this->role])->orderBy(["field" => "id", "order" => "DESC"])->get();
 
         return $users;
     }
@@ -94,7 +94,7 @@ abstract class User
      */
     public function getById($id)
     { 
-        $user = DB::table($this->table)->select()->where("id = :id AND role = :role", ["id" => $id, "role" => $this->role]);
+        $user = DB::table($this->table)->select()->where("id = :id AND role = :role", ["id" => $id, "role" => $this->role])->get();
    
         if ($user) {
             $this->load((array)$user[0]);
@@ -124,7 +124,7 @@ abstract class User
      */
     public function count()
     {
-        return (int)DB::table("users")->select("COUNT(id) as count")->where("role = :role", [":role" => $this->role])[0]->count;
+        return (int)DB::table("users")->select("COUNT(id) as count")->where("role = :role", [":role" => $this->role])->get()[0]->count;
     }
 
     /**

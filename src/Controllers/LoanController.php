@@ -47,7 +47,7 @@ class LoanController extends Controller
             $cardsData = $this->getCardsData();
             $page = "Create Loan";
             $books = Book::action()->getAvailableBooks();
-            $members = Member::action()->getAll(["field" => "id", "order" => "DESC"]);
+            $members = Member::action()->getAll();
 
             $this->render("dashboard", compact("cardsData", "page", "books", "members"));
         } catch (\Exception $e) {
@@ -86,9 +86,20 @@ class LoanController extends Controller
         
             $book = Book::action()->getById((int)$data["book_id"]); 
             $loan = Loan::action()->getByMemberAndBook((int)$data["user_id"], $book);
+           
+            if ($loan && $loan->getStatus() === Loan::$borrowed) {
+                $errors["user_id"] = "Cannot create the same loan twice";
+            }
 
-            if ($loan && $loan->getStatus() === Loan::$borrowed) $errors["user_id"] = "This member already has a loan for this book.";
+            if (!empty($errors)) {
+                $_SESSION["errors"] = $errors;
+                $_SESSION["oldInputs"] = $_POST;
 
+                // Redirect back
+                header("Location:" . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
+            
             // Create new loan
             Loan::action()->create($data);
 
@@ -100,7 +111,7 @@ class LoanController extends Controller
             exit;
         } catch (\Exception $e) {
             // Error message
-            $_SESSION["error"] = "Operation failed! Please try again later.";
+            $_SESSION["error"] = $e->getMessage();
 
             // Redirect back
             header("Location:" . $_SERVER["HTTP_REFERER"]);

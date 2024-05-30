@@ -18,8 +18,8 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Author</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Genre</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Publisher</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Available</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loan Count</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Created</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Updated</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
@@ -35,12 +35,12 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <div>
+                                                <!-- <div>
                                                     <img src="../src<?= $book->cover ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                                </div>
+                                                </div> -->
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm"><?= $book->title ?></h6>
-                                                    <p class="text-xs text-secondary mb-0"><?= $book->description ?></p>
+                                                    <p class="text-xs text-secondary d-inline-block text-truncate" style="max-width: 200px;"><?= $book->description ?></p>
                                                 </div>
                                             </div>
                                         </td>
@@ -48,13 +48,13 @@
                                             <p class="text-xs font-weight-bold mb-0"><?= $book->author ?></p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0"><?= $book->genre ?></p>
-                                        </td>
-                                        <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $book->publisher ?></p>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $book->available ?></p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $book->loan_count ?></p>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $book->created_at ?></p>

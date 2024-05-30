@@ -43,7 +43,7 @@ class Loan
                     $this->book = Book::action()->getById($value);
                 }
                 if ($key === "user_id") {
-                    $this->user = DB::table("users")->select()->where("id = :id", [":id" => $value])[0];
+                    $this->user = DB::table("users")->select()->where("id = :id", [":id" => $value])->get()[0];
                 }
 
                 if (property_exists($this, $key)) {
@@ -77,19 +77,19 @@ class Loan
      */
     public function delete($id)
     {
-        return DB::table($this->table)->delete()->where("id = :id", ["id" => $id]);
+        return DB::table($this->table)->delete()->where("id = :id", [":id" => $id])->get();
     }
 
     /**
      *  Retreive all loans from the database
      */
-    public function getAll(array $orderBy = [])
+    public function getAll()
     {
-        $sql = "SELECT l.*, u.firstname, u.lastname, b.title FROM loans l
+        $sql = "SELECT l.*, u.email, u.firstname, u.lastname, b.title FROM loans l
                 JOIN users u ON l.user_id = u.id 
                 JOIN books b ON l.book_id = b.id
                 ORDER BY l.id DESC";
-        $loans = DB::table($this->table)->query($sql);
+        $loans = DB::table($this->table)->query($sql)->get();
 
         return $loans;
     }
@@ -99,7 +99,7 @@ class Loan
      */
     public function getById($id)
     {
-        $loan = DB::table($this->table)->select()->where("id = :id", ["id" => $id]);
+        $loan = DB::table($this->table)->select()->where("id = :id", ["id" => $id])->get();
 
         if ($loan) {
             $this->load((array)$loan[0]);
@@ -146,7 +146,8 @@ class Loan
     {
         $loan = DB::table($this->table)
             ->select()
-            ->where("user_id = :user_id AND book_id = :book_id", ["user_id" => $user_id, "book_id" => $book->getId()]);
+            ->where("user_id = :user_id AND book_id = :book_id", ["user_id" => $user_id, "book_id" => $book->getId()])
+            ->get();
 
         if ($loan) {
             $this->load((array)$loan[0]);

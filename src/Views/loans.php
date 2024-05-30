@@ -28,9 +28,9 @@
                         <tbody>
                             <?php
                             if (!empty($loans)) {
-                                foreach ($loans as $loan) { 
+                                foreach ($loans as $loan) {
                                     if (strtotime($loan->return_date) < strtotime("today") && $loan->status === "BORROWED") $loan->status = "overdue";
-                                ?>
+                            ?>
                                     <tr>
                                         <td class="ps-4">
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->id ?></p>
@@ -39,7 +39,7 @@
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->title ?></p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->firstname ?> <?= $loan->lastname ?></p>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $loan->email ?> - <?= $loan->lastname ?></p>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold mb-0"><?= $loan->borrow_date ?></span>
@@ -48,7 +48,13 @@
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->return_date ?></p>
                                         </td>
                                         <td>
-                                            <span class="w-100 badge badge-sm bg-gradient-<?php if($loan->status === 'BORROWED') { echo 'success'; } elseif($loan->status === 'RETURNED') { echo 'danger'; } else { echo 'warning'; } ?>"><?= $loan->status ?></span>
+                                            <span class="w-100 badge badge-sm bg-gradient-<?php if ($loan->status === 'BORROWED') {
+                                                                                                echo 'success';
+                                                                                            } elseif ($loan->status === 'RETURNED') {
+                                                                                                echo 'danger';
+                                                                                            } else {
+                                                                                                echo 'warning';
+                                                                                            } ?>"><?= $loan->status ?></span>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $loan->created_at ?></p>

@@ -72,7 +72,7 @@ class Controller
 
                     // Validate if field is unique in table
                     if (in_array("$table:unique", $rule)) {
-                        $exists = DB::table($table)->select()->where(str_replace("_", " ", $field) . " = :$field", [":$field" => $value]);
+                        $exists = DB::table($table)->select()->where(str_replace("_", " ", $field) . " = :$field", [":$field" => $value])->get();
 
                         if ($exists) $errors[$field] = str_replace("_", " ", $field) . " must be unique";
                     }
@@ -113,7 +113,7 @@ class Controller
                         // Validate if id exists
                         if (str_ends_with($r, "exists")) {
                             $checkTable = explode(":", $r)[0];
-                            $exists = DB::table($checkTable)->select()->where("id = :id", [":id" => $value]);
+                            $exists = DB::table($checkTable)->select()->where("id = :id", [":id" => $value])->get();
 
                             if (!$exists) $errors[$field] = rtrim($checkTable, 's') . " does not exist";
                         }

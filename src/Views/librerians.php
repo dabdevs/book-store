@@ -18,6 +18,8 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Birth Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Role</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Created</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Updated</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
@@ -32,9 +34,9 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <div>
+                                                <!-- <div>
                                                     <img src="<?= isset($librerian->avatar) ? $librerian->avatar : 'https://placehold.co/50x50' ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                                </div>
+                                                </div> -->
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm"><?= $librerian->firstname ?> <?= $librerian->lastname ?></h6>
                                                     <p class="text-xs text-secondary mb-0"><?= $librerian->email ?></p>
@@ -45,8 +47,13 @@
                                             <p class="text-xs font-weight-bold mb-0"><?= $librerian->birth_date ?></p>
                                         </td>
                                         <td>
-                                            <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
                                             <span class="text-xs font-weight-bold mb-0"><?= $librerian->role ?></span>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $librerian->created_at ?></p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $librerian->updated_at ?></p>
                                         </td>
                                         <td class="align-middle p-0">
                                             <a href="/librerians/edit?id=<?= $librerian->id ?>" class="font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Edit librerian">

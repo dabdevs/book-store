@@ -10,6 +10,7 @@ class DB
     protected static $connection;
     protected static $table;
     protected $query;
+    protected $params = [];
     protected $queryType;
 
     /**
@@ -76,8 +77,8 @@ class DB
         $values = rtrim($values, ',');
 
         $this->query .= "($fields) VALUES($values)";
-
-        $this->run($params);
+        $this->params = $params;
+        $this->run();
 
         return self::$connection->lastInsertId();
     }
@@ -110,7 +111,9 @@ class DB
             $params[":id"] = $params["id"];
             unset($params["id"]);
 
-            $this->run($params);
+            $this->params = $params;
+
+            $this->run();
 
             return self::$instance;
         } catch (\Exception $e) {
@@ -121,15 +124,6 @@ class DB
             header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         }
-    }
-
-    /**
-     *  Get all data from table
-     */
-    public function all()
-    {
-        $this->run();
-        return self::$instance;
     }
 
     /**
@@ -148,8 +142,8 @@ class DB
     public function where(string $clause, array $params = [])
     { 
         $this->query .= "WHERE $clause";
-       
-        return $this->run($params);
+        $this->params = $params;
+        return self::$instance;
     }
 
     /**
@@ -159,21 +153,20 @@ class DB
     {
         $this->query .= "JOIN $condition ";
 
-        $this->run($params);
+        $this->params = $params;
         return self::$instance;
     }
 
     /**
      *  Oder by for query
-     *  $orderBy['field', 'order']
+     *  $orderBy['field' => $value, 'order' => $value]
      */
     public function orderBy(array $orderBy)
     {
-        if (isset($orderBy["field"])) $this->query .= "ORDER BY " . $orderBy["field"];
+        if (isset($orderBy["field"])) $this->query .= " ORDER BY " . $orderBy["field"];
         if (isset($orderBy["order"])) $this->query .= " " . $orderBy["order"];
-
-
-        return $this->run();
+     
+        return self::$instance;
     }
 
     /**
@@ -183,9 +176,9 @@ class DB
     {
         // Prepare SQL query
         $stmt = self::$connection->prepare($this->query);
-
+   
         // Bind query parameters
-        $stmt->execute($params);
+        $stmt->execute($this->params);
 
         // Fetch data
         if ($stmt) {
@@ -204,8 +197,26 @@ class DB
     public function query($sql, $params = [])
     {
         $this->query = $sql;
-        return $this->run($params);
+        $this->params = $params;
+
+        return self::$instance;
     }
+
+    public function get()
+    {
+        return $this->run();
+    }
+
+
+    /**
+     *  Get all data from table
+     */
+    public function all()
+    {
+        $this->run();
+        return self::$instance;
+    }
+
 
     /**
      *  Retreive amount of rows from table

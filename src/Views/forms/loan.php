@@ -7,7 +7,7 @@ $return_date = $tomorrow;
 $status = '';
 
 if (isset($loan)) {
-    $id = $loan->getId(); 
+    $id = $loan->getId();
     $book_id = $loan->getBook()->getId();
     $user_id = $loan->getUser()->id;
     $borrow_date = $loan->getBorrowDate();
@@ -50,7 +50,7 @@ if (isset($oldInputs["book_id"])) {
                         <?php
                         foreach ($members as $member) {
                         ?>
-                            <option value="<?= $member->id ?>" <?= $user_id == $member->id ? "selected" : ''; ?>> <?= $member->firstname ?> <?= $member->lastname ?></option>
+                            <option value="<?= $member->id ?>" <?= $user_id == $member->id ? "selected" : ''; ?>> <?= $member->email ?> - <?= $member->firstname ?> <?= $member->lastname ?></option>
                         <?php
                         }
                         ?>

@@ -10,6 +10,7 @@ $genre = '';
 $publisher = '';
 $published_date = '';
 $available = '';
+$loan_count = '';
 $cover = '';
 
 if (isset($book)) {
@@ -24,6 +25,7 @@ if (isset($book)) {
     $publisher = $book->getPublisher();
     $published_date = $book->getPublishedDate();
     $available = $book->getAvailable();
+    $loan_count = $book->getLoanCount();
     $cover = $book->getCover();
 }
 
@@ -38,6 +40,7 @@ if (isset($oldInputs["code"])) {
     $publisher = $oldInputs["publisher"];
     $published_date = $oldInputs["published_date"];
     $available = $oldInputs["available"];
+    $loan_count = $oldInputs["loan_count"];
     $cover = isset($oldInputs["cover"]) ? $oldInputs["cover"] : '';
 }
 ?>
@@ -104,7 +107,7 @@ if (isset($oldInputs["code"])) {
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <label for="publisher" class="form-label m-0">Publisher</label>
                     <input type="text" class="form-control border field" value="<?= $publisher ?>" name="publisher" id="publisher">
                     <small class="text-danger"><?= $errors["publisher"] ?? '' ?></small>
@@ -118,6 +121,11 @@ if (isset($oldInputs["code"])) {
                     <label for="available" class="form-label m-0">Available</label>
                     <input type="number" class="form-control border field" value="<?= $available ?>" name="available" id="available">
                     <small class="text-danger"><?= $errors["available"] ?? '' ?></small>
+                </div>
+                <div class="col-sm-1">
+                    <label for="loan_count" class="form-label m-0">Loans</label>
+                    <input readonly type="number" class="form-control border field" value="<?= $loan_count ?>" name="loan_count" id="loan_count">
+                    <small class="text-danger"><?= $errors["loan_count"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-4">
                     <label for="cover" class="form-label m-0">Cover</label>
