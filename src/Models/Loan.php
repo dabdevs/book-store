@@ -15,7 +15,7 @@ class Loan
     private $user;
     private $borrow_date;
     private $return_date;
-    private $end_date;
+    private $due_date;
     private $status;
 
     public function __construct()
@@ -35,21 +35,21 @@ class Loan
     }
 
     /**
-     *  Set end date
+     *  Set Due Date
      */
     public function setEndDate($endDate)
     {
-        $this->end_date = $endDate;
+        $this->due_date = $endDate;
 
         return $this;
     }
 
     /**
-     *  Get end date
+     *  Get Due Date
      */
     public function getEndDate()
     {
-        return $this->end_date;
+        return $this->due_date;
     }
 
     /**
@@ -269,7 +269,7 @@ class Loan
             "book" => $this->book,
             "user" => $this->user,
             "borrow_date" => $this->borrow_date,
-            "end_date" => $this->end_date,
+            "due_date" => $this->due_date,
             "return_date" => $this->return_date,
             "status" => $this->status,
         ];

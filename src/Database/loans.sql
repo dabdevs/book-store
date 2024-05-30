@@ -5,7 +5,8 @@ CREATE TABLE `loans` (
   `book_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `borrow_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `return_date` datetime NOT NULL,
+  `due_date` datetime NOT NULL,
+  `return_date` datetime DEFAULT NULL,
   `status` enum('BORROWED', 'RETURNED') DEFAULT 'BORROWED',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
@@ -16,4 +17,3 @@ CREATE TABLE `loans` (
   CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-;
