@@ -10,8 +10,8 @@
                 </div>
             </div>
             <div class="card-body px-0 pb-2">
-                <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                <div class="table-responsive px-2">
+                    <table class="table display align-items-center mb-0" id="books-table">
                         <thead class="text-left">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Code</th>
@@ -20,7 +20,6 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Genre</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Available</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loan Count</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Created</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Updated</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
                             </tr>
@@ -55,9 +54,6 @@
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $book->loan_count ?></p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0"><?= $book->created_at ?></p>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= $book->updated_at ?></p>

@@ -182,7 +182,7 @@ class Loan
      */
     public function count()
     {
-        return DB::table("loans")->count();
+        return DB::table($this->table)->count();
     }
 
     /**
