@@ -31,7 +31,7 @@ if (isset($oldInputs["book_id"])) {
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <label for="book_id" class="form-label m-0">Book</label>
-                    <select class="form-control border field" name="book_id" id="book_id">
+                    <select class="form-control border field select2" name="book_id" id="book_id">
                         <option value="">Select</option>
                         <?php
                         foreach ($books as $book) {
@@ -45,7 +45,7 @@ if (isset($oldInputs["book_id"])) {
                 </div>
                 <div class="col-sm-6">
                     <label for="user_id" class="form-label m-0">User</label>
-                    <select class="form-control border field" name="user_id" id="user_id">
+                    <select class="form-control border field select2" name="user_id" id="user_id">
                         <option value="">Select</option>
                         <?php
                         foreach ($members as $member) {

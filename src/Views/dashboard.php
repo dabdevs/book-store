@@ -114,7 +114,7 @@ if (isset($_SESSION["error"])) {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 mt-4">
+                <div class="col-md-5 mt-4" style="max-height: 550px">
                     <div class="card h-100 mb-4">
                         <div class="card-header pb-0 px-3">
                             <div class="row">

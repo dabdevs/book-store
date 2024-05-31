@@ -14,3 +14,13 @@ function deleteItem(title, id, action) {
 
     modal.show()
 }
+
+// Adjust select2 inputs
+$(document).ready(function () {
+    $('.select2').each(function () {
+        $(this).select2().data('select2').$selection.css({
+            'height': '40px',
+            'padding-top': '5px'
+        });
+    })
+});

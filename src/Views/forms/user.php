@@ -70,17 +70,17 @@ if (isset($oldInputs["firstname"])) {
             <div class="row mb-3">
                 <div class="col-sm-3">
                     <label for="email" class="form-label m-0">Email </label>
-                    <input type="email" class="form-control border field" value="<?= $email ?>" name="email" id="email">
+                    <input autocomplete="false" type="email" class="form-control border field" value="<?= $email ?>" name="email" id="email">
                     <small class="text-danger"><?= $errors["email"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-3">
                     <label for="password" class="form-label m-0">Password</label>
-                    <input type="password" class="form-control border field" value="<?= $password ?>" name="password" id="password">
+                    <input autocomplete="false" type="password" class="form-control border field" value="<?= $password ?>" name="password" id="password">
                     <small class="text-danger"><?= $errors["password"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-2">
                     <label for="birth_date" class="form-label m-0">Birthdate</label>
-                    <input type="date" class="form-control border field" value="<?= $birth_date ?>" name="birth_date" id="birth_date">
+                    <input autocomplete="false" type="date" class="form-control border field" value="<?= $birth_date ?>" name="birth_date" id="birth_date">
                     <small class="text-danger"><?= $errors["birth_date"] ?? '' ?></small>
                 </div>
                 <?php if (empty($user)) { ?>

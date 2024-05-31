@@ -74,10 +74,9 @@ if (isset($oldInputs["code"])) {
                     <input type="text" class="form-control border field" name="author" value="<?= $author ?>" id="author">
                     <small class="text-danger"><?= $errors["author"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <label for="language" class="form-label m-0">Language</label>
-                    <select class="form-control border field" name="language" value="" id="language">
-                        <option value="">Select</option>
+                    <select class="form-control border field select2" name="language" value="" id="language">
                         <option value="English" <?= $language === "English" ? "selected" : ''; ?>>English</option>
                         <option value="Spanish" <?= $language === "Spanish" ? "selected" : ''; ?>>Spanish</option>
                         <option value="French" <?= $language === "French" ? "selected" : ''; ?>>French</option>
@@ -87,15 +86,14 @@ if (isset($oldInputs["code"])) {
                     </select>
                     <small class="text-danger"><?= $errors["language"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <label for="isbn" class="form-label m-0">ISBN</label>
                     <input type="text" class="form-control border field" name="isbn" value="<?= $isbn ?>" id="isbn">
                     <small class="text-danger"><?= $errors["isbn"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-3">
                     <label for="genre" class="form-label m-0">Genre</label>
-                    <select class="form-control border field" name="genre" value="" id="genre">
-                        <option value="">Select</option>
+                    <select class="form-control border field select2" value="" name="genre" id="genre">
                         <option value="Fantasy" <?= $genre === "Fantasy" ? "selected" : ''; ?>>Fantasy</option>
                         <option value="Drama" <?= $genre === "Drama" ? "selected" : ''; ?>>Drama</option>
                         <option value="Adventure" <?= $genre === "Adventure" ? "selected" : ''; ?>>Adventure</option>
@@ -143,3 +141,7 @@ if (isset($oldInputs["code"])) {
         </div>
     </form>
 </div>
+
+<script>
+    
+</script>

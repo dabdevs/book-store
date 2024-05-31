@@ -225,7 +225,7 @@ class Loan
 
         $loans = DB::table($this->table)
             ->query($sql)
-            ->limit(10)
+            ->limit(3)
             ->get();
 
         return $loans;
@@ -253,7 +253,7 @@ class Loan
 
         $returns = DB::table($this->table)
             ->query($sql)
-            ->limit(10)
+            ->limit(3)
             ->get();
 
         return $returns;
