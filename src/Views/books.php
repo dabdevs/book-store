@@ -62,7 +62,6 @@
                     data: 'updated_at'
                 },
                 {
-                    data: 'id',
                     render: function(data, type, row, meta) {
                         return `<div class="align-middle w-100 d-flex justify-content-between mt-3">` +
                             `<a href=/books/edit?id=${row.id} class="btn btn-sm btn-outline-primary text-primary font-weight-bold text-xs"> Edit</a>` +
@@ -71,7 +70,7 @@
                     }
                 },
             ],
-            "iDisplayLength": 5, //Pagination
+            "iDisplayLength": 10, //Pagination
             "order": [
                 [7, "DESC"]
             ]
