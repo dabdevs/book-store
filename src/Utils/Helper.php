@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Models\Book;
+
 class Helper
 {
     public static function getQueryParameters()
@@ -60,5 +62,17 @@ class Helper
             header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         }
+    }
+
+    public static function generateBookCode($length = 6)
+    {
+        $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length));
+        $book = Book::action()->getByCode($code);
+
+        if (!empty($book)) {
+            self::generateBookCode();
+        }
+
+        return $code;
     }
 }
