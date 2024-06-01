@@ -83,9 +83,7 @@ class Book
      */
     public function getAll()
     {
-        $books = DB::table($this->table)->select()->orderBy(["field" => "id", "order" => "DESC"])->get();
-
-        return $books;
+        return DB::table($this->table)->select()->orderBy(["field" => "id", "order" => "DESC"])->get();
     }
 
     /**
@@ -124,9 +122,9 @@ class Book
      */
     public function getByCode($code)
     {
-        $book = DB::table($this->table)->select()->where("code = :code", [":code" => $code]);
-
-        if ($book) {
+        $book = DB::table($this->table)->select()->where("code = :code", [":code" => $code])->get();
+     
+        if (!empty($book)) {
             $this->load((array)$book[0]);
             return $this;
         }
@@ -193,26 +191,6 @@ class Book
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of code
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * Set the value of code
-     *
-     * @return  self
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
 
         return $this;
     }

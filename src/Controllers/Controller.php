@@ -35,6 +35,11 @@ class Controller
         return $data;
     }
 
+    public function isAjax()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+    }
+
     protected function validate(array $rules)
     {
         $table = $rules["table"];

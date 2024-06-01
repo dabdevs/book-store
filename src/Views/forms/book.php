@@ -1,6 +1,5 @@
 <?php
 $id = '';
-$code = '';
 $title = '';
 $description = '';
 $author = '';
@@ -10,12 +9,10 @@ $genre = '';
 $publisher = '';
 $published_date = '';
 $available = '';
-$loan_count = '';
 $cover = '';
 
 if (isset($book)) {
     $id = $book->getId();
-    $code = $book->getCode();
     $title = $book->getTitle();
     $description = $book->getDescription();
     $author = $book->getAuthor();
@@ -29,8 +26,7 @@ if (isset($book)) {
     $cover = $book->getCover();
 }
 
-if (isset($oldInputs["code"])) {
-    $code = $oldInputs["code"];
+if (isset($oldInputs["title"])) {
     $title = $oldInputs["title"];
     $description = $oldInputs["description"];
     $author = $oldInputs["author"];
@@ -40,7 +36,6 @@ if (isset($oldInputs["code"])) {
     $publisher = $oldInputs["publisher"];
     $published_date = $oldInputs["published_date"];
     $available = $oldInputs["available"];
-    $loan_count = $oldInputs["loan_count"];
     $cover = isset($oldInputs["cover"]) ? $oldInputs["cover"] : '';
 }
 ?>
@@ -50,12 +45,7 @@ if (isset($oldInputs["code"])) {
         <div>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
-                <div class="col-sm-3">
-                    <label for="code" class="form-label m-0">Code </label>
-                    <input type="text" class="form-control border field" value="<?= $code ?>" name="code" id="code">
-                    <small class="text-danger"><?= $errors["code"] ?? '' ?></small>
-                </div>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <label for="title" class="form-label m-0">Title</label>
                     <input type="text" class="form-control border field" value="<?= $title ?>" name="title" id="title">
                     <small class="text-danger"><?= $errors["title"] ?? '' ?></small>
@@ -120,11 +110,12 @@ if (isset($oldInputs["code"])) {
                     <input type="number" class="form-control border field" value="<?= $available ?>" name="available" id="available">
                     <small class="text-danger"><?= $errors["available"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-1">
-                    <label for="loan_count" class="form-label m-0">Loans</label>
-                    <input readonly type="number" class="form-control border field" value="<?= $loan_count ?>" name="loan_count" id="loan_count">
-                    <small class="text-danger"><?= $errors["loan_count"] ?? '' ?></small>
-                </div>
+                <?php if ($page === "Edit Book") { ?>
+                    <div class="col-sm-1">
+                        <label for="loan_count" class="form-label m-0">Loans</label>
+                        <input readonly type="number" class="form-control border field" value="<?= $loan_count ?>" name="loan_count" id="loan_count">
+                    </div>
+                <?php } ?>
                 <div class="col-sm-4">
                     <label for="cover" class="form-label m-0">Cover</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
@@ -141,7 +132,3 @@ if (isset($oldInputs["code"])) {
         </div>
     </form>
 </div>
-
-<script>
-    
-</script>

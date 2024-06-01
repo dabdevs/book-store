@@ -12,7 +12,7 @@ class BookController extends Controller
     public function __construct()
     {
         session_start();
-        
+
         if (!in_array($_SESSION["user"]->role, ["ADMIN", "LIBRERIAN"])) {
             header("Location:/forbidden");
             exit;
@@ -23,14 +23,13 @@ class BookController extends Controller
      *  Load all books from the database
      */
     public function index()
-    { 
+    {
         try {
-            $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
-
             $cardsData = $this->getCardsData();
+            $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
             $page = "Books";
-            
-            $this->render("dashboard", compact("books", "cardsData", "page"));
+
+            $this->render("dashboard", compact("cardsData", "books", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -81,7 +80,9 @@ class BookController extends Controller
             $data = $this->validate(BookValidation::$rules);
 
             // Upload file and set filename in POST data
-            Helper::uploadFile("cover", "/images/books/");
+            // Helper::uploadFile("cover", "/images/books/");
+
+            $data["code"] = Helper::generateBookCode(6);
 
             // Create new book
             Book::action()->create($data);
@@ -111,7 +112,7 @@ class BookController extends Controller
             session_start();
 
             // Upload file and set filename in POST data
-            Helper::uploadFile("cover", "/images/books/");
+            // Helper::uploadFile("cover", "/images/books/");
 
             // Validate form data
             Book::action()->update($_POST);

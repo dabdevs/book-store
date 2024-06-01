@@ -141,7 +141,7 @@ if (isset($_SESSION["error"])) {
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                <?= timeElapsed($loan->borrow_date) ?> 
+                                                <?= timeElapsed($loan->borrow_date) ?>
                                             </div>
                                         </li>
                                 <?php }
@@ -160,7 +160,7 @@ if (isset($_SESSION["error"])) {
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                                <?= timeElapsed($loan->return_date) ?> 
+                                                <?= timeElapsed($loan->return_date) ?>
                                             </div>
                                         </li>
                                 <?php }
@@ -173,6 +173,7 @@ if (isset($_SESSION["error"])) {
         <?php } ?>
         <!-- End Content -->
         <?php
+        include_once "scripts.inc.html";
 
         // Book pages
         if ($page === "Books") include "books.php";
@@ -196,8 +197,6 @@ if (isset($_SESSION["error"])) {
         <!-- End content -->
     </div>
 </main>
-
-<?php include_once "scripts.inc.html" ?>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="toast-alert" class="toast align-items-center text-bg-<?= $success ? 'success' : ($error ? 'danger' : '') ?> text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -227,14 +226,12 @@ if (isset($_SESSION["error"])) {
                 Are you sure you want to continue?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn bg-gradient-primary">Confirm Delete</button>
             </div>
         </div>
     </div>
 </form>
-
-
 
 <?php
 if (isset($success) || isset($error)) { ?>
