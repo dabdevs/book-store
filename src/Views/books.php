@@ -39,8 +39,7 @@
         const books = JSON.parse(document.getElementById('books-data').value);
         $('#books-table').DataTable({
             data: books,
-            columns: [
-                {
+            columns: [{
                     data: 'code'
                 },
                 {
@@ -63,10 +62,24 @@
                 },
                 {
                     render: function(data, type, row, meta) {
-                        return `<div class="align-middle w-100 d-flex justify-content-between mt-3">` +
-                            `<a href=/books/edit?id=${row.id} class="btn btn-sm btn-outline-primary text-primary font-weight-bold text-xs"> Edit</a>` +
-                            `<a href="#" class="btn btn-sm btn-outline-primary text-primary font-weight-bold text-xs ml-3" onclick="deleteItem('${row.title}', '${row.id}', '/books/delete')">Delete</a>` +
-                            `</div>`;
+                        const div = document.createElement('div')
+                        div.classList.add('align-middle', 'w-100', 'd-flex', 'justify-content-around', 'mt-3')
+
+                        const editBtn = document.createElement('a')
+                        editBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
+                        const deleteBtn = editBtn.cloneNode(true)
+                        editBtn.innerText = 'Edit'
+                        editBtn.href = `/books/edit?id=${row.id}`
+                        deleteBtn.innerText = 'Delete'
+
+                        deleteBtn.addEventListener('click', function() {
+                            deleteItem(`${row.title}`, row.id, '/books/delete')
+                        })
+
+                        div.appendChild(editBtn)
+                        div.appendChild(deleteBtn)
+
+                        return div
                     }
                 },
             ],
