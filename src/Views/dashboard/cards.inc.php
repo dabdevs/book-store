@@ -59,16 +59,14 @@
                 <div class="timeline timeline-one-side">
                     <?php if (isset($cardsData["topGenres"])) {
                         $colors = ["success", "warning", "danger"];
-                        foreach ($cardsData["topGenres"] as $key => $book) {
-                            $number = $key + 1;
+                        foreach ($cardsData["topGenres"] as $key => $data) {
                     ?>
-
                             <div class="timeline-block my-1 text-<?= $colors[$key] ?>">
                                 <span class="timeline-step">
-                                    <?= $number ?>
+                                    <?= $data->loans ?>
                                 </span>
                                 <div class="timeline-content">
-                                    <a href="/books?genre=<?= $book->genre ?>" class="text-dark text-sm font-weight-bold mb-0 h6"><?= $book->genre ?></a>
+                                    <a href="/books?genre=<?= $data->genre ?>" class="text-dark text-sm font-weight-bold mb-0 h6"><?= $data->genre ?></a>
                                 </div>
                             </div>
                     <?php }
