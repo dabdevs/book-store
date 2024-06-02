@@ -67,7 +67,9 @@
                     data: 'created_at'
                 },
                 {
-                    data: 'updated_at'
+                    render: function(data, type, row, meta) {
+                        return row.updated_at ?? 'N/A'
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {

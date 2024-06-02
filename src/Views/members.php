@@ -64,10 +64,14 @@
                     data: 'role'
                 },
                 {
-                    data: 'created_at'
+                    render: function(data, type, row, meta) {
+                        return row.created_at ?? 'N/A'
+                    }
                 },
                 {
-                    data: 'updated_at'
+                    render: function(data, type, row, meta) {
+                        return row.updated_at ?? 'N/A'
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {

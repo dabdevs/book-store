@@ -58,7 +58,9 @@
                     data: 'loan_count'
                 },
                 {
-                    data: 'updated_at'
+                    render: function(data, type, row, meta) {
+                        return row.updated_at ?? 'N/A'
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {
