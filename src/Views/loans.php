@@ -17,8 +17,7 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">ID</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Book</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Borrowed Date</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Borrowed Date - Due Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Return Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Updated</th>
@@ -43,24 +42,73 @@
                     data: 'id'
                 },
                 {
-                    data: 'title'
-                },
-                {
                     render: function(data, type, row) {
-                        return `${row.email} - ${row.lastname}`
+                        const nameColumn = document.createElement('div')
+                        nameColumn.classList.add('d-flex', 'flex-column', 'justify-content-center')
+
+                        const title = document.createElement('h6')
+                        title.classList.add('mb-0', 'text-sm')
+                        title.innerText = row.title
+
+                        const email = document.createElement('p')
+                        email.classList.add('text-xs', 'text-secondary', 'mb-0')
+                        email.innerText = row.email
+
+                        nameColumn.appendChild(title)
+                        nameColumn.appendChild(email)
+
+                        return nameColumn
                     }
                 },
                 {
-                    data: 'borrow_date'
+                    render: function(data, type, row, meta) {
+                        const div = document.createElement('div')
+                        const borrowDate = document.createElement('span')
+                        const dueDate = borrowDate.cloneNode(true)
+                        const upArrow = document.createElement('i')
+                        const downArrow = upArrow.cloneNode(true)
+                        upArrow.classList.add('material-icons', 'opacity-10', 'text-success')
+                        upArrow.innerText = 'arrow_upward'
+                        downArrow.classList.add('material-icons', 'opacity-10', 'text-danger')
+                        downArrow.innerText = 'arrow_downward'
+
+                        borrowDate.append(upArrow)
+                        borrowDate.append(row.borrow_date)
+
+                        dueDate.append(downArrow)
+                        dueDate.append(row.due_date)
+
+                        div.appendChild(borrowDate)
+                        div.appendChild(document.createElement('br'))
+                        div.appendChild(dueDate)
+
+                        return div
+                    }
                 },
                 {
-                    data: 'return_date'
+                    render: function(data, type, row, meta) {
+                        return row.return_date ?? 'N/A'
+                    }
                 },
                 {
-                    data: 'status'
+                    render: function(data, type, row, meta) {
+                        let color = row.status === 'BORROWED' ? 'success' : 'danger'
+                        let status = row.status
+
+                        if (status === 'BORROWED' && Date.parse(row.due_date) < new Date()) {
+                            status = 'OVERDUE'
+                            color = 'warning'
+                        }
+
+                        status = (row.status === 'BORROWED' && Date.parse(row.due_date) < new Date()) ? 'OVERDUE' : row.status
+
+                        return `<span class="w-100 badge badge-sm bg-gradient-${color}"> ${status} </span>`
+                    }
                 },
                 {
-                    data: 'updated_at'
+                    render: function(data, type, row, meta) {
+                        return row.updated_at ?? 'N/A'
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {
