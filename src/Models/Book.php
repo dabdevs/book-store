@@ -120,7 +120,7 @@ class Book
     /**
      *  Get a book by code
      */
-    public function getByCode($code)
+    public function getByCode(string $code)
     {
         $book = DB::table($this->table)->select()->where("code = :code", [":code" => $code])->get();
      
@@ -135,7 +135,7 @@ class Book
     /**
      *  Get a book by title
      */
-    public function getByTitle($title)
+    public function getByTitle(string $title)
     {
         $book = DB::table($this->table)->select()->where("title = :title", [":title" => $title]);
 
@@ -145,6 +145,30 @@ class Book
         }
 
         return null;
+    }
+
+    /**
+     *  Get a books by genre
+     */
+    public function getByGenre(string $genre)
+    {
+        return DB::table($this->table)->select()->where("genre = :genre", [":genre" => $genre])->get();
+    }
+
+    /**
+     *  Get top genres
+     */
+    public function getTopGenres()
+    {
+        $sql = "SELECT SUM(loan_count) as loans, genre
+                FROM books 
+                GROUP BY genre
+                ORDER BY loans DESC";
+
+        return DB::table($this->table)
+            ->query($sql)
+            ->limit(3)
+            ->get();
     }
 
     /**

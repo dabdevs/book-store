@@ -25,7 +25,7 @@ class Controller
         $data["booksCount"] = Book::action()->count();
         $data["loansCount"] = Loan::action()->count();
         $data["membersCount"] = Member::action()->count();
-        $data["topGenres"] = Loan::action()->getTopGenres();
+        $data["topGenres"] = Book::action()->getTopGenres();
 
         $user = (object)$_SESSION["user"];
         

@@ -25,9 +25,15 @@ class BookController extends Controller
     public function index()
     {
         try {
-            $cardsData = $this->getCardsData();
-            $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
             $page = "Books";
+            $genre = isset($_GET["genre"]) ? $_GET["genre"] : null;
+            $cardsData = $this->getCardsData();
+
+            if (!empty($genre)) {
+                $books = Book::action()->getByGenre($genre);
+            } else {
+                $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
+            }
 
             $this->render("dashboard", compact("cardsData", "books", "page"));
         } catch (\Exception $e) {
