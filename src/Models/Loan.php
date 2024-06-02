@@ -204,6 +204,24 @@ class Loan
     }
 
     /**
+     *  Get top genres
+     */
+    public function getTopGenres()
+    {
+        $sql = "SELECT COUNT(l.book_id) as number, b.genre
+                FROM loans l
+                JOIN books b 
+                ON l.book_id = b.id
+                GROUP BY l.book_id
+                ORDER BY number DESC";
+
+        return DB::table($this->table)
+            ->query($sql)
+            ->limit(3)
+            ->get();
+    }
+
+    /**
      *  Get top latest loans
      */
     public function latestLoans()

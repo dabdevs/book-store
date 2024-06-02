@@ -54,6 +54,27 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button">
+            <div class="card py-1" style="height: 115px;">
+                <div class="timeline timeline-one-side">
+                    <?php if (isset($cardsData["topGenres"])) {
+                            $colors = ["success", "warning", "danger"]; 
+                            foreach ($cardsData["topGenres"] as $key => $book) {
+                                $number = $key + 1;   
+                            ?>
+                             
+                            <div class="timeline-block my-1 text-<?=$colors[$key] ?>">
+                                <span class="timeline-step">
+                                    <?= $number ?>
+                                </span>
+                                <div class="timeline-content">
+                                    <a href="#" class="text-dark text-sm font-weight-bold mb-0 h6"><?= $book->genre ?></a>
+                                </div>
+                            </div>
+                    <?php }} ?>
+                </div>
+            </div>
+        </div>
     <?php } ?>
 
     <?php if ($authUser->role === "ADMIN") { ?>
