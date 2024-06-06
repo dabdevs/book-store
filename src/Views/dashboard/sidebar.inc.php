@@ -21,7 +21,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-white <?= str_contains($page, 'Book') ? 'active bg-gradient-primary' : '' ?>" href="/books">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">menu_book</i>
+                            <i class="material-icons opacity-10">collections_bookmark</i>
                         </div>
                         <span class="nav-link-text">Books</span>
                     </a>
@@ -37,7 +37,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-white <?= str_contains($page, 'Member') ? 'active bg-gradient-primary' : '' ?>" href="/members">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">person</i>
+                            <i class="material-icons opacity-10">group</i>
                         </div>
                         <span class="nav-link-text">Members</span>
                     </a>

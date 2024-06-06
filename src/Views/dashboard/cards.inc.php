@@ -1,6 +1,6 @@
 <div class="row">
     <?php if (in_array($authUser->role, ["ADMIN", "LIBRERIAN"])) { ?>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/books'">
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/books'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape <?= str_contains($page, 'Book') ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/loans'">
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/loans'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape <?= str_contains($page, 'Loan') ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/members'">
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/members'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape <?= str_contains($page, 'Member') ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button">
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4" role="button">
             <div class="card py-1" style="height: 115px;">
                 <div class="timeline timeline-one-side">
                     <?php if (isset($cardsData["topGenres"])) {
@@ -77,7 +77,7 @@
     <?php } ?>
 
     <?php if ($authUser->role === "ADMIN") { ?>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/librerians'">
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4" role="button" onclick="location.href='/librerians'">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape <?= str_contains($page, 'Librerian') ? 'bg-gradient-dark shadow-dark' : 'bg-gradient-primary shadow-primary' ?> text-center border-radius-xl mt-n4 position-absolute">

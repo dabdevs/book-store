@@ -47,8 +47,9 @@ if (isset($oldInputs["title"])) {
             <div class="row mb-3">
                 <div class="col-sm-12">
                     <label for="title" class="form-label m-0">Title</label>
-                    <input type="text" class="form-control border field" value="<?= $title ?>" name="title" id="title">
+                    <input type="text" class="form-control border field" value="<?= $title ?>" name="title" id="title" oninput="searchBook()">
                     <small class="text-danger"><?= $errors["title"] ?? '' ?></small>
+                    <div id="books-suggestions"></div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -95,7 +96,7 @@ if (isset($oldInputs["title"])) {
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <label for="publisher" class="form-label m-0">Publisher</label>
                     <input type="text" class="form-control border field" value="<?= $publisher ?>" name="publisher" id="publisher">
                     <small class="text-danger"><?= $errors["publisher"] ?? '' ?></small>
@@ -104,6 +105,16 @@ if (isset($oldInputs["title"])) {
                     <label for="published_date" class="form-label m-0">Published Date</label>
                     <input type="date" class="form-control border field" value="<?= $published_date ?>" name="published_date" id="published_date">
                     <small class="text-danger"><?= $errors["published_date"] ?? '' ?></small>
+                </div>
+                <div class="col-sm-1">
+                    <label for="page_count" class="form-label m-0">Pages</label>
+                    <input type="number" class="form-control border field" name="page_count" id="page_count">
+                    <small class="text-danger"><?= $errors["page_count"] ?? '' ?></small>
+                </div>
+                <div class="col-sm-1">
+                    <label for="rating" class="form-label m-0">Rating</label>
+                    <input type="number" class="form-control border field" name="rating" id="rating">
+                    <small class="text-danger"><?= $errors["rating"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
                     <label for="available" class="form-label m-0">Available</label>
@@ -119,6 +130,7 @@ if (isset($oldInputs["title"])) {
                 <div class="col-sm-4">
                     <label for="cover" class="form-label m-0">Cover</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
+                    <input type="hidden" id="coverFromApi">
                     <small class="text-danger"><?= $errors["cover"] ?? '' ?></small>
                 </div>
             </div>
