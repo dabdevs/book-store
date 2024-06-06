@@ -140,6 +140,8 @@ class Controller
                     }
                 } else {
                     if (in_array("required", $rule)) $errors[$field] = str_replace("_", " ", $field) . " is required";
+                    // If data is not required and empty, delete it from valid data
+                    unset($data[$field]);
                 }
             }
         }

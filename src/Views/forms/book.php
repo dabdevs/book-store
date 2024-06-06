@@ -55,7 +55,7 @@ if (isset($oldInputs["title"])) {
             <div class="row mb-3">
                 <div class="col-sm-12">
                     <label for="description" class="form-label m-0">Description</label>
-                    <textarea class="form-control border field" name="description" id="description"><?= $description ?></textarea>
+                    <textarea class="form-control border field" name="description" id="description" max="255"><?= $description ?></textarea>
                     <small class="text-danger"><?= $errors["description"] ?? ''; ?></small>
                 </div>
             </div>
@@ -68,12 +68,13 @@ if (isset($oldInputs["title"])) {
                 <div class="col-sm-3">
                     <label for="language" class="form-label m-0">Language</label>
                     <select class="form-control border field select2" name="language" value="" id="language">
-                        <option value="English" <?= $language === "English" ? "selected" : ''; ?>>English</option>
-                        <option value="Spanish" <?= $language === "Spanish" ? "selected" : ''; ?>>Spanish</option>
-                        <option value="French" <?= $language === "French" ? "selected" : ''; ?>>French</option>
-                        <option value="Italian" <?= $language === "Italian" ? "selected" : ''; ?>>Italian</option>
-                        <option value="Chinese" <?= $language === "Chinese" ? "selected" : ''; ?>>Chinese</option>
-                        <option value="Japanese" <?= $language === "Japanese" ? "selected" : ''; ?>>Japanese</option>
+                        <option value="">Select</option>
+                        <option value="en" <?= $language === "en" ? "selected" : ''; ?>>English</option>
+                        <option value="es" <?= $language === "es" ? "selected" : ''; ?>>Spanish</option>
+                        <option value="fr" <?= $language === "fr" ? "selected" : ''; ?>>French</option>
+                        <option value="it" <?= $language === "it" ? "selected" : ''; ?>>Italian</option>
+                        <option value="pr" <?= $language === "pr" ? "selected" : ''; ?>>Protuguese</option>
+                        <option value="jp" <?= $language === "jp" ? "selected" : ''; ?>>Japanese</option>
                     </select>
                     <small class="text-danger"><?= $errors["language"] ?? '' ?></small>
                 </div>
@@ -127,7 +128,7 @@ if (isset($oldInputs["title"])) {
                         <input readonly type="number" class="form-control border field" value="<?= $loan_count ?>" name="loan_count" id="loan_count">
                     </div>
                 <?php } ?>
-                <div class="col-sm-4">
+                <div class="col-sm-4" id="cover-column">
                     <label for="cover" class="form-label m-0">Cover</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
                     <input type="hidden" id="coverFromApi">

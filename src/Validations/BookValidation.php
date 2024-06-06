@@ -14,6 +14,8 @@ class BookValidation
         "genre" => ["required", "string", "max:50"],
         "publisher" => ["required", "string", "max:50"],
         "published_date" => ["required", "string"],
+        "page_count" => ["number"],
+        "rating" => ["number"],
         // "cover" => ["required", "image:jpg,jpeg", "size:5"], // maxSize: 5 mb
         "available" => ["required", "number"],
     ];
