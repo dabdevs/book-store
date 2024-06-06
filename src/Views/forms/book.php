@@ -48,7 +48,7 @@ if (isset($oldInputs["title"])) {
                 <div class="col-sm-12">
                     <label for="title" class="form-label m-0">Title</label>
                     <input type="text" class="form-control border field" value="<?= $title ?>" name="title" id="title" oninput="searchBook()">
-                    <small class="text-danger"><?= $errors["title"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["title"] ?? '' ?></small>
                     <div id="books-suggestions"></div>
                 </div>
             </div>
@@ -56,14 +56,14 @@ if (isset($oldInputs["title"])) {
                 <div class="col-sm-12">
                     <label for="description" class="form-label m-0">Description</label>
                     <textarea class="form-control border field" name="description" id="description" max="255"><?= $description ?></textarea>
-                    <small class="text-danger"><?= $errors["description"] ?? ''; ?></small>
+                    <small class="text-danger error"><?= $errors["description"] ?? ''; ?></small>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-4">
                     <label for="author" class="form-label m-0">Author</label>
                     <input type="text" class="form-control border field" name="author" value="<?= $author ?>" id="author">
-                    <small class="text-danger"><?= $errors["author"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["author"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-3">
                     <label for="language" class="form-label m-0">Language</label>
@@ -76,12 +76,12 @@ if (isset($oldInputs["title"])) {
                         <option value="pr" <?= $language === "pr" ? "selected" : ''; ?>>Protuguese</option>
                         <option value="jp" <?= $language === "jp" ? "selected" : ''; ?>>Japanese</option>
                     </select>
-                    <small class="text-danger"><?= $errors["language"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["language"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-2">
                     <label for="isbn" class="form-label m-0">ISBN</label>
                     <input type="text" class="form-control border field" name="isbn" value="<?= $isbn ?>" id="isbn">
-                    <small class="text-danger"><?= $errors["isbn"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["isbn"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-3">
                     <label for="genre" class="form-label m-0">Genre</label>
@@ -93,34 +93,34 @@ if (isset($oldInputs["title"])) {
                         <option value="Novel" <?= $genre === "Novel" ? "selected" : ''; ?>>Novel</option>
                         <option value="Science Fiction" <?= $genre === "Science Fiction" ? "selected" : ''; ?>>Science Fiction</option>
                     </select>
-                    <small class="text-danger"><?= $errors["genre"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["genre"] ?? '' ?></small>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-3">
                     <label for="publisher" class="form-label m-0">Publisher</label>
                     <input type="text" class="form-control border field" value="<?= $publisher ?>" name="publisher" id="publisher">
-                    <small class="text-danger"><?= $errors["publisher"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["publisher"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-2">
                     <label for="published_date" class="form-label m-0">Published Date</label>
                     <input type="date" class="form-control border field" value="<?= $published_date ?>" name="published_date" id="published_date">
-                    <small class="text-danger"><?= $errors["published_date"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["published_date"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
                     <label for="page_count" class="form-label m-0">Pages</label>
                     <input type="number" class="form-control border field" name="page_count" id="page_count">
-                    <small class="text-danger"><?= $errors["page_count"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["page_count"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
                     <label for="rating" class="form-label m-0">Rating</label>
                     <input type="number" class="form-control border field" name="rating" id="rating">
-                    <small class="text-danger"><?= $errors["rating"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["rating"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
                     <label for="available" class="form-label m-0">Available</label>
                     <input type="number" class="form-control border field" value="<?= $available ?>" name="available" id="available">
-                    <small class="text-danger"><?= $errors["available"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["available"] ?? '' ?></small>
                 </div>
                 <?php if ($page === "Edit Book") { ?>
                     <div class="col-sm-1">
@@ -132,7 +132,7 @@ if (isset($oldInputs["title"])) {
                     <label for="cover" class="form-label m-0">Cover</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
                     <input type="hidden" id="coverFromApi">
-                    <small class="text-danger"><?= $errors["cover"] ?? '' ?></small>
+                    <small class="text-danger error"><?= $errors["cover"] ?? '' ?></small>
                 </div>
             </div>
         </div>

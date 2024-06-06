@@ -43,6 +43,8 @@ async function searchBook() {
         inputRating.value = ''
         inputPageCount.value = ''
         inputLanguage.val('').trigger('change')
+        const errors = document.querySelectorAll('.error')
+        errors.forEach(err => err.innerText = '')
         return
     }
     
