@@ -5,9 +5,11 @@ $description = '';
 $author = '';
 $language = '';
 $isbn = '';
+$rating = '';
 $genre = '';
 $publisher = '';
 $published_date = '';
+$page_count = '';
 $available = '';
 $cover = '';
 
@@ -19,10 +21,12 @@ if (isset($book)) {
     $isbn = $book->getIsbn();
     $genre = $book->getGenre();
     $language = $book->getLanguage();
+    $rating = $book->getRating();
     $publisher = $book->getPublisher();
     $published_date = $book->getPublishedDate();
     $available = $book->getAvailable();
     $loan_count = $book->getLoanCount();
+    $page_count = $book->getPageCount();
     $cover = $book->getCover();
 }
 
@@ -37,6 +41,8 @@ if (isset($oldInputs["title"])) {
     $published_date = $oldInputs["published_date"];
     $available = $oldInputs["available"];
     $cover = isset($oldInputs["cover"]) ? $oldInputs["cover"] : '';
+    $page_count = isset($oldInputs["page_count"]) ? $oldInputs["page_count"] : '';
+    $rating = isset($oldInputs["rating"]) ? $oldInputs["rating"] : '';
 }
 ?>
 
@@ -65,7 +71,7 @@ if (isset($oldInputs["title"])) {
                     <input type="text" class="form-control border field" name="author" value="<?= $author ?>" id="author">
                     <small class="text-danger error"><?= $errors["author"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <label for="language" class="form-label m-0">Language</label>
                     <select class="form-control border field select2" name="language" value="" id="language">
                         <option value="">Select</option>
@@ -78,7 +84,7 @@ if (isset($oldInputs["title"])) {
                     </select>
                     <small class="text-danger error"><?= $errors["language"] ?? '' ?></small>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <label for="isbn" class="form-label m-0">ISBN</label>
                     <input type="text" class="form-control border field" name="isbn" value="<?= $isbn ?>" id="isbn">
                     <small class="text-danger error"><?= $errors["isbn"] ?? '' ?></small>
@@ -86,6 +92,7 @@ if (isset($oldInputs["title"])) {
                 <div class="col-sm-3">
                     <label for="genre" class="form-label m-0">Genre</label>
                     <select class="form-control border field select2" value="" name="genre" id="genre">
+                        <option value="">Select</option>
                         <option value="Fantasy" <?= $genre === "Fantasy" ? "selected" : ''; ?>>Fantasy</option>
                         <option value="Drama" <?= $genre === "Drama" ? "selected" : ''; ?>>Drama</option>
                         <option value="Adventure" <?= $genre === "Adventure" ? "selected" : ''; ?>>Adventure</option>
@@ -114,7 +121,7 @@ if (isset($oldInputs["title"])) {
                 </div>
                 <div class="col-sm-1">
                     <label for="rating" class="form-label m-0">Rating</label>
-                    <input type="number" class="form-control border field" name="rating" id="rating">
+                    <input type="number" step="0.1" class="form-control border field" name="rating" id="rating">
                     <small class="text-danger error"><?= $errors["rating"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
@@ -131,7 +138,7 @@ if (isset($oldInputs["title"])) {
                 <div class="col-sm-4" id="cover-column">
                     <label for="cover" class="form-label m-0">Cover</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
-                    <input type="hidden" id="coverFromApi">
+                    <input type="hidden" id="coverFromApi" name="coverFromApi">
                     <small class="text-danger error"><?= $errors["cover"] ?? '' ?></small>
                 </div>
             </div>

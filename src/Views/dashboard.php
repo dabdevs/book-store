@@ -127,11 +127,11 @@ if (isset($_SESSION["error"])) {
                                 </div>
                             </div>
                         </div>
+                        <?php if (!empty($latestLoans)) { ?>
                         <div class="card-body pt-4 p-3">
                             <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Latest Loans</h6>
                             <ul class="list-group">
-                                <?php if (!empty($latestLoans)) {
-                                    foreach ($latestLoans as $loan) { ?>
+                                    <?php foreach ($latestLoans as $loan) { ?>
                                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                             <div class="d-flex align-items-center">
                                                 <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_more</i></button>
@@ -147,10 +147,11 @@ if (isset($_SESSION["error"])) {
                                 <?php }
                                 } ?>
                             </ul>
+
+                            <?php if (!empty($latestReturns)) { ?>
                             <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Latest Returns</h6>
                             <ul class="list-group">
-                                <?php if (!empty($latestReturns)) {
-                                    foreach ($latestReturns as $loan) { ?>
+                                    <?php foreach ($latestReturns as $loan) { ?>
                                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                             <div class="d-flex align-items-center">
                                                 <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>

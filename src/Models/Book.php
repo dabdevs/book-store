@@ -18,6 +18,8 @@ class Book
     private $publisher;
     private $published_date;
     private $cover;
+    private $page_count;
+    private $rating;
     private $available;
     private $loan_count;
 
@@ -75,7 +77,7 @@ class Book
      */
     public function delete($id)
     {
-        return DB::table($this->table)->delete()->where("id = :id", ["id" => $id]);
+        return DB::table($this->table)->delete()->where("id = :id", [":id" => $id])->get();
     }
 
     /**
@@ -435,6 +437,46 @@ class Book
     public function setLoanCount($loanCount)
     {
         $this->loan_count = $loanCount;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of page_count
+     */ 
+    public function getPageCount()
+    {
+        return $this->page_count;
+    }
+
+    /**
+     * Set the value of page_count
+     *
+     * @return  self
+     */ 
+    public function setPageCount($page_count)
+    {
+        $this->page_count = $page_count;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of rating
+     */ 
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set the value of rating
+     *
+     * @return  self
+     */ 
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
 
         return $this;
     }

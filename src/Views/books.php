@@ -20,7 +20,6 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Author</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Genre</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Available</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Loan Count</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Updated</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
                             </tr>
@@ -43,19 +42,57 @@
                     data: 'code'
                 },
                 {
-                    data: 'title'
+                    render: function(data, type, row, meta) {
+                        const container = document.createElement('div')
+                        container.classList.add('d-flex', 'px-2', 'py-1')
+
+                        const imgContainer = document.createElement('div')
+                        const img = document.createElement('img')
+                        img.src = row.cover
+                        img.width = 40
+                        img.classList.add('avatar', 'avatar-sm', 'me-3', 'border-radius-lg')
+                        imgContainer.appendChild(img)
+
+                        const textContainer = document.createElement('div')
+                        textContainer.classList.add('d-flex', 'flex-column', 'justify-content-center')
+                        textContainer.style.width = '180px'
+
+                        const h6 = document.createElement('h6')
+                        h6.classList.add('mb-0', 'text-sm', 'text-truncate')
+                        h6.innerText = row.title
+
+                        const p = document.createElement('p')
+                        p.classList.add('text-xs', 'text-secondary', 'mb-0', 'text-truncate')
+                        p.innerText = row.description ?? 'N/A'
+
+                        textContainer.appendChild(h6)
+                        textContainer.appendChild(p)
+
+                        container.appendChild(imgContainer)
+                        container.appendChild(textContainer)
+                        return container
+                    }
                 },
                 {
-                    data: 'author'
+                    render: function(data, type, row, meta) {
+                        const div = document.createElement('div')
+                        div.classList.add('text-truncate')
+                        div.style.width = '150px'
+                        div.innerText = row.author ?? 'N/A'
+                        return div
+                    }
                 },
                 {
-                    data: 'genre'
+                    render: function(data, type, row, meta) {
+                        const div = document.createElement('div')
+                        div.classList.add('text-truncate')
+                        div.style.width = '150px'
+                        div.innerText = row.genre ?? 'N/A'
+                        return div
+                    }
                 },
                 {
                     data: 'available'
-                },
-                {
-                    data: 'loan_count'
                 },
                 {
                     render: function(data, type, row, meta) {

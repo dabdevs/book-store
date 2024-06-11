@@ -15,9 +15,25 @@ function deleteItem(title, id, action) {
     modal.show()
 }
 
+// Capitalize sentence
+function capitalize(str) {
+
+    // Split the string into an array of words
+    const words = str.split(' ');
+
+    // Map over each word in the array and capitalize the first letter
+    const capitalizedWords = words.map(word => {
+        // Capitalize the first letter and add the rest of the lowercase letters
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    });
+
+    // Join the array of capitalized words back into a single string
+    return capitalizedWords.join(' ');
+}
+
 // Search Book
 async function searchBook() {
-    const search = document.getElementById('title').value.toLowerCase()
+    const search = capitalize(document.getElementById('title').value)
     const suggestions = document.getElementById('books-suggestions')
     const coverColumn = document.getElementById('cover-column')
     const inputTitle = document.getElementById('title')
@@ -28,6 +44,7 @@ async function searchBook() {
     const inputRating = document.getElementById('rating')
     const inputPageCount = document.getElementById('page_count')
     const inputLanguage = $('#language')
+    const inputGenre = $('#genre')
     const inputIsbn = document.getElementById('isbn')
     const inputCoverFromApi = document.getElementById('coverFromApi')
 
@@ -42,7 +59,9 @@ async function searchBook() {
         inputPublishedDate.value = ''
         inputRating.value = ''
         inputPageCount.value = ''
+        inputIsbn.value = ''
         inputLanguage.val('').trigger('change')
+        inputGenre.val('').trigger('change')
         const errors = document.querySelectorAll('.error')
         errors.forEach(err => err.innerText = '')
         return
@@ -54,28 +73,27 @@ async function searchBook() {
     // Matches
     const books = data.items.filter(({ volumeInfo }) => {
         suggestions.innerHTML = ''
-        return volumeInfo.title.toLowerCase().startsWith(search)
+        return capitalize(volumeInfo.title)?.includes(search)
     })
 
     if (books.length > 0) {
         books.map(({ volumeInfo }) => {
-            const title = volumeInfo.title.toLowerCase()
-            const description = volumeInfo.description.substring(0, 255) ?? ''
-            const author = Array.isArray(volumeInfo.authors) ? volumeInfo.authors[0] : volumeInfo.authors
+            const title = capitalize(volumeInfo.title).substring(0, 150)
+            const description = volumeInfo.description?.substring(0, 255) ?? ''
+            const author = Array.isArray(volumeInfo.authors) ? volumeInfo.authors[0] : ''
             const language = volumeInfo.language ?? ''
-            const publisher = volumeInfo.publisher ?? ''
+            const publisher = volumeInfo.publisher ?? 'N/A'
             const publishedDate = volumeInfo.publishedDate ?? ''
             const pageCount = volumeInfo.pageCount
             const rating = volumeInfo.averageRating ?? ''
-            const genre = Array.isArray(volumeInfo.categories) ? volumeInfo.categories[0] : volumeInfo.categories
-            const cover = volumeInfo.imageLinks.thumbnail ?? ''
-            const isbn = Array.isArray(volumeInfo.industryIdentifiers) ? volumeInfo.industryIdentifiers[0].identifier : volumeInfo.industryIdentifiers
+            const genre = Array.isArray(volumeInfo.categories) ? volumeInfo.categories[0] : ''
+            const cover = volumeInfo.imageLinks.thumbnail ?? 'https://placehold.co/40x40'
+            const isbn = Array.isArray(volumeInfo.industryIdentifiers) ? volumeInfo.industryIdentifiers[0].identifier : ''
 
-            const book = document.createElement('p')
-            book.role = 'button'
-            book.innerHTML = title.replace(`${search}`, `<b>${search}</b>`)
-            book.addEventListener('click', () => {
-                console.log(volumeInfo)
+            const option = document.createElement('p')
+            option.role = 'button'
+            option.innerHTML = title.replace(`${search}`, `<b>${search}</b>`)
+            option.addEventListener('click', () => {
                 inputTitle.value = title
                 inputDescription.value = description
                 inputAuthor.value = author
@@ -84,20 +102,24 @@ async function searchBook() {
                 inputRating.value = rating ?? ''
                 inputPageCount.value = pageCount ?? ''
                 inputLanguage.val(language).trigger('change')
-
-                // Hide input file if cover image comes from api
-                if (cover !== null && search !== '') coverColumn.classList.add('d-none')
-                else coverColumn.classList.remove('d-none')
-
+                const newGenre = $('<option></option>').val(genre).text(genre);
+                inputGenre.append(newGenre).val(genre).trigger('change')
                 inputCoverFromApi.value = cover
                 inputIsbn.value = isbn
+
+                // Hide input file if cover image comes from api
+                if (cover !== null) coverColumn.classList.add('d-none')
+                else coverColumn.classList.remove('d-none')
+
+                // Hide input genre if it comes from api
+                if (genre !== null) coverColumn.classList.add('d-none')
+                else coverColumn.classList.remove('d-none')
+
                 document.getElementById('available').focus()
                 suggestions.innerHTML = ''
             })
 
-            suggestions.appendChild(book)
+            suggestions.appendChild(option)
         })
-        
-        console.log(suggestions)
     }
 }

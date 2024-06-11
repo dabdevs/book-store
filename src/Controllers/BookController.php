@@ -85,11 +85,17 @@ class BookController extends Controller
             // Validate form
             $data = $this->validate(BookValidation::$rules);
 
+            if (isset($_POST["coverFromApi"])) {
+                $data["cover"] = $_POST["coverFromApi"];
+                unset($data["coverFromApi"]);
+            }
+
             // Upload file and set filename in POST data
             // Helper::uploadFile("cover", "/images/books/");
 
             $data["code"] = Helper::generateBookCode(6);
-
+            // echo "<pre>";
+            // var_dump($data, $_POST); die;
             // Create new book
             Book::action()->create($data);
 
@@ -147,7 +153,7 @@ class BookController extends Controller
         try {
             session_start();
 
-            $id = $_POST["id"];
+            $id = $_POST["id"]; 
 
             Book::action()->delete($id);
 
