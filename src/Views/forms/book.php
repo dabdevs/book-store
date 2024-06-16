@@ -47,7 +47,7 @@ if (isset($oldInputs["title"])) {
 ?>
 
 <div class="card p-3 my-5">
-    <form action="/books<?= isset($book) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
+    <form action="/books<?= isset($book) ? '/update' : '' ?>" method="POST">
         <div>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
@@ -116,12 +116,12 @@ if (isset($oldInputs["title"])) {
                 </div>
                 <div class="col-sm-1">
                     <label for="page_count" class="form-label m-0">Pages</label>
-                    <input type="number" class="form-control border field" name="page_count" id="page_count">
+                    <input type="number" value="<?= $page_count ?>" class="form-control border field" name="page_count" id="page_count">
                     <small class="text-danger error"><?= $errors["page_count"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
                     <label for="rating" class="form-label m-0">Rating</label>
-                    <input type="number" step="0.1" class="form-control border field" name="rating" id="rating">
+                    <input type="number" step="0.1" value="<?= $rating ?>" class="form-control border field" name="rating" id="rating">
                     <small class="text-danger error"><?= $errors["rating"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-1">
@@ -135,12 +135,7 @@ if (isset($oldInputs["title"])) {
                         <input readonly type="number" class="form-control border field" value="<?= $loan_count ?>" name="loan_count" id="loan_count">
                     </div>
                 <?php } ?>
-                <div class="col-sm-4" id="cover-column">
-                    <label for="cover" class="form-label m-0">Cover</label>
-                    <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
-                    <input type="hidden" id="coverFromApi" name="coverFromApi">
-                    <small class="text-danger error"><?= $errors["cover"] ?? '' ?></small>
-                </div>
+                <input type="hidden" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
             </div>
         </div>
         <div class="modal-footer">

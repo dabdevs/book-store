@@ -102,14 +102,15 @@
                 {
                     render: function(data, type, row, meta) {
                         const div = document.createElement('div')
-                        div.classList.add('align-middle', 'w-100', 'd-flex', 'justify-content-around', 'mt-3')
+                        div.classList.add('align-middle', 'w-100', 'd-flex', 'gap-1', 'justify-content-around', 'mt-3')
 
                         const editBtn = document.createElement('a')
                         editBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
-                        const deleteBtn = editBtn.cloneNode(true)
-                        editBtn.innerText = 'Edit'
+                        editBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">edit</i>'
                         editBtn.href = `/books/edit?id=${row.id}`
-                        deleteBtn.innerText = 'Delete'
+
+                        const deleteBtn = editBtn.cloneNode(true)
+                        deleteBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">delete</i>'
 
                         deleteBtn.addEventListener('click', function() {
                             deleteItem(`${row.title}`, row.id, '/books/delete')

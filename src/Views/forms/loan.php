@@ -68,7 +68,7 @@ if (isset($oldInputs["book_id"])) {
 
                 <div class="col-sm-2">
                     <label for="due_date" class="form-label m-0">Due Date</label>
-                    <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" min="<?= $page === "Create Loan" ? $tomorrow : $today ?>" name="due_date" id="due_date">
+                    <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= empty($due_date) ? ($page === "Create Loan" ? $tomorrow : $today) : '' ?>" name="due_date" id="due_date">
                     <small class="text-danger"><?= $errors["due_date"] ?? '' ?></small>
                 </div>
                 <?php if ($page === "Edit Loan") { ?>

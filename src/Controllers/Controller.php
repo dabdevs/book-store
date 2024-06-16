@@ -26,7 +26,7 @@ class Controller
         $data["loansCount"] = Loan::action()->count();
         $data["membersCount"] = Member::action()->count();
         $data["topGenres"] = Book::action()->getTopGenres();
-
+     
         $user = (object)$_SESSION["user"];
         
         if (isset($user) && $user->role === User::$admin) {
@@ -46,8 +46,9 @@ class Controller
         $table = $rules["table"];
         $errors = [];
         $data = array_merge($_POST, $_FILES);
+        $id = $_POST["id"];
 
-        if (empty($_POST["id"]) && $table === "users") {
+        if (empty($id) && $table === "users") {
             $rules["email"] = ["string", "email", "required", "users:unique"];
             $rules["password"] = ["string", "required"];
         } else {
@@ -82,7 +83,7 @@ class Controller
                     }
 
                     // Validate if field is unique in table
-                    if (in_array("$table:unique", $rule)) {
+                    if (in_array("$table:unique", $rule) && empty($id)) {
                         $exists = DB::table($table)->select()->where(str_replace("_", " ", $field) . " = :$field", [":$field" => $value])->get();
 
                         if ($exists) $errors[$field] = str_replace("_", " ", $field) . " must be unique";

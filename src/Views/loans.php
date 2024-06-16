@@ -20,7 +20,6 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Borrowed Date - Due Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Return Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Last Updated</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions</th>
                             </tr>
                         </thead>
@@ -44,7 +43,7 @@
                 {
                     render: function(data, type, row) {
                         const nameColumn = document.createElement('div')
-                        nameColumn.classList.add('d-flex', 'flex-column', 'justify-content-center')
+                        nameColumn.classList.add('d-flex', 'flex-column', 'justify-content-center', 'text-truncate')
 
                         const title = document.createElement('h6')
                         title.classList.add('mb-0', 'text-sm')
@@ -107,20 +106,16 @@
                 },
                 {
                     render: function(data, type, row, meta) {
-                        return row.updated_at ?? 'N/A'
-                    }
-                },
-                {
-                    render: function(data, type, row, meta) {
                         const div = document.createElement('div')
-                        div.classList.add('align-middle', 'w-100', 'd-flex', 'justify-content-around', 'mt-3')
+                        div.classList.add('align-middle', 'w-100', 'd-flex', 'gap-1', 'justify-content-around', 'mt-3')
 
                         const editBtn = document.createElement('a')
                         editBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
+                        editBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">edit</i>'
+                        editBtn.href = `/books/edit?id=${row.id}`
+
                         const deleteBtn = editBtn.cloneNode(true)
-                        editBtn.innerText = 'Edit'
-                        editBtn.href = `/loans/edit?id=${row.id}`
-                        deleteBtn.innerText = 'Delete'
+                        deleteBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">delete</i>'
 
                         deleteBtn.addEventListener('click', function() {
                             deleteItem(`${row.id} - ${row.title}`, row.id, '/loans/delete')

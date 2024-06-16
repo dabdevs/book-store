@@ -35,7 +35,6 @@ function capitalize(str) {
 async function searchBook() {
     const search = capitalize(document.getElementById('title').value)
     const suggestions = document.getElementById('books-suggestions')
-    const coverColumn = document.getElementById('cover-column')
     const inputTitle = document.getElementById('title')
     const inputDescription = document.getElementById('description')
     const inputAuthor = document.getElementById('author')
@@ -46,12 +45,11 @@ async function searchBook() {
     const inputLanguage = $('#language')
     const inputGenre = $('#genre')
     const inputIsbn = document.getElementById('isbn')
-    const inputCoverFromApi = document.getElementById('coverFromApi')
+    const inputCover = document.getElementById('cover')
 
     // If search is null reset all inputs and suggestions container
     if (search === '') {
         suggestions.innerHTML = ''
-        coverColumn.value = ''
         inputTitle.value = ''
         inputDescription.value = ''
         inputAuthor.value = ''
@@ -104,16 +102,8 @@ async function searchBook() {
                 inputLanguage.val(language).trigger('change')
                 const newGenre = $('<option></option>').val(genre).text(genre);
                 inputGenre.append(newGenre).val(genre).trigger('change')
-                inputCoverFromApi.value = cover
+                inputCover.value = cover
                 inputIsbn.value = isbn
-
-                // Hide input file if cover image comes from api
-                if (cover !== null) coverColumn.classList.add('d-none')
-                else coverColumn.classList.remove('d-none')
-
-                // Hide input genre if it comes from api
-                if (genre !== null) coverColumn.classList.add('d-none')
-                else coverColumn.classList.remove('d-none')
 
                 document.getElementById('available').focus()
                 suggestions.innerHTML = ''

@@ -164,6 +164,7 @@ class Book
     {
         $sql = "SELECT SUM(loan_count) as loans, genre
                 FROM books 
+                WHERE genre IS NOT NULL
                 GROUP BY genre
                 ORDER BY loans DESC";
 
