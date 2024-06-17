@@ -128,9 +128,9 @@ if (isset($_SESSION["error"])) {
                             </div>
                         </div>
                         <?php if (!empty($latestLoans)) { ?>
-                        <div class="card-body pt-4 p-3">
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Latest Loans</h6>
-                            <ul class="list-group">
+                            <div class="card-body pt-4 p-3">
+                                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Latest Loans</h6>
+                                <ul class="list-group">
                                     <?php foreach ($latestLoans as $loan) { ?>
                                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                             <div class="d-flex align-items-center">
@@ -146,28 +146,28 @@ if (isset($_SESSION["error"])) {
                                         </li>
                                 <?php }
                                 } ?>
-                            </ul>
+                                </ul>
 
-                            <?php if (!empty($latestReturns)) { ?>
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Latest Returns</h6>
-                            <ul class="list-group">
-                                    <?php foreach ($latestReturns as $loan) { ?>
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm"><?= $loan->title ?></h6>
-                                                    <span class="text-xs">By <?= $loan->firstname ?> <?= $loan->lastname ?></span>
+                                <?php if (!empty($latestReturns)) { ?>
+                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Latest Returns</h6>
+                                    <ul class="list-group">
+                                        <?php foreach ($latestReturns as $loan) { ?>
+                                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm"><?= $loan->title ?></h6>
+                                                        <span class="text-xs">By <?= $loan->firstname ?> <?= $loan->lastname ?></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                                <?= timeElapsed($loan->return_date) ?>
-                                            </div>
-                                        </li>
-                                <?php }
-                                } ?>
-                            </ul>
-                        </div>
+                                                <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                    <?= timeElapsed($loan->return_date) ?>
+                                                </div>
+                                            </li>
+                                    <?php }
+                                    } ?>
+                                    </ul>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -178,7 +178,7 @@ if (isset($_SESSION["error"])) {
 
         // Book pages
         if ($page === "Books") include "books.php";
-        if ($page === "Create Book" || $page === "Edit Book") include "forms/book.php";
+        if ($page === "Create Book" || $page === "View Book") include "forms/book.php";
 
         // Loan pages
         if ($page === "Loans") include "loans.php";

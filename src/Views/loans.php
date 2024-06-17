@@ -109,19 +109,19 @@
                         const div = document.createElement('div')
                         div.classList.add('align-middle', 'w-100', 'd-flex', 'gap-1', 'justify-content-around', 'mt-3')
 
-                        const editBtn = document.createElement('a')
-                        editBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
-                        editBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">edit</i>'
-                        editBtn.href = `/books/edit?id=${row.id}`
+                        const viewBtn = document.createElement('a')
+                        viewBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
+                        viewBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">edit</i>'
+                        viewBtn.href = `/books/show?id=${row.id}`
 
-                        const deleteBtn = editBtn.cloneNode(true)
+                        const deleteBtn = viewBtn.cloneNode(true)
                         deleteBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">delete</i>'
 
                         deleteBtn.addEventListener('click', function() {
                             deleteItem(`${row.id} - ${row.title}`, row.id, '/loans/delete')
                         })
 
-                        div.appendChild(editBtn)
+                        div.appendChild(viewBtn)
                         div.appendChild(deleteBtn)
 
                         return div

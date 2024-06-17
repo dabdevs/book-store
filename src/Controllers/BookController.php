@@ -57,15 +57,15 @@ class BookController extends Controller
     }
 
     /**
-     *  Render edit page
+     *  Render show page
      */
-    public function edit()
+    public function show()
     {
         try {
             $queryParams = Helper::getQueryParameters();
             $id = $queryParams["id"];
             $cardsData = $this->getCardsData();
-            $page = "Edit Book";
+            $page = "View Book";
             $book = Book::action()->getById($id);
 
             $this->render("dashboard", compact("cardsData", "book", "page"));
@@ -125,8 +125,6 @@ class BookController extends Controller
 
             // Validate form
             $data = $this->validate(BookValidation::$rules);
-            echo "<pre>";
-            var_dump($data);
 
             // Upload file and set filename in POST data
             // Helper::uploadFile("cover", "/images/books/");
@@ -158,7 +156,7 @@ class BookController extends Controller
         try {
             session_start();
 
-            $id = $_POST["id"]; 
+            $id = $_POST["id"];
 
             Book::action()->delete($id);
 

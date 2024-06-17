@@ -41,7 +41,7 @@ $router->post("/librerians/delete", LibrerianController::class, "destroy");
 $router->get("/books", BookController::class, "index");
 $router->post("/books", BookController::class, "store");
 $router->get("/books/create", BookController::class, "create");
-$router->get("/books/edit", BookController::class, "edit");
+$router->get("/books/show", BookController::class, "show");
 $router->post("/books/update", BookController::class, "update");
 $router->post("/books/delete", BookController::class, "destroy");
 
