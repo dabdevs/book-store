@@ -22,6 +22,8 @@ class Book
     private $rating;
     private $available;
     private $loan_count;
+    private $created_at;
+    private $updated_at;
 
     public function __construct()
     {
@@ -478,6 +480,66 @@ class Book
     public function setRating($rating)
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of code
+     */ 
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set the value of code
+     *
+     * @return  self
+     */ 
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */ 
+    public function getDateCreated()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */ 
+    public function setDateCreated($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */ 
+    public function getLastUpdated()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */ 
+    public function setLastUpdated($updated_at)
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

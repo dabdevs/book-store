@@ -31,6 +31,27 @@ function capitalize(str) {
     return capitalizedWords.join(' ');
 }
 
+// Activate form edition
+function editForm() {
+    const inputs = document.querySelectorAll('.form-value')
+    inputs.forEach(input => {
+        if (input.classList.contains('d-none')) {
+            input.classList.remove('d-none')
+        } else {
+            input.classList.add('d-none')
+        }
+    })
+
+    const texts = document.querySelectorAll('.plain-value')
+    texts.forEach(text => {
+        if (text.classList.contains('d-none')) {
+            text.classList.remove('d-none')
+        } else {
+            text.classList.add('d-none')
+        }
+    })
+}
+
 // Search Book
 async function searchBook() {
     const search = capitalize(document.getElementById('title').value)
