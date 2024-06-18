@@ -1,6 +1,6 @@
 <?php
 $id = '';
-$book_id = '';
+$book_id = isset($_GET['book_id']) ? $_GET['book_id'] : '';
 $user_id = '';
 $borrow_date = '';
 $due_date = '';
@@ -59,7 +59,7 @@ if (isset($oldInputs["book_id"])) {
                 </div>
             </div>
             <div class="row mb-3">
-                <?php if ($page === "Edit Loan") { ?>
+                <?php if ($page === "Show Loan") { ?>
                     <div class="col-sm-2">
                         <label for="borrow_date" class="form-label m-0">Borrow Date</label>
                         <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($borrow_date)) ?>" name="borrow_date" id="borrow_date" disabled>
@@ -71,7 +71,7 @@ if (isset($oldInputs["book_id"])) {
                     <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= empty($due_date) ? ($page === "Create Loan" ? $tomorrow : $today) : '' ?>" name="due_date" id="due_date">
                     <small class="text-danger"><?= $errors["due_date"] ?? '' ?></small>
                 </div>
-                <?php if ($page === "Edit Loan") { ?>
+                <?php if ($page === "Show Loan") { ?>
                     <div class="col-sm-3">
                         <label for="status" class="form-label m-0">Status</label>
                         <select class="form-control border field" name="status" id="status">

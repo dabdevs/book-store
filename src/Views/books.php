@@ -128,6 +128,7 @@
                     }
                 },
             ],
+            "autoWidth": true,
             "iDisplayLength": 10, //Pagination
             "order": [
                 [7, "DESC"]

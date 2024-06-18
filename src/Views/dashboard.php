@@ -182,15 +182,15 @@ if (isset($_SESSION["error"])) {
 
         // Loan pages
         if ($page === "Loans") include "loans.php";
-        if ($page === "Create Loan" || $page === "Edit Loan") include "forms/loan.php";
+        if ($page === "Create Loan" || $page === "Show Loan") include "forms/loan.php";
 
         // Member pages
         if ($page === "Members") include "members.php";
-        if ($page === "Create Member" || $page === "Edit Member") include "forms/user.php";
+        if ($page === "Create Member" || $page === "Show Member") include "forms/user.php";
 
         // Librerian pages
         if ($page === "Librerians") include "librerians.php";
-        if ($page === "Create Librerian" || $page === "Edit Librerian") include "forms/user.php";
+        if ($page === "Create Librerian" || $page === "Show Librerian") include "forms/user.php";
 
         // Profile page
         if ($page === "Profile") include "profile.php";

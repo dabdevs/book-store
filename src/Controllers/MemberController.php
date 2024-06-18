@@ -83,15 +83,15 @@ class MemberController extends Controller
     }
 
     /**
-     *  Render edit page
+     *  Render show page
      */
-    public function edit()
+    public function show()
     {
         try {
             $queryParams = Helper::getQueryParameters();
             $id = $queryParams["id"];
             $cardsData = $this->getCardsData();
-            $page = "Edit Member";
+            $page = "Show Member";
             $member = Member::action()->getById($id);
             $this->render("dashboard", compact("cardsData", "member", "page"));
         } catch (\Exception $e) {

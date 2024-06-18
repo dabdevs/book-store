@@ -80,14 +80,14 @@
 
                         const viewBtn = document.createElement('a')
                         viewBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
-                        viewBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">edit</i>'
-                        viewBtn.href = `/books/show?id=${row.id}`
+                        viewBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">visibility</i>'
+                        viewBtn.href = `/members/show?id=${row.id}`
 
                         const deleteBtn = viewBtn.cloneNode(true)
                         deleteBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">delete</i>'
 
                         deleteBtn.addEventListener('click', function() {
-                            deleteItem(`${row.id} - ${row.email}`, row.id, '/members/delete')
+                            deleteItem(`${row.title}`, row.id, '/members/delete')
                         })
 
                         div.appendChild(viewBtn)
@@ -97,7 +97,7 @@
                     }
                 },
             ],
-            autoWidth: true,
+            "autoWidth": true,
             "iDisplayLength": 10, //Pagination
             "order": [
                 [5, "DESC"]

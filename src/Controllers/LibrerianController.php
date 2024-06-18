@@ -83,15 +83,15 @@ class LibrerianController extends Controller
     }
 
     /**
-     *  Render edit page
+     *  Render show page
      */
-    public function edit()
+    public function show()
     {
         try {
             $queryParams = Helper::getQueryParameters();
             $id = $queryParams["id"];
             $cardsData = $this->getCardsData();
-            $page = "Edit Librerian";
+            $page = "Show Librerian";
             $librerian = Librerian::action()->getById($id);
 
             $this->render("dashboard", compact("cardsData", "librerian", "page"));

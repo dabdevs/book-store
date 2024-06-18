@@ -6,10 +6,8 @@ use App\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
-use App\Models\User;
 use App\Utils\Helper;
 use App\Validations\LoanValidation;
-use DateTime;
 
 class LoanController extends Controller
 {
@@ -57,19 +55,19 @@ class LoanController extends Controller
     }
 
     /**
-     *  Render edit page
+     *  Render show page
      */
-    public function edit()
+    public function show()
     {
         try {
             $queryParams = Helper::getQueryParameters();
             $id = $queryParams["id"];
-            $cardsData = $this->getCardsData();
-            $page = "Edit Loan"; 
+            $cardsData = $this->getCardsData(); 
+            $page = "Show Loan"; 
             $loan = Loan::action()->getById($id); 
             $books = Book::action()->getAll(["field" => "id", "order" => "DESC"]);
             $members = Member::action()->getAll(["field" => "id", "order" => "DESC"]);
-          
+
             $this->render("dashboard", compact("cardsData", "loan", "books", "members", "page"));
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

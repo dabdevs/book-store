@@ -57,54 +57,58 @@ if (isset($oldInputs["title"])) {
         <i class="material-icons opacity-10 fs-5">edit</i>
     </button>
     <div class="row plain-value">
-        <div class="col-sm-12 mb-2 d-flex gap-3 plain-value">
+        <div class="col-sm-12 mb-2 d-flex gap-3">
             <img src="<?= $cover ?>" alt="">
             <div>
                 <h3><?= $title ?></h3>
                 <p><?= $description ?? 'N/A' ?></p>
             </div>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Code: </b> <?= $code ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Author: </b> <?= $author ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Language: </b><?= $language ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>ISBN: </b><?= $isbn ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Genre: </b><?= $genre ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Publisher:</b> <?= $publisher ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Published Date:</b> <?= $published_date ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Pages:</b> <?= $page_count ?? 'N/A' ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Rating:</b> <?= $rating ?? 'N/A' ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Available:</b> <?= $available ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Loans:</b> <?= $loan_count ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Date Created:</b> <?= $date_created ?></p>
         </div>
-        <div class="col-sm-3 plain-value">
+        <div class="col-sm-3">
             <p><b>Last Updated:</b> <?= $last_updated ?? 'N/A' ?></p>
         </div>
         <div class="modal-footer">
             <a href="/books" class="btn">Cancel</a>
+            <a href="/loans/create?book_id=<?= $id ?>" class="btn btn-primary" id="submit-btn">
+                <i class="material-icons opacity-10 text-white">add</i>
+                Create Loan
+            </a>
         </div>
     </div>
 
@@ -204,9 +208,9 @@ if (isset($oldInputs["title"])) {
             <?php } ?>
             <input type="hidden" class="form-control border field" value="<?= $cover ?>" name="cover" id="cover">
         </div>
-        <div class="modal-footer form-value d-none" id="footer">
+        <div class="modal-footer">
             <a href="/books" class="btn">Cancel</a>
-            <button type="submit" class="btn btn-primary form-value d-none" id="submit-btn">
+            <button type="submit" class="btn btn-primary" id="submit-btn">
                 <i class="material-icons opacity-10 text-white">save</i>
                 Save
             </button>

@@ -25,7 +25,7 @@ $router->delete("/users", UserController::class, "destroy");
 $router->get("/members", MemberController::class, "index", "admin");
 $router->post("/members", MemberController::class, "store");
 $router->get("/members/create", MemberController::class, "create");
-$router->get("/members/edit", MemberController::class, "edit");
+$router->get("/members/show", MemberController::class, "show");
 $router->post("/members/update", MemberController::class, "update");
 $router->post("/members/delete", MemberController::class, "destroy");
 
@@ -33,7 +33,7 @@ $router->post("/members/delete", MemberController::class, "destroy");
 $router->get("/librerians", LibrerianController::class, "index");
 $router->post("/librerians", LibrerianController::class, "store");
 $router->get("/librerians/create", LibrerianController::class, "create");
-$router->get("/librerians/edit", LibrerianController::class, "edit");
+$router->get("/librerians/show", LibrerianController::class, "show");
 $router->post("/librerians/update", LibrerianController::class, "update");
 $router->post("/librerians/delete", LibrerianController::class, "destroy");
 
@@ -49,7 +49,7 @@ $router->post("/books/delete", BookController::class, "destroy");
 $router->get("/loans", LoanController::class, "index");
 $router->post("/loans", LoanController::class, "store");
 $router->get("/loans/create", LoanController::class, "create");
-$router->get("/loans/edit", LoanController::class, "edit");
+$router->get("/loans/show", LoanController::class, "show");
 $router->post("/loans/update", LoanController::class, "update");
 $router->post("/loans/delete", LoanController::class, "destroy");
 
