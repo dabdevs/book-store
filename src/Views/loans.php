@@ -42,8 +42,8 @@
                 },
                 {
                     render: function(data, type, row) {
-                        const nameColumn = document.createElement('div')
-                        nameColumn.classList.add('d-flex', 'flex-column', 'justify-content-center', 'text-truncate')
+                        const container = document.createElement('div')
+                        container.classList.add('d-flex', 'flex-column', 'justify-content-center', 'text-truncate')
 
                         const title = document.createElement('h6')
                         title.classList.add('mb-0', 'text-sm')
@@ -53,10 +53,15 @@
                         email.classList.add('text-xs', 'text-secondary', 'mb-0')
                         email.innerText = row.email
 
-                        nameColumn.appendChild(title)
-                        nameColumn.appendChild(email)
+                        container.role = 'button'
+                        container.addEventListener('click', function() {
+                            window.location.href = `/loans/show?id=${row.id}`
+                        })
 
-                        return nameColumn
+                        container.appendChild(title)
+                        container.appendChild(email)
+
+                        return container
                     }
                 },
                 {

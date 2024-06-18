@@ -50,13 +50,16 @@ if (isset($oldInputs["title"])) {
     $page_count = isset($oldInputs["page_count"]) ? $oldInputs["page_count"] : '';
     $rating = isset($oldInputs["rating"]) ? $oldInputs["rating"] : '';
 }
+
+$show_form = empty($id) ? "" : "d-none";
+
 ?>
 
-<div class="card p-3 my-5 position-relative">
+<div class="card p-3 my-5">
     <button class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
         <i class="material-icons opacity-10 fs-5">edit</i>
     </button>
-    <div class="row plain-value">
+    <div class="row plain-value <?= $show_form === "" ? 'd-none' : '' ?>">
         <div class="col-sm-12 mb-2 d-flex gap-3">
             <img src="<?= $cover ?>" alt="">
             <div>
@@ -103,7 +106,7 @@ if (isset($oldInputs["title"])) {
         <div class="col-sm-3">
             <p><b>Last Updated:</b> <?= $last_updated ?? 'N/A' ?></p>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer px-2">
             <a href="/books" class="btn">Cancel</a>
             <a href="/loans/create?book_id=<?= $id ?>" class="btn btn-primary" id="submit-btn">
                 <i class="material-icons opacity-10 text-white">add</i>
@@ -112,7 +115,7 @@ if (isset($oldInputs["title"])) {
         </div>
     </div>
 
-    <form class="py-2 form-value d-none" action="/books<?= isset($book) ? '/update' : '' ?>" method="POST">
+    <form class="py-2 form-value <?= $show_form ?>" action="/books<?= isset($book) ? '/update' : '' ?>" method="POST">
         <input type="hidden" name="id" value="<?= $id ?>">
         <div class="row mb-3">
             <div class="col-sm-12">

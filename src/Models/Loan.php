@@ -12,11 +12,14 @@ class Loan
     public static $returned = "RETURNED";
     private $id;
     private $book;
-    private $user;
+    private $member;
     private $borrow_date;
     private $return_date;
     private $due_date;
     private $status;
+    private $creator;
+    private $created_at;
+    private $updated_at;
 
     public function __construct()
     {
@@ -60,14 +63,23 @@ class Loan
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
                 if ($key === "book_id") {
-                    $this->book = Book::action()->getById($value);
+                    $book = Book::action()->getById($value);
+                    $this->setBook($book);
                 }
+
                 if ($key === "user_id") {
-                    $this->user = DB::table("users")->select()->where("id = :id", [":id" => $value])->get()[0];
+                    // $this->user = DB::table("users")->select()->where("id = :id", [":id" => $value])->get()[0];
+                    $member = Member::action()->getById($value);
+                    $this->setMember($member);
                 }
 
                 if (property_exists($this, $key)) {
                     $this->{$key} = $value;
+                }
+
+                if ($key === "creator") {
+                    $creator = Librerian::action()->getById($value) ?? Admin::action()->getById($value);
+                    $this->setCreator($creator);
                 }
             }
         }
@@ -267,7 +279,7 @@ class Loan
         return [
             "id" => $this->id,
             "book" => $this->book,
-            "user" => $this->user,
+            "member" => $this->member,
             "borrow_date" => $this->borrow_date,
             "due_date" => $this->due_date,
             "return_date" => $this->return_date,
@@ -316,21 +328,21 @@ class Loan
     }
 
     /**
-     * Get the value of user
+     * Get the value of member
      */
-    public function getUser()
+    public function getMember()
     {
-        return $this->user;
+        return $this->member;
     }
 
     /**
-     * Set the value of user
+     * Set the value of member
      *
      * @return  self
      */
-    public function setUser($user)
+    public function setMember($member)
     {
-        $this->user = $user;
+        $this->member = $member;
 
         return $this;
     }
@@ -391,6 +403,66 @@ class Loan
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the creator of the loan
+     */ 
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    /**
+     * Set the creator
+     *
+     * @return  self
+     */ 
+    public function setCreator($creator)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */ 
+    public function getDateCreated()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */ 
+    public function setDateCreated($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */ 
+    public function getLastUpdated()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */ 
+    public function setLastUpdated($updated_at)
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

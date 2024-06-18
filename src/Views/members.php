@@ -40,8 +40,8 @@
             data: members,
             columns: [{
                     render: function(data, type, row) {
-                        const nameColumn = document.createElement('div')
-                        nameColumn.classList.add('d-flex', 'flex-column', 'justify-content-center')
+                        const container = document.createElement('div')
+                        container.classList.add('d-flex', 'flex-column', 'justify-content-center')
 
                         const fullName = document.createElement('h6')
                         fullName.classList.add('mb-0', 'text-sm')
@@ -51,10 +51,15 @@
                         email.classList.add('text-xs', 'text-secondary', 'mb-0')
                         email.innerText = row.email
 
-                        nameColumn.appendChild(fullName)
-                        nameColumn.appendChild(email)
+                        container.role = 'button'
+                        container.addEventListener('click', function() {
+                            window.location.href = `/members/show?id=${row.id}`
+                        })
 
-                        return nameColumn
+                        container.appendChild(fullName)
+                        container.appendChild(email)
+
+                        return container
                     }
                 },
                 {

@@ -1,7 +1,7 @@
 <?php
 $id = '';
 $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : '';
-$user_id = '';
+$member_id = '';
 $borrow_date = '';
 $due_date = '';
 $status = '';
@@ -9,29 +9,69 @@ $status = '';
 if (isset($loan)) {
     $id = $loan->getId();
     $book_id = $loan->getBook()->getId();
-    $user_id = $loan->getUser()->id;
+    $book_title = $loan->getBook()->getTitle();
+    $member_id = $loan->getMember()->getId();
+    $member = $loan->getMember()->getFirstname() . " " . $loan->getMember()->getLastname();
     $borrow_date = $loan->getBorrowDate();
     $due_date = $loan->getDueDate();
+    $return_date = $loan->getReturnDate();
     $status = $loan->getStatus();
+    $creator = $loan->getCreator()->getFirstname() . " " . $loan->getCreator()->getLastname();
+    $date_created = $loan->getDateCreated();
+    $date_updated = $loan->getLastUpdated();
 }
 
 if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
-    $user_id = $oldInputs["user_id"];
+    $member_id = $oldInputs["user_id"];
     $due_date = $oldInputs["due_date"];
     $status = isset($oldInputs["status"]) ? $oldInputs["status"] : '';
 }
 
+$show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
 ?>
 
 <div class="card p-3 my-5">
-    <form action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
+    <button class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
+        <i class="material-icons opacity-10 fs-5">edit</i>
+    </button>
+    <div class="row plain-value <?= $show_form === "" ? 'd-none' : '' ?> mt-3">
+        <div class="col-sm-3">
+            <p><b>Book: </b> <?= $book_title ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Member: </b> <?= $member ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Date Borrowed: </b><?= $borrow_date ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Due Date: </b><?= $due_date ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Return Date: </b><?= $return_date ?? 'N/A' ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Creator:</b> <?= $creator ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Date Created:</b> <?= $date_created ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Last Updated:</b> <?= $last_updated ?? 'N/A' ?></p>
+        </div>
+        <div class="modal-footer px-2">
+            <a href="/loans" class="btn">Cancel</a>
+        </div>
+    </div>
+
+    <form class="form-value <?= $show_form ?>" action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
         <fieldset <?php if ($status === "RETURNED") echo 'disabled' ?>>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
                 <div class="col-sm-6">
-                    <label for="book_id" class="form-label m-0">Book</label>
-                    <select class="form-control border field select2" name="book_id" id="book_id">
+                    <label for="book_id" class="form-label m-0">Book</label> <br>
+                    <select style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id">
                         <option value="">Select</option>
                         <?php
                         foreach ($books as $book) {
@@ -44,13 +84,13 @@ if (isset($oldInputs["book_id"])) {
                     <small class="text-danger"><?= $errors["book_id"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-6">
-                    <label for="user_id" class="form-label m-0">User</label>
-                    <select class="form-control border field select2" name="user_id" id="user_id">
+                    <label for="user_id" class="form-label m-0">User</label> <br>
+                    <select style="width: 100%;" class="form-control border field select2" name="user_id" id="user_id">
                         <option value="">Select</option>
                         <?php
                         foreach ($members as $member) {
                         ?>
-                            <option value="<?= $member->id ?>" <?= $user_id == $member->id ? "selected" : ''; ?>> <?= $member->email ?> - <?= $member->firstname ?> <?= $member->lastname ?></option>
+                            <option value="<?= $member->id ?>" <?= $member_id == $member->id ? "selected" : ''; ?>> <?= $member->email ?> - <?= $member->firstname ?> <?= $member->lastname ?></option>
                         <?php
                         }
                         ?>
