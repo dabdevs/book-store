@@ -106,7 +106,7 @@ class MemberController extends Controller
         try {
             // Validate form
             $data = $this->validate(UserValidation::$rules);
-            
+
             $data["avatar"] = $data["avatar"]["name"]; 
             
             // Upload file and set filename in POST data

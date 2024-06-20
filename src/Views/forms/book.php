@@ -111,10 +111,12 @@ $show_form = empty($id) ? "" : "d-none";
         </div>
         <div class="modal-footer px-2">
             <a href="/books" class="btn">Cancel</a>
+            <?php if ($available > 0) { ?>
             <a href="/loans/create?book_id=<?= $id ?>" class="btn btn-primary" id="submit-btn">
                 <i class="material-icons opacity-10 text-white">add</i>
                 Create Loan
             </a>
+            <?php } ?>
         </div>
     </div>
 
