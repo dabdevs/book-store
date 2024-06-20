@@ -22,12 +22,13 @@ $router->post("/users", UserController::class, "update");
 $router->delete("/users", UserController::class, "destroy");
 
 // Member routes
-$router->get("/members", MemberController::class, "index", "admin");
+$router->get("/members", MemberController::class, "index");
 $router->post("/members", MemberController::class, "store");
 $router->get("/members/create", MemberController::class, "create");
 $router->get("/members/show", MemberController::class, "show");
 $router->post("/members/update", MemberController::class, "update");
 $router->post("/members/delete", MemberController::class, "destroy");
+$router->get("/member", MemberController::class, "getMember");
 
 // Librerian routes
 $router->get("/librerians", LibrerianController::class, "index");

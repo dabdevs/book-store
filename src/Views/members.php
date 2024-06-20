@@ -88,8 +88,9 @@
                         viewBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">visibility</i>'
                         viewBtn.href = `/members/show?id=${row.id}`
 
-                        const deleteBtn = viewBtn.cloneNode(true)
+                        const deleteBtn = document.createElement('button')
                         deleteBtn.innerHTML = '<i class="material-icons opacity-10 fs-5">delete</i>'
+                        deleteBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'text-primary', 'font-weight-bold', 'text-xs')
 
                         deleteBtn.addEventListener('click', function() {
                             deleteItem(`${row.title}`, row.id, '/members/delete')

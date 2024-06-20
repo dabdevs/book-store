@@ -8,6 +8,7 @@ use App\Models\Librerian;
 use App\Models\Loan;
 use App\Models\Member;
 use App\Models\User;
+use App\Utils\Helper;
 
 class Controller
 {
@@ -65,7 +66,7 @@ class Controller
                 // Rules for current field
                 $rule = $rules[$key];
 
-                // Validate if field is required
+                // Validate field
                 if ($value !== "") {
                     // Validate if field is a string
                     if (in_array("string", $rule) && !is_string($value)) {
@@ -78,7 +79,7 @@ class Controller
                     }
 
                     // Validate if field is an email
-                    if (in_array("email", $rule) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    if (in_array("email", $rule) && !Helper::validateEmail($value)) {
                         $errors[$field] = str_replace("_", " ", $field) . " is not valid";
                     }
 
@@ -141,6 +142,7 @@ class Controller
                     }
                 } else {
                     if (in_array("required", $rule)) $errors[$field] = str_replace("_", " ", $field) . " is required";
+                    
                     // If data is not required and empty, delete it from valid data
                     unset($data[$field]);
                 }

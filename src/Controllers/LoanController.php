@@ -60,8 +60,7 @@ class LoanController extends Controller
     public function show()
     {
         try {
-            $queryParams = Helper::getQueryParameters();
-            $id = $queryParams["id"];
+            $id = $_GET["id"];
             $cardsData = $this->getCardsData(); 
             $page = "Show Loan"; 
             $loan = Loan::action()->getById($id); 
@@ -84,10 +83,10 @@ class LoanController extends Controller
             $data = $this->validate(LoanValidation::$rules);
         
             $book = Book::action()->getById((int)$data["book_id"]); 
-            $loan = Loan::action()->getByMemberAndBook((int)$data["user_id"], $book);
+            $loan = Loan::action()->getByMemberAndBook((int)$data["member_id"], $book);
            
             if ($loan && $loan->getStatus() === Loan::$borrowed) {
-                $errors["user_id"] = "Cannot create the same loan twice";
+                $errors["member_id"] = "Cannot create the same loan twice";
             }
 
             if (!empty($errors)) {
@@ -99,7 +98,7 @@ class LoanController extends Controller
                 exit;
             }
             
-            $data["created_by"] = $_SESSION["user"]->id;
+            $data["creator"] = $_SESSION["user"]->id;
             
             // Create new loan
             Loan::action()->create($data);
@@ -132,7 +131,7 @@ class LoanController extends Controller
             if ($data["status"] === Loan::$returned) {
                 $data["return_date"] = date('Y-m-d H:i:s');
             } 
-         
+            
             // Validate form data
             Loan::action()->update($data);
 

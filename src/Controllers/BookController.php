@@ -62,8 +62,7 @@ class BookController extends Controller
     public function show()
     {
         try {
-            $queryParams = Helper::getQueryParameters();
-            $id = $queryParams["id"];
+            $id = $_GET["id"];
             $cardsData = $this->getCardsData();
             $page = "View Book";
             $book = Book::action()->getById($id);

@@ -62,19 +62,18 @@ class Loan
     {
         if (count($data) > 0) {
             foreach ($data as $key => $value) {
+                if (property_exists($this, $key)) {
+                    $this->{$key} = $value;
+                }
+
                 if ($key === "book_id") {
                     $book = Book::action()->getById($value);
                     $this->setBook($book);
                 }
 
-                if ($key === "user_id") {
-                    // $this->user = DB::table("users")->select()->where("id = :id", [":id" => $value])->get()[0];
+                if ($key === "member_id") {
                     $member = Member::action()->getById($value);
                     $this->setMember($member);
-                }
-
-                if (property_exists($this, $key)) {
-                    $this->{$key} = $value;
                 }
 
                 if ($key === "creator") {
@@ -118,7 +117,7 @@ class Loan
     public function getAll()
     {
         $sql = "SELECT l.*, u.email, u.firstname, u.lastname, b.title FROM loans l
-                JOIN users u ON l.user_id = u.id 
+                JOIN users u ON l.member_id = u.id 
                 JOIN books b ON l.book_id = b.id
                 ORDER BY l.id DESC";
         $loans = DB::table($this->table)->query($sql)->get();
@@ -161,8 +160,8 @@ class Loan
      */
     public function getByMember(Member $member)
     {
-        $loan = DB::table($this->table)->select()->where("user_id = :user_id", [":user_id" => $member->getId()]);
-
+        $loan = DB::table($this->table)->select()->where("member_id = :member_id", [":member_id" => $member->getId()]);
+        
         if ($loan) {
             $this->load((array)$loan[0]);
             return $this;
@@ -174,11 +173,11 @@ class Loan
     /**
      *  Get a loan by member and book
      */
-    public function getByMemberAndBook(int $user_id, Book $book)
+    public function getByMemberAndBook(int $member_id, Book $book)
     {
         $loan = DB::table($this->table)
             ->select()
-            ->where("user_id = :user_id AND book_id = :book_id", ["user_id" => $user_id, "book_id" => $book->getId()])
+            ->where("member_id = :member_id AND book_id = :book_id", ["member_id" => $member_id, "book_id" => $book->getId()])
             ->get();
 
         if ($loan) {
@@ -202,9 +201,9 @@ class Loan
      */
     public function getTopMembers()
     {
-        $sql = "SELECT COUNT(l.user_id) as loans, u.email, u.firstname, u.lastname, u.city FROM loans l
-                JOIN users u ON l.user_id = u.id 
-                GROUP BY l.user_id
+        $sql = "SELECT COUNT(l.member_id) as loans, u.email, u.firstname, u.lastname, u.city FROM loans l
+                JOIN users u ON l.member_id = u.id 
+                GROUP BY l.member_id
                 ORDER BY loans DESC";
 
         $members = DB::table($this->table)
@@ -229,7 +228,7 @@ class Loan
                     u.lastname
                 FROM
                     loans l
-                    JOIN users u ON l.user_id = u.id
+                    JOIN users u ON l.member_id = u.id
                     JOIN books b ON l.book_id = b.id
                 WHERE
                     l.borrow_date < NOW() AND l.status = 'BORROWED'
@@ -257,7 +256,7 @@ class Loan
                     u.lastname
                 FROM
                     loans l
-                    JOIN users u ON l.user_id = u.id
+                    JOIN users u ON l.member_id = u.id
                     JOIN books b ON l.book_id = b.id
                 WHERE
                     l.return_date < NOW() AND l.status = 'RETURNED'

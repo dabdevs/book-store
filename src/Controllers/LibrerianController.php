@@ -88,8 +88,7 @@ class LibrerianController extends Controller
     public function show()
     {
         try {
-            $queryParams = Helper::getQueryParameters();
-            $id = $queryParams["id"];
+            $id = $_GET["id"];
             $cardsData = $this->getCardsData();
             $page = "Show Librerian";
             $librerian = Librerian::action()->getById($id);

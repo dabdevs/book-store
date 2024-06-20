@@ -1,3 +1,48 @@
+$(window).keydown(function (event) {
+    if (event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+    }
+});
+
+function validateInput(inputId) {
+    const $input = document.getElementById(inputId)
+    const $error = document.getElementById(inputId + '_error')
+
+    if ($input.value === '') {
+        $error.innerText = inputId + ' is required'
+    } else {
+        $error.innerText = ''
+    }
+}
+
+function validateLoanForm() {
+    const $loanForm = document.getElementById('loan-form')
+    const $book_id = document.getElementById('book_id')
+    const $book_id_error = document.getElementById('book_id_error')
+    const $member = document.getElementById('member')
+    const $member_error = document.getElementById('member_error')
+    const $due_date = document.getElementById('due_date')
+    const $due_date_error = document.getElementById('due_date_error')
+
+    if ($book_id.value === '') {
+        $book_id_error.innerText = 'Book is required'
+        return
+    }
+
+    if ($member.value === '') {
+        $member_error.innerText = 'Member is required'
+        return
+    }
+
+    if ($due_date.value === '') {
+        $due_date_error.innerText = 'Due date is required'
+        return
+    }
+
+    $loanForm.submit()
+}
+
 function deleteItem(title, id, action) {
     const form = document.getElementById("delete-form")
     const itemTitle = document.getElementById("item-title")
@@ -85,10 +130,10 @@ async function searchBook() {
         errors.forEach(err => err.innerText = '')
         return
     }
-    
+
     const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${search}`)
     const data = await res.json()
-    
+
     // Matches
     const books = data.items.filter(({ volumeInfo }) => {
         suggestions.innerHTML = ''
@@ -132,5 +177,35 @@ async function searchBook() {
 
             suggestions.appendChild(option)
         })
+    }
+}
+
+// Search member by document ID or email
+async function getMember(search) {
+    if (search === '') return
+
+    const $error = document.getElementById('member_error')
+    const $member_id = document.getElementById('member_id')
+    const $memberName = document.getElementById('member')
+    const $inputBtn = document.getElementById('search-member-btn')
+
+    // Clear input and reset search button
+    if ($inputBtn.innerText === 'CLEAR') {
+        $memberName.value = ''
+        $inputBtn.innerText = 'SEARCH'
+        $memberName.focus = true
+        return
+    }
+
+    const res = await fetch(`/member?q=${search}`)
+    const member = await res.json()
+
+    if (member === null) {
+        $error.innerText = 'Member not found'
+    } else {
+        $error.innerText = ''
+        $member_id.value = member.id
+        $memberName.value = `${member.firstname} ${member.lastname}`
+        $inputBtn.innerText = 'Clear'
     }
 }

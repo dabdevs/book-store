@@ -88,8 +88,7 @@ class MemberController extends Controller
     public function show()
     {
         try {
-            $queryParams = Helper::getQueryParameters();
-            $id = $queryParams["id"];
+            $id = $_GET["id"];
             $cardsData = $this->getCardsData();
             $page = "Show Member";
             $member = Member::action()->getById($id);
@@ -158,5 +157,23 @@ class MemberController extends Controller
             header("Location:" . $_SERVER["HTTP_REFERER"]);
             exit;
         }
+    }
+
+    /**
+     *  Get member by email or document ID
+     */
+    public function getMember()
+    {
+        $search = $_GET["q"];
+
+        if (Helper::validateEmail($search)) {
+            // Get member by email
+            $member = Member::action()->getByEmail($search);
+        } else {
+            // Get member by document ID
+            $member = Member::action()->getByDocumentId($search);
+        }
+
+        echo json_encode(empty($member) ? null : $member->toArray());
     }
 }

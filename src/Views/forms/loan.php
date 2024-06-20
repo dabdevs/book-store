@@ -2,6 +2,7 @@
 $id = '';
 $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : '';
 $member_id = '';
+$member = '';
 $borrow_date = '';
 $due_date = '';
 $status = '';
@@ -23,7 +24,7 @@ if (isset($loan)) {
 
 if (isset($oldInputs["book_id"])) {
     $book_id = $oldInputs["book_id"];
-    $member_id = $oldInputs["user_id"];
+    $member_id = $oldInputs["member_id"];
     $due_date = $oldInputs["due_date"];
     $status = isset($oldInputs["status"]) ? $oldInputs["status"] : '';
 }
@@ -32,9 +33,12 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
 ?>
 
 <div class="card p-3 my-5">
-    <button class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
-        <i class="material-icons opacity-10 fs-5">edit</i>
-    </button>
+    <?php if (!empty($id)) { ?>
+        <a class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
+            <i class="material-icons opacity-10 fs-5">edit</i>
+        </a>
+    <?php } ?>
+
     <div class="row plain-value <?= $show_form === "" ? 'd-none' : '' ?> mt-3">
         <div class="col-sm-3">
             <p><b>Book: </b> <?= $book_title ?></p>
@@ -65,13 +69,13 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
         </div>
     </div>
 
-    <form class="form-value <?= $show_form ?>" action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
+    <form id="loan-form" class="form-value <?= $show_form ?>" action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
         <fieldset <?php if ($status === "RETURNED") echo 'disabled' ?>>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <label for="book_id" class="form-label m-0">Book</label> <br>
-                    <select style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id">
+                    <select style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id" onchange="validateInput('book_id')">
                         <option value="">Select</option>
                         <?php
                         foreach ($books as $book) {
@@ -81,21 +85,16 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
                         }
                         ?>
                     </select>
-                    <small class="text-danger"><?= $errors["book_id"] ?? '' ?></small>
+                    <small class="text-danger" id="book_id_error"><?= $errors["book_id"] ?? '' ?></small>
                 </div>
                 <div class="col-sm-6">
-                    <label for="user_id" class="form-label m-0">User</label> <br>
-                    <select style="width: 100%;" class="form-control border field select2" name="user_id" id="user_id">
-                        <option value="">Select</option>
-                        <?php
-                        foreach ($members as $member) {
-                        ?>
-                            <option value="<?= $member->id ?>" <?= $member_id == $member->id ? "selected" : ''; ?>> <?= $member->email ?> - <?= $member->firstname ?> <?= $member->lastname ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
-                    <small class="text-danger"><?= $errors["user_id"] ?? '' ?></small>
+                    <label for="member-box" class="form-label m-0">Member</label> <br>
+                    <div style="height: 42px;" class="input-group mb-0" id="member-box">
+                        <input type="text" class="h-100 form-control border border-end-0 field" aria-describedby="search-member-btn" id="member" placeholder="Search by Document ID or email" value="<?= $member ?>">
+                        <button class="btn btn-outline-primary" type="button" id="search-member-btn" onclick="getMember($('#member').val())"><?= empty($id) ? 'Search' : 'Clear' ?></button>
+                    </div>
+                    <small class="text-danger" id="member_error"><?= $errors["member_id"] ?? '' ?></small>
+                    <input value="<?= $member_id ?>" type="hidden" id="member_id" name="member_id">
                 </div>
             </div>
             <div class="row mb-3">
@@ -109,7 +108,7 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
                 <div class="col-sm-2">
                     <label for="due_date" class="form-label m-0">Due Date</label>
                     <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= empty($due_date) ? ($page === "Create Loan" ? $tomorrow : $today) : '' ?>" name="due_date" id="due_date">
-                    <small class="text-danger"><?= $errors["due_date"] ?? '' ?></small>
+                    <small class="text-danger" id="due_date_error"><?= $errors["due_date"] ?? '' ?></small>
                 </div>
                 <?php if ($page === "Show Loan") { ?>
                     <div class="col-sm-3">
@@ -127,7 +126,7 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
         <div class="modal-footer">
             <a href="/loans" class="btn">Cancel</a>
             <?php if ($status !== "RETURNED") { ?>
-                <button type="submit" class="btn btn-primary" id="submit-btn">
+                <button type="button" value="save" class="btn btn-primary" id="submit-btn" onclick="validateLoanForm()">
                     <i class="material-icons opacity-10 text-white">save</i>
                     Save
                 </button>

@@ -12,6 +12,7 @@ abstract class User
     public static $librerian = "LIBRERIAN";
     public static $member = "MEMBER";
     protected $id;
+    protected $document_id;
     protected $firstname;
     protected $lastname;
     protected $email;
@@ -23,6 +24,8 @@ abstract class User
     protected $bio;
     protected $cellphone;
     protected $city;
+    protected $created_at;
+    protected $updated_at;
 
     public function __construct()
     {
@@ -86,7 +89,7 @@ abstract class User
      */
     public function delete($id)
     {
-        return DB::table($this->table)->delete()->where("id = :id", ["id" => $id]);
+        return DB::table($this->table)->delete()->where("id = :id", ["id" => $id])->get();
     }
 
     /**
@@ -109,7 +112,22 @@ abstract class User
      */
     public function getByEmail($email)
     {
-        $user = DB::table($this->table)->select()->where("email = :email AND role = :role", ["email" => $email, "role" => $this->role]);
+        $user = DB::table($this->table)->select()->where("email = :email AND role = :role", ["email" => $email, ":role" => $this->role])->get();
+
+        if ($user) {
+            $this->load((array)$user[0]);
+            return $this;
+        }
+
+        return null;
+    }
+
+    /**
+     *  Get a user by document ID
+     */
+    public function getByDocumentId($document_id)
+    {
+        $user = DB::table($this->table)->select()->where("document_id = :document_id AND role = :role", [":document_id" => $document_id, ":role" => $this->role])->get();
 
         if ($user) {
             $this->load((array)$user[0]);
@@ -134,12 +152,16 @@ abstract class User
     {
         return [
             "id" => $this->id,
+            "document_id" => $this->document_id,
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "email" => $this->email,
             "birth_date" => $this->birth_date,
             "role" => $this->role,
             "avatar" => $this->avatar,
+            "member_id" => $this->member_id,
+            "city" => $this->city,
+            "cellphone" => $this->cellphone,
         ];
     }
 
@@ -379,6 +401,46 @@ abstract class User
     public function setCity($city)
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */ 
+    public function getDateCreated()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */ 
+    public function setDateCreated($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */ 
+    public function getLastUpdated()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */ 
+    public function setLastUpdated($updated_at)
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

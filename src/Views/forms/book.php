@@ -56,9 +56,12 @@ $show_form = empty($id) ? "" : "d-none";
 ?>
 
 <div class="card p-3 my-5">
-    <button class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
-        <i class="material-icons opacity-10 fs-5">edit</i>
-    </button>
+    <?php if (!empty($id)) { ?>
+        <a class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
+            <i class="material-icons opacity-10 fs-5">edit</i>
+        </a>
+    <?php } ?>
+
     <div class="row plain-value <?= $show_form === "" ? 'd-none' : '' ?>">
         <div class="col-sm-12 mb-2 d-flex gap-3">
             <img src="<?= $cover ?>" alt="">

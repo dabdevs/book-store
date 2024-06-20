@@ -75,4 +75,12 @@ class Helper
 
         return $code;
     }
+
+    public static function validateEmail($email) {
+        if ($email !== '') {
+            return filter_var($email, FILTER_VALIDATE_EMAIL);
+        }
+        
+        return false;
+    }
 }
