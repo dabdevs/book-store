@@ -111,17 +111,15 @@ $form_disabled = $status === "RETURNED" ? "disabled" : "";
                     <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= empty($due_date) ? ($page === "Create Loan" ? $tomorrow : $today) : '' ?>" name="due_date" id="due_date">
                     <small class="text-danger" id="due_date_error"><?= $errors["due_date"] ?? '' ?></small>
                 </div>
-                <?php if (is_null($id)) { ?>
-                    <div class="col-sm-3">
-                        <label for="status" class="form-label m-0">Status</label>
-                        <select class="form-control border field" name="status" id="status">
-                            <option value="">Select</option>
-                            <option value="BORROWED" <?= $status === "BORROWED" ? "selected" : "" ?>>Borrowed</option>
-                            <option value="RETURNED" <?= $status === "RETURNED" ? "selected" : "" ?>>Returned</option>
-                        </select>
-                        <small class="text-danger"><?= $errors["status"] ?? '' ?></small>
-                    </div>
-                <?php } ?>
+                <div class="col-sm-3">
+                    <label for="status" class="form-label m-0">Status</label>
+                    <select class="form-control border field" name="status" id="status">
+                        <option value="">Select</option>
+                        <option value="BORROWED" <?= $status === "BORROWED" ? "selected" : "" ?>>Borrowed</option>
+                        <option value="RETURNED" <?= $status === "RETURNED" ? "selected" : "" ?>>Returned</option>
+                    </select>
+                    <small class="text-danger"><?= $errors["status"] ?? '' ?></small>
+                </div>
             </div>
         </fieldset>
         <div class="modal-footer">
