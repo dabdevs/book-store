@@ -99,6 +99,7 @@ class LoanController extends Controller
             }
             
             $data["creator"] = $_SESSION["user"]->id;
+            $data["borrow_date"] = date('Y-m-d H:i:s');
             
             // Create new loan
             Loan::action()->create($data);

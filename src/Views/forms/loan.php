@@ -75,7 +75,7 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <label for="book_id" class="form-label m-0">Book</label> <br>
-                    <select style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id" onchange="validateInput('book_id')">
+                    <select <?php if ($status === "RETURNED") echo 'disabled' ?> style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id" onchange="validateInput('book_id')">
                         <option value="">Select</option>
                         <?php
                         foreach ($books as $book) {

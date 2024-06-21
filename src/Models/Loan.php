@@ -231,7 +231,7 @@ class Loan
                     JOIN users u ON l.member_id = u.id
                     JOIN books b ON l.book_id = b.id
                 WHERE
-                    l.borrow_date < NOW() AND l.status = 'BORROWED'
+                    l.status = 'BORROWED'
                 ORDER BY l.borrow_date DESC";
 
         $loans = DB::table($this->table)
@@ -259,7 +259,7 @@ class Loan
                     JOIN users u ON l.member_id = u.id
                     JOIN books b ON l.book_id = b.id
                 WHERE
-                    l.return_date < NOW() AND l.status = 'RETURNED'
+                    l.status = 'RETURNED'
                 ORDER BY l.return_date DESC";
 
         $returns = DB::table($this->table)
