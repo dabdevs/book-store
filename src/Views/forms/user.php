@@ -8,17 +8,22 @@ if (isset($member)) {
     $user = $admin;
 }
 
-$id = '';
-$firstname = '';
-$lastname = '';
+$id = "";
+$firstname = "";
+$lastname = "";
 $td = strtotime("today");
 $today = date("Y-m-d h:i:s", $td);
 $tm = strtotime("tomorrow");
 $tomorrow = date("Y-m-d h:i:s", $tm);
-$email = '';
-$password = '';
-$birth_date = '';
-$avatar = '';
+$email = "";
+$password = "";
+$birth_date = "";
+$avatar = "";
+$document_id = "";
+$phone = "";
+$city = "";
+$date_created = "";
+$last_updated = "";
 
 if (str_contains($page, "Member")) {
     $role = "MEMBER";
@@ -33,12 +38,17 @@ if (str_contains($page, "Member")) {
 
 if (isset($user)) {
     $id = $user->getId();
+    $document_id = $user->getDocumentId();
     $firstname = $user->getFirstname();
     $lastname = $user->getLastname();
     $email = $user->getEmail();
     $birth_date = $user->getBirthdate();
     $role = $user->getRole();
-    $avatar = $user->getAvatar();
+    $phone = $user->getCellPhone() ?? "N/A";
+    $city = $user->getCity() ?? "N/A";
+    $avatar = $user->getAvatar() ?? "N/A";
+    $date_created = $user->getDateCreated();
+    $last_updated = $user->getLastUpdated() ?? "N/A";
 }
 
 if (isset($oldInputs["firstname"])) {
@@ -49,10 +59,57 @@ if (isset($oldInputs["firstname"])) {
     $birth_date = $oldInputs["birth_date"];
     $avatar = isset($oldInputs["avatar"]) ? $oldInputs["avatar"] : '';
 }
+
+$show_form = empty($id) ? "" : "d-none";
+
+if ($page === "Show Member") $path = "/members";
+if ($page === "Show Librerian") $path = "/librerians";
 ?>
 
 <div class="card p-3 my-5">
-    <form action="/<?= $action ?><?= isset($user) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
+    <?php if (!empty($id)) { ?>
+        <a class="btn btn-sm btn-primary position-absolute end-1 top-1" onclick="editForm()">
+            <i class="material-icons opacity-10 fs-5">edit</i>
+        </a>
+    <?php } ?>
+
+    <div class="row plain-value <?= $show_form === "" ? 'd-none' : '' ?> mt-3">
+        <div class="col-sm-3">
+            <p><b>Document ID: </b> <?= $document_id ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Firstname: </b> <?= $firstname ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Lastname: </b><?= $lastname ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Email: </b><?= $email ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Date of Birth: </b><?= $birth_date ?? 'N/A' ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Role:</b> <?= $role ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Phone:</b> <?= $phone ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>City:</b> <?= $city ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Date Created:</b> <?= $date_created ?></p>
+        </div>
+        <div class="col-sm-3">
+            <p><b>Last Updated:</b> <?= $last_updated ?></p>
+        </div>
+        <div class="modal-footer px-2">
+            <a href="<?= $path ?>" class="btn">Cancel</a>
+        </div>
+    </div>
+
+    <form class="form-value <?= $show_form ?>" action="/<?= $action ?><?= isset($user) ? '/update' : '' ?>" method="POST" enctype="multipart/form-data">
         <div>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
@@ -97,11 +154,11 @@ if (isset($oldInputs["firstname"])) {
                         <small class="text-danger"><?= $errors["role"] ?? '' ?></small>
                     </div>
                 <?php } ?>
-                <div class="col-sm-5">
+                <!-- <div class="col-sm-5">
                     <label for="avatar" class="form-label m-0">Avatar</label>
                     <input accept="image/jpg, image/jpeg" type="file" class="form-control border field" value="<?= $avatar ?>" name="avatar" id="avatar">
                     <small class="text-danger"><?= $errors["avatar"] ?? '' ?></small>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="modal-footer">

@@ -30,6 +30,7 @@ if (isset($oldInputs["book_id"])) {
 }
 
 $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
+$form_disabled = $status === "RETURNED" ? "disabled" : "";
 ?>
 
 <div class="card p-3 my-5">
@@ -70,17 +71,17 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
     </div>
 
     <form id="loan-form" class="form-value <?= $show_form ?>" action="/loans<?= isset($loan) ? '/update' : '' ?>" method="POST">
-        <fieldset <?php if ($status === "RETURNED") echo 'disabled' ?>>
+        <fieldset <?= $form_disabled ?>>
             <input type="hidden" name="id" value="<?= $id ?>">
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <label for="book_id" class="form-label m-0">Book</label> <br>
-                    <select <?php if ($status === "RETURNED") echo 'disabled' ?> style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id" onchange="validateInput('book_id')">
+                    <select <?= $form_disabled ?> style="width: 100%;" class="form-control border field select2" name="book_id" id="book_id" onchange="validateInput('book_id')">
                         <option value="">Select</option>
                         <?php
                         foreach ($books as $book) {
                         ?>
-                            <option value="<?= $book->id ?>" <?= $book_id === $book->id ? "selected" : ''; ?>> <?= $book->title ?> </option>
+                            <option value="<?= $book->id ?>" <?= $book_id === $book->id ? "selected" : '' ?>> <?= $book->title ?> </option>
                         <?php
                         }
                         ?>
@@ -98,7 +99,7 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
                 </div>
             </div>
             <div class="row mb-3">
-                <?php if ($page === "Show Loan") { ?>
+                <?php if (empty($id)) { ?>
                     <div class="col-sm-2">
                         <label for="borrow_date" class="form-label m-0">Borrow Date</label>
                         <input type="datetime-local" class="form-control border field" value="<?= date('Y-m-d h:i:s', strtotime($borrow_date)) ?>" name="borrow_date" id="borrow_date" disabled>
@@ -110,7 +111,7 @@ $show_form = empty($id) || isset($_GET["book_id"]) ? "" : "d-none";
                     <input type="datetime-local" class="form-control border field" value="<?= empty($due_date) ? '' : date('Y-m-d h:i:s', strtotime($due_date)) ?>" min="<?= empty($due_date) ? ($page === "Create Loan" ? $tomorrow : $today) : '' ?>" name="due_date" id="due_date">
                     <small class="text-danger" id="due_date_error"><?= $errors["due_date"] ?? '' ?></small>
                 </div>
-                <?php if ($page === "Show Loan") { ?>
+                <?php if (empty($id)) { ?>
                     <div class="col-sm-3">
                         <label for="status" class="form-label m-0">Status</label>
                         <select class="form-control border field" name="status" id="status">

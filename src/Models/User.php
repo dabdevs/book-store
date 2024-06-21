@@ -444,4 +444,24 @@ abstract class User
 
         return $this;
     }
+
+    /**
+     * Get the value of document_id
+     */ 
+    public function getDocumentId()
+    {
+        return $this->document_id;
+    }
+
+    /**
+     * Set the value of document_id
+     *
+     * @return  self
+     */ 
+    public function setDocumentId($document_id)
+    {
+        $this->document_id = $document_id;
+
+        return $this;
+    }
 }
