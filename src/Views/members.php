@@ -15,6 +15,7 @@
                         <input type="hidden" id="members-data" value="<?= htmlspecialchars(json_encode($members)) ?>">
                         <thead class="text-left">
                             <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Document ID</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Birth Date</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Role</th>
@@ -38,7 +39,11 @@
 
         $('#members-table').DataTable({
             data: members,
-            columns: [{
+            columns: [
+                {
+                    data: 'document_id'
+                },
+                {
                     render: function(data, type, row) {
                         const container = document.createElement('div')
                         container.classList.add('d-flex', 'flex-column', 'justify-content-center')
